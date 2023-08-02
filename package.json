@@ -1,0 +1,22 @@
+{
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "server",
+    "client",
+    "e2e"
+  ],
+  "scripts": {
+    "build:client": "yarn workspace romhack-breakable-toy-client build",
+    "dev": "yarn workspace romhack-breakable-toy-server dev",
+    "dev:debug": "yarn workspace romhack-breakable-toy-server dev:debug",
+    "heroku-postbuild": "yarn workspace romhack-breakable-toy-client build",
+    "start": "yarn workspace romhack-breakable-toy-server start",
+    "dev:cypress": "yarn workspace romhack-breakable-toy-server dev:e2e",
+    "e2e:open": "yarn workspace romhack-breakable-toy-e2e e2e:open",
+    "e2e:run": "yarn workspace romhack-breakable-toy-e2e e2e:run"
+  },
+  "engines": {
+    "node": "^16.18"
+  }
+}
