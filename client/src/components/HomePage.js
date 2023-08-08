@@ -1,18 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import NextSteps from "./NextSteps";
 
 const HomePage = props => {
     console.log(props)
-    
-    let nextSteps 
-    if (props.user) {
-        nextSteps = (
-            <Link to={view}>
-                nextSteps
-            </Link>
-        )
-    }
 
     return(
         <div>
@@ -21,11 +11,8 @@ const HomePage = props => {
                 Find Romhack Documentation
             </Link>
             <Link to={"/projects"}>
-                View Projects
+                View My Projects
             </Link>
-            <NextSteps
-                user={props.user}
-            />
         </div>
     )
 }
