@@ -7,6 +7,7 @@ const RegistrationForm = () => {
     email: "",
     password: "",
     passwordConfirmation: "",
+    username: ""
   });
 
   const [errors, setErrors] = useState({});
@@ -15,9 +16,16 @@ const RegistrationForm = () => {
 
   const validateInput = (payload) => {
     setErrors({});
-    const { email, password, passwordConfirmation } = payload;
+    const { email, password, passwordConfirmation, username } = payload;
     const emailRegexp = config.validation.email.regexp;
     let newErrors = {};
+    if (username.trim() == "") {
+      newErrors = {
+        ...newErrors,
+        username: "is required",
+      };
+
+    }
     if (!email.match(emailRegexp)) {
       newErrors = {
         ...newErrors,
@@ -31,7 +39,7 @@ const RegistrationForm = () => {
         password: "is required",
       };
     }
-
+    
     if (passwordConfirmation.trim() === "") {
       newErrors = {
         ...newErrors,
@@ -52,6 +60,7 @@ const RegistrationForm = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     validateInput(userPayload);
+    console.log(userPayload)
     try {
       if (Object.keys(errors).length === 0) {
         const response = await fetch("/api/v1/users", {
@@ -89,6 +98,13 @@ const RegistrationForm = () => {
     <div className="grid-container">
       <h1>Register</h1>
       <form onSubmit={onSubmit}>
+        <div>
+          <label>
+            Username
+            <input type="text" name="username" value={userPayload.username} onChange={onInputChange} />
+            <FormError error={errors.username} />
+          </label>
+        </div>
         <div>
           <label>
             Email

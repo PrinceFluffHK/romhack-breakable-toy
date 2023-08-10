@@ -2,8 +2,8 @@ import { Project, User } from "../../models/index.js";
 
 class ProjectSeeder {
     static async seed() {
-        const fluff = await User.query().findOne("username", "TestFluff")
-        const bray = await User.query().findOne("username", "TestBray")
+        const fluff = await User.query().findOne("email", "testfluff@email.com")
+        const bray = await User.query().findOne("email", "testbray@email.com")
 
         const projectData = [
             {
