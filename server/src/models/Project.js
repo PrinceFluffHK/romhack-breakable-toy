@@ -27,7 +27,8 @@ class Project extends Model {
                 creatorId: { type: ["string", "integer"] },
                 projectName: { type: "string" },
                 generation: { type: ["string", "integer"] },
-                regionName: { type: "string" }
+                regionName: { type: "string" },
+                public: { type: "boolean" }
             }
         }
     }

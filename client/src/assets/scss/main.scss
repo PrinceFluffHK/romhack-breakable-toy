@@ -13,6 +13,11 @@
     tab-size: 4;
 }
 
+.button {
+    outline-style: solid;
+    outline-color: gray;
+}
+
 input {
     padding-right: 3rem;
 }
@@ -56,7 +61,7 @@ input {
     left: 0;
     width: 50%;
     height: 100%;
-    background-color: pink; 
+    background-color: #4d0000;
     z-index: -1;
     border-width: 1rem;
     border: black;

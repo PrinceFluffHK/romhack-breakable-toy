@@ -11,6 +11,7 @@ class ProjectSeeder {
                 projectName: "Emerald: DE",
                 generation: 3,
                 regionName: "Hoenn"
+
             },
             {
                 creatorId: fluff.id,
@@ -29,7 +30,7 @@ class ProjectSeeder {
         for (const singleProject of projectData) {
             const currentProject = await Project.query().findOne({ projectName: singleProject.projectName });
             if (!currentProject) {
-                await Project.query().insert(singleSite);
+                await Project.query().insert(singleProject);
             }}
     } 
 }
