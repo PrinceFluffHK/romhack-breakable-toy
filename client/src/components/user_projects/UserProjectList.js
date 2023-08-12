@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import ProjectTile from "./ProjectTile.js";
 
 const UserProjectList = (props) => {
-    console.log(props)
     const [projectList, setProjectList] = useState([])
 
     const getProjects = async () => {

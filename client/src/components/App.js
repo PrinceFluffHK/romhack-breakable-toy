@@ -30,7 +30,7 @@ const App = (props) => {
         <Router>
             <TopBar user={currentUser} />
             <Switch>
-                <Route exact path="/" component={HomePage} user={currentUser} />
+                <Route exact path="/" render={(props) => <HomePage user={currentUser} {...props} /> } />
                 <Route exact path="/users/new" component={RegistrationForm} />
                 <Route exact path="/user-sessions/new" component={SignInForm} />
                 <AuthenticatedRoute exact path="/my-projects" component={UserProjectList} user={currentUser}/>
