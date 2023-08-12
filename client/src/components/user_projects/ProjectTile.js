@@ -1,8 +1,12 @@
 import React from "react";
 
-const ProjectTile = props => {
+const ProjectTile = ({ projectName, regionName, generation }) => {
     return(
-        <>Hello from ProjectTile</>
+        <div className="callout">
+            <h3>{projectName}</h3>
+            <p>The {regionName} Region</p>
+            <p>Generation {generation}</p>
+        </div>
     )
 }
 

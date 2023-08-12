@@ -1,18 +1,21 @@
-import User from "../models/User.js"
+import User from "../models/User.js";
 
 class ProjectSerializer {
-    static async getSummary (array) {
-        const requiredAttributes = ["projectName", "generation", "regionName"]
-        const serializedProjects = array.map(project => {
-            let serializedProject = {}
-            for (const attribute of requiredAttributes) {
-                serializedProject[attribute] = project[attribute]
-            }
-            // serializedProject.creatorName = User.query().findById(project.creatorId)
-            return serializedProject
-        })
-        return serializedProjects
+    static async getSummary(array) {
+        const requiredAttributes = ["projectName", "generation", "regionName", "id"];
+        const serializedProjects = await Promise.all(
+            array.map(async (project) => {
+                let serializedProject = {};
+                for (const attribute of requiredAttributes) {
+                    serializedProject[attribute] = project[attribute];
+                }
+                const creator = await project.$relatedQuery("creator");
+                serializedProject.creatorName = creator.username
+                return serializedProject;
+            })
+        );
+        return serializedProjects;
     }
 }
 
-export default ProjectSerializer
+export default ProjectSerializer;

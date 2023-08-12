@@ -1,42 +1,55 @@
 import React, { useEffect, useState } from "react";
 import ProjectTile from "./ProjectTile.js";
+import { Link } from "react-router-dom";
 
 const UserProjectList = (props) => {
-    const [projectList, setProjectList] = useState([])
+    const [projectList, setProjectList] = useState([]);
 
     const getProjects = async () => {
         try {
-            const response = await fetch("/api/v1/projects")
+            const response = await fetch("/api/v1/projects");
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
                 throw error;
             }
             const responseBody = await response.json();
-            setProjectList(responseBody.projectsList)
+            // console.log(responseBody.projects)
+            setProjectList(responseBody.projects);
         } catch (error) {
             console.error(`Error in Fetch: ${error.message}`);
         }
-    }
+    };
 
     useEffect(() => {
-        getProjects()
-    },[])
+        getProjects();
+    }, []);
 
     const projectsToRender = projectList.map((project) => {
-        return(
-            <ProjectTile 
-                key={project.id}
-            />
-        )
-    })
+        return (
+            <Link key={project.id} to={`/my-projects/${project.id}/pokemon`}>
+                <ProjectTile
+                    projectName={project.projectName}
+                    regionName={project.regionName}
+                    generation={project.generation}
+                />
+            </Link>
+        );
+    });
 
-    return(
-        <>
-            <div>My Romhack Projects</div>
-            <ul>{projectsToRender}</ul>
-        </>
-    )
-}
+    return (
+        <div>
+            <div className="red-bg" />
+            <div className="vl" />
+            <div className="grid-x grid-margin-x ">
+                <div className="cell auto " />
+                <div className="cell auto">
+                    <h1>My Projects</h1>
+                    {projectsToRender}
+                </div>
+            </div>
+        </div>
+    );
+};
 
-export default UserProjectList
+export default UserProjectList;
