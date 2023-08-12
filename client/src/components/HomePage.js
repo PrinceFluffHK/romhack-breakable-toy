@@ -1,38 +1,41 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HomePage = props => {
-
-    return(
-        <div className="container">
-            <h1 className="center-text ">Welcome to Romhack Studio</h1>
-            <div className="container__row">
-                <div className="container__col-md-5 container__col-offset-7">
+const HomePage = (props) => {
+    return (
+        <div className="">
+            <div className="red-bg"></div>
+            <div className="vl"></div>
+            <div className="grid-x grid-margin-x ">
+                <div className="cell auto ">
+                    <h1 className="right-text">Romhack</h1>
+                </div>
+                <div className="cell auto">
+                    <h1 className="left-text">Studio</h1>
                     <div className="">
-                        <button type="text" className="">
-                            <Link to={"/search-projects"}>
-                                Browse Romhacks
-                            </Link>
-                        </button>
+                        <Link to={"/new-project"} className="button center-button">
+                            New Project
+                        </Link>
+                    </div>
+                    <div className="">
+                        <Link to={"/search-projects"} className="button center-button">
+                            Browse Romhacks
+                        </Link>
                     </div>
                     <div>
-                        <button type="text">
-                            <Link to={"/my-projects"}>
-                                View My Projects
-                            </Link>
-                        </button>
+                        <Link to={"/my-projects"} className="button center-button">
+                            View My Projects
+                        </Link>
                     </div>
                     <div>
-                        <button type="text">
-                            <Link to={"/my-collabs"}>
-                                View My Collaborations
-                            </Link>
-                        </button>
+                        <Link to={"/my-collabs"} className="button center-button">
+                            View My Collaborations
+                        </Link>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default HomePage
+export default HomePage;

@@ -4,10 +4,10 @@ import config from "../../config";
 
 const RegistrationForm = () => {
   const [userPayload, setUserPayload] = useState({
-    email: "",
-    password: "",
-    passwordConfirmation: "",
-    username: ""
+    email: "garrett@email.com",
+    password: "password",
+    passwordConfirmation: "password",
+    username: "AdminFluff"
   });
 
   const [errors, setErrors] = useState({});

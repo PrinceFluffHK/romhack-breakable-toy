@@ -10,6 +10,7 @@ import TopBar from "./layout/TopBar";
 import HomePage from "./HomePage";
 import AuthenticatedRoute from "./authentication/AuthenticatedRoute";
 import UserProjectList from "./user_projects/UserProjectList";
+import ProjectForm from "./user_projects/ProjectForm";
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useState(undefined);
@@ -33,6 +34,7 @@ const App = (props) => {
                 <Route exact path="/" render={(props) => <HomePage user={currentUser} {...props} /> } />
                 <Route exact path="/users/new" component={RegistrationForm} />
                 <Route exact path="/user-sessions/new" component={SignInForm} />
+                <AuthenticatedRoute exact path="/new-project" component={ProjectForm} user={currentUser}/>
                 <AuthenticatedRoute exact path="/my-projects" component={UserProjectList} user={currentUser}/>
             </Switch>
         </Router>

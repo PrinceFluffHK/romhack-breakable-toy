@@ -4,6 +4,11 @@ class UserSeeder {
     static async seed() {
         const userData = [
             {
+                username: "AdminFluff",
+                email: "pokemondxdy@gmail.com",
+                cryptedPassword: "$2b$10$5eHKuKhjHc15ADUTjnjR2u/5.jPa9QxM9uAfHWMY.L0sWz1XueIiy"
+            },
+            {
                 username: "TestFluff",
                 email: "testfluff@email.com",
                 cryptedPassword: "bdgliusbdoguasfiabiwfba",

@@ -13,8 +13,44 @@
     tab-size: 4;
 }
 
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
 .center-text {
     text-align: center;
+}
+
+.right-text {
+    text-align: right;
+}
+
+.left-text {
+    text-align: left;
+}
+
+.red-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: pink; 
+    z-index: -1;
+    border-width: 1rem;
+    border: black;
+}
+
+.vl {
+    border-right: 6px solid gray;
+    height: 100%;
+    position: fixed;
+    left: 50%;
+    top: 0;
+    z-index: -1;
 }
 
 $grid__bp--md: 768;

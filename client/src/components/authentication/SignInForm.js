@@ -4,16 +4,15 @@ import FormError from "../layout/FormError";
 
 const SignInForm = () => {
     const [userPayload, setUserPayload] = useState({ 
-        email: "", 
-        password: "", 
-        username: "" 
+        email: "garrett@email.com", 
+        password: "password", 
     });
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [errors, setErrors] = useState({});
 
     const validateInput = (payload) => {
         setErrors({});
-        const { email, password, username } = payload;
+        const { email, password } = payload;
         const emailRegexp = config.validation.email.regexp;
         let newErrors = {};
         if (!email.match(emailRegexp)) {
@@ -27,13 +26,6 @@ const SignInForm = () => {
             newErrors = {
                 ...newErrors,
                 password: "is required",
-            };
-        }
-
-        if (username.trim() === "") {
-            newErrors = {
-                ...newErrors,
-                username: "is required",
             };
         }
 
@@ -80,18 +72,6 @@ const SignInForm = () => {
         <div className="grid-container" onSubmit={onSubmit}>
             <h1>Sign In</h1>
             <form>
-                <div>
-                    <label>
-                        Username
-                        <input
-                            type="text"
-                            name="username"
-                            value={userPayload.username}
-                            onChange={onInputChange}
-                        />
-                        <FormError error={errors.username} />
-                    </label>
-                </div>
                 <div>
                     <label>
                         Email
