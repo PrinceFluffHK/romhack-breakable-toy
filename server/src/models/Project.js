@@ -1,5 +1,4 @@
 const Model = require("./Model")
-const User = require("./User")
 
 class Project extends Model {
     static get tableName() {
@@ -7,8 +6,9 @@ class Project extends Model {
     }
 
     static get relationMappings() {
+        const { User } = require("./index.js")
         return {
-            users: {
+            creator: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: User,
                 join: {
@@ -22,10 +22,12 @@ class Project extends Model {
     static get jsonSchema() {
         return {
             type: "object",
-            required: ["creatorId", "project-name", "generation"],
+            required: ["creatorId", "projectName", "generation"],
             properties: {
                 creatorId: { type: ["string", "integer"] },
-                projectName: { type: "string" }
+                projectName: { type: "string" },
+                generation: { type: ["string", "integer"] },
+                regionName: { type: "string" }
             }
         }
     }

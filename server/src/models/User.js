@@ -2,6 +2,7 @@
 const Bcrypt = require("bcrypt");
 const unique = require("objection-unique");
 const Model = require("./Model");
+const Project = require("./Project");
 
 const saltRounds = 10;
 
@@ -26,7 +27,6 @@ class User extends uniqueFunc(Model) {
     static get jsonSchema() {
         return {
             type: "object",
-            // required: ["email", "username"],
             required: ["email"],
             properties: {
                 email: { type: "string", pattern: "^\\S+@\\S+\\.\\S+$" },
@@ -34,6 +34,20 @@ class User extends uniqueFunc(Model) {
                 username: { type: "string" },
             },
         };
+    }
+
+    static get relationMappings() {
+        const { Project } = require("./index.js")
+        return {
+            projects: {
+                relation: Model.HasManyRelation,
+                modelClass: Project,
+                join: {
+                    from: "users.id",
+                    to: "projects.creatorId"
+                }
+            }
+        }
     }
 
     $formatJson(json) {
