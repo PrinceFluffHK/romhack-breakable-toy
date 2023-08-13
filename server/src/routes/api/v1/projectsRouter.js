@@ -7,14 +7,26 @@ import { ValidationError } from "objection";
 
 const projectsRouter = new express.Router()
 
-
 projectsRouter.get("/", async (req, res) => {
-    // console.log(req)
+    const { id } = req.user
+    console.log(id)
+    try {
+        const projects = await Project.query().where('creatorId', `${id}`) //projects.creatorId === userId
+        console.log("projects: ", projects)
+        const serializedProjects = await ProjectSerializer.getSummary(projects)
+        console.log("serializedProjects", serializedProjects)
+        return res.status(200).json({ projects: serializedProjects })
+    } catch (error) {
+        return res.status(500).json({ errors: error })
+    }
+})
+
+projectsRouter.get("/search", async (req, res) => {
     const { id } = req.user
     console.log(id)
     try {
         // const projects = []
-        const projects = await Project.query().where('creatorId', `${id}`) //projects.creatorId === userId
+        const projects = await Project.query() //projects.creatorId === userId
         console.log("projects: ", projects)
         const serializedProjects = await ProjectSerializer.getSummary(projects)
         console.log("serializedProjects", serializedProjects)
