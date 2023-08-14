@@ -8,7 +8,6 @@
 exports.up = async (knex) => {
     return knex.schema.createTable("evolutions", (table) => {
         table.bigIncrements("id");
-        table.string("name").notNullable()
         table.integer("minLevel").notNullable().defaultsTo(0)
         table.string("parameter").notNullable().defaultsTo("none")
         table

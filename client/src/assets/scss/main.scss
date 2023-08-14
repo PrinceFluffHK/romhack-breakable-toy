@@ -55,10 +55,18 @@ input {
     text-align: left;
 }
 
-.nav-grid {
+.poke-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    overflow-x: visible;
+    &_pokedex {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        
+    }
+    &_pokedex-filter {
+        display: grid;
+    }
+    // overflow-x: visible;
 }
 
 .left-nav {
