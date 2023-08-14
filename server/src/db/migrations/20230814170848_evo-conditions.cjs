@@ -6,10 +6,9 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    knex.schema.createTable("types", (table) => {
+    knex.schema.createTable("evo-conditions", (table) => {
         table.bigIncrements("id");
         table.string("name").notNullable()
-        table.string("iconUrl").notNullable()
         table
             .bitInteger("projectId")
             .notNullable()
@@ -27,5 +26,5 @@ exports.up = async (knex) => {
  * @param {Knex} knex
  */
 exports.down = (knex) => {
-    return knex.schema.dropTableIfExists("types");
+    return knex.schema.dropTableIfExists("evo-conditions");
 };

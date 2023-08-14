@@ -6,7 +6,7 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    knex.schema.createTable("move-categories", (table) => {
+    knex.schema.createTable("egg-groups", (table) => {
         table.bigIncrements("id");
         table.string("name").notNullable()
         table
@@ -26,5 +26,5 @@ exports.up = async (knex) => {
  * @param {Knex} knex
  */
 exports.down = (knex) => {
-    return knex.schema.dropTableIfExists("move-categories");
+    return knex.schema.dropTableIfExists("egg-groups");
 };
