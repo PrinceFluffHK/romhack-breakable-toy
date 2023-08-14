@@ -1,29 +1,29 @@
 const Model = require("./Model")
 
-class AbilitySlot extends Model {
+class TypeSlot extends Model {
     static get tableName() {
-        return "ability-slots"
+        return "type-slots"
     }
 
     static get relationMappings() {
-        const { Pokemon, Ability } = require("./index")
+        const { Pokemon, Type } = require("./index")
         return {
-            ability: {
+            eggGroup: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: Ability,
+                modelClass: Type,
                 join: {
-                    from: "ability-slots.abilityId",
-                    to: "abilities.id"
+                    from: "type-slots.typeId",
+                    to: "types.id"
                 }
             },
             pokemon: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Pokemon,
                 join: {
-                    from: "ability-slots.pokemonId",
+                    from: "type-slots.pokemonId",
                     to: "pokemon.id"
                 }
-            },
+            }
         }
     }
 
@@ -38,4 +38,4 @@ class AbilitySlot extends Model {
     }
 }
 
-module.exports = AbilitySlot
+module.exports = TypeSlot

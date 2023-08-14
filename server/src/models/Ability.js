@@ -6,7 +6,7 @@ class Ability extends Model {
     }
 
     static get relationMappings() {
-        const { Pokemon, Project } = require("./index")
+        const { Pokemon, Project, AbilitySlot } = require("./index")
         return {
             project: {
                 relation: Model.BelongsToOneRelation,
@@ -22,10 +22,18 @@ class Ability extends Model {
                 join: {
                     from: "abilities.id",
                     through: {
-                        from: "ability-slot.abilityId",
-                        to: "ability-slot.pokemonId"
+                        from: "ability-slots.abilityId",
+                        to: "ability-slots.pokemonId"
                     },
                     to: "pokemon.id"
+                }
+            },
+            abilitySlots: {
+                relation: Model.HasManyRelation,
+                modelClass: AbilitySlot,
+                join: {
+                    from: "abilities.id",
+                    to: "ability-slots.abilityId"
                 }
             }
         }

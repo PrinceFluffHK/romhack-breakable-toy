@@ -11,4 +11,4 @@ const Evolution = require("./Evolution.js")
 const EggGroup = require("./EggGroup.js")
 const EggGroupSlot = require("./EggGroupSlot.js")
 
-module.exports = {User, Project, Ability, Type, Pokemon, EvoCondition, Evolution, AbilitySlot, TypeSlot, EggGroup, EggGroupSlot};
+module.exports = {User, Project, Ability, Type, Pokemon, EvoCondition, Evolution, EggGroup, AbilitySlot, TypeSlot, EggGroupSlot};
