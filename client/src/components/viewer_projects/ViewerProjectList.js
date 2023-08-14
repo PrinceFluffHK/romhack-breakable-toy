@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import ProjectTile from "./ProjectTile.js";
 import { Link } from "react-router-dom";
+import ProjectTile from "../user_projects/ProjectTile";
 
-const UserProjectList = (props) => {
-    const [projectList, setProjectList] = useState([]);
+const ViewerProjectList = props => {
+    const [projectList, setProjectList] = useState([])
 
     const getProjects = async () => {
         try {
-            const response = await fetch("/api/v1/projects");
-            if (!response.ok) {
+            const response = await fetch("/api/v1/projects/search")
+            if(!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
                 throw error;
@@ -18,15 +18,15 @@ const UserProjectList = (props) => {
         } catch (error) {
             console.error(`Error in Fetch: ${error.message}`);
         }
-    };
+    }
 
     useEffect(() => {
-        getProjects();
-    }, []);
+        getProjects()
+    }, [])
 
-    const projectsToRender = projectList.map((project) => {
-        return (
-            <Link key={project.id} to={`/projects/${project.id}/pokemon`}>
+    const projectsToRender = projectList.map(project => {
+        return(
+            <Link key={project.id} to={`/projects/${project.id}`}>
                 <ProjectTile
                     projectName={project.projectName}
                     regionName={project.regionName}
@@ -34,22 +34,26 @@ const UserProjectList = (props) => {
                     creatorName={project.creatorName}
                 />
             </Link>
-        );
-    });
+        )
+    })
 
-    return (
-        <div>
-            <div className="red-bg" />
-            <div className="vl" />
-            <div className="grid-x grid-margin-x ">
-                <div className="cell auto " />
-                <div className="cell auto">
-                    <h1>My Projects</h1>
+    return(
+        <div className="grid-x grid-margin-x">
+            <div className="red-bg"/>
+            <div className="vl"/>
+            <div className="cell auto">
+                <h1>Filters</h1>
+            </div>
+            <div className="cell auto">
+                <h1>Browse Projects</h1>
+                <div className="">
                     {projectsToRender}
+
                 </div>
+
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default UserProjectList;
+export default ViewerProjectList
