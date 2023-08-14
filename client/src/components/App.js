@@ -15,6 +15,8 @@ import PokemonPage from "./pokemon/PokemonPage";
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useState(undefined);
+    // const [currentProject, setCurrentProject] = useState({})
+
     const fetchCurrentUser = async () => {
         try {
             const user = await getCurrentUser();

@@ -11,7 +11,7 @@ const projectsRouter = new express.Router()
 projectsRouter.get("/", async (req, res) => {
     const { id } = req.user
     try {
-        const projects = await Project.query().where('creatorId', `${id}`) //projects.creatorId === userId
+        const projects = await Project.query().where('creatorId', `${id}`)
         const serializedProjects = await ProjectSerializer.getSummary(projects)
         return res.status(200).json({ projects: serializedProjects })
     } catch (error) {
