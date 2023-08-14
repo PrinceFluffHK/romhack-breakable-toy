@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProjectTile = ({ projectName, regionName, generation }) => {
+const ProjectTile = ({ projectName, regionName, generation, creatorName }) => {
     return(
         <div className="">
             <div>
