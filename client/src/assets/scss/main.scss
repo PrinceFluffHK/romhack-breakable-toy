@@ -5,10 +5,165 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 :root {
-  -moz-tab-size: 4;
-  tab-size: 4;
+    -moz-tab-size: 4;
+    tab-size: 4;
+}
+
+.button {
+    outline-style: solid;
+    outline-color: gray;
+}
+
+input {
+    padding-right: 3rem;
+}
+
+.radio-options {
+	border: none;
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	break-before: always;
+	margin: 0 0 3em 0;
+}
+
+.radio-button {
+    font-weight: bold;
+    margin: 0 1em 0 0;
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.right-text {
+    text-align: right;
+}
+
+.left-text {
+    text-align: left;
+}
+
+.red-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background-color: #4d0000;
+    z-index: -1;
+    border-width: 1rem;
+    border: black;
+}
+
+.vl {
+    border-right: 6px solid gray;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    z-index: -1;
+}
+
+$grid__bp--md: 768;
+$grid__cols: 12;
+.container {
+    max-width: $grid__bp--md * 1px;
+    margin: 0 auto;
+    &--fluid {
+        margin: 0;
+        max-width: 100%;
+    }
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    @for $i from 1 through $grid__cols {
+        &__col-sm-#{$i} {
+            flex-basis: (100 / ($grid__cols / $i)) * 1%;
+        }
+    }
+    @for $i from 1 through $grid__cols {
+        &__col-md-#{$i} {
+            flex-basis: (100 / ($grid__cols / $i)) * 1%;
+        }
+    }
+}
+
+.align-right {
+    text-align: right;
+}
+
+.align-right {
+    align-content: right;
+}
+
+.image-border {
+    border: black 10px solid;
+    margin: 3rem;
+    justify-content: left;
+}
+$grid__bp-sm: 576;
+$grid__bp-md: 768;
+$grid__bp-lg: 992;
+$grid__bp-xl: 1200;
+$grid__cols: 12;
+
+$map-grid-props: (
+    "": 0,
+    "-sm": $grid__bp-sm,
+    "-md": $grid__bp-md,
+    "-lg": $grid__bp-lg,
+    "-xl": $grid__bp-xl,
+);
+
+@mixin create-mq($breakpoint) {
+    @if ($breakpoint == 0) {
+        @content;
+    }
+}
+
+@mixin create-col-classes($modifier, $grid-cols, $breakpoint) {
+    @include create-mq($breakpoint) {
+        &__col#{$modifier}-offset-0 {
+            margin-left: 0;
+        }
+        @for $i from 1 through $grid-cols {
+            &__col#{$modifier}-#{$i} {
+                flex-basis: (100 / ($grid-cols / $i)) * 1%;
+            }
+            &__col#{$modifier}-offset-#{$i} {
+                margin-left: (100 / ($grid-cols / $i)) * 1%;
+            }
+        }
+    }
+}
+
+.container {
+    max-width: $grid__bp-md * 1px;
+    margin: 0 auto;
+    &--fluid {
+        margin: 0;
+        max-width: 100%;
+    }
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    @each $modifier, $breakpoint in $map-grid-props {
+        @include create-col-classes($modifier, $grid__cols, $breakpoint);
+    }
 }
