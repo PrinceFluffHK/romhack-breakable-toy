@@ -6,12 +6,11 @@ import { Redirect } from "react-router-dom";
 
 const ProjectForm = (props) => {
     const [projectRecord, setProjectRecord] = useState({
-        projectName: "Pokemon DE",
+        projectName: "",
         generation: 0,
-        regionName: "Hoenn",
+        regionName: "",
     });
 
-    console.log(projectRecord.generation)
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [errors, setErrors] = useState({})
 

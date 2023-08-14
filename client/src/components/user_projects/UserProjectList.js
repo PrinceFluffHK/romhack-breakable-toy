@@ -14,7 +14,6 @@ const UserProjectList = (props) => {
                 throw error;
             }
             const responseBody = await response.json();
-            // console.log(responseBody.projects)
             setProjectList(responseBody.projects);
         } catch (error) {
             console.error(`Error in Fetch: ${error.message}`);
