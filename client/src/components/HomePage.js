@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 
 const HomePage = (props) => {
     return (
-        <div className="">
-            <div className="red-bg"/>
-            <div className="vl"/>
-            <div className="grid-x grid-margin-x ">
-                <div className="cell auto ">
+        <div className="nav-grid">
+            <div className="left-nav">
                     <h1 className="right-text">Romhack</h1>
+
+            </div>
+            {/* <div></div> */}
+            {/* <div className="vl"/> */}
+            <div className=" ">
+                <div className=" ">
                 </div>
                 <div className="cell auto">
                     <h1 className="left-text">Studio</h1>

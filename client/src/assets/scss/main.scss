@@ -55,16 +55,40 @@ input {
     text-align: left;
 }
 
+.nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow-x: visible;
+}
+
+.left-nav {
+    background-color: #4d0000;
+    border-right: gray;
+    border-right-style: solid;
+    border-width: 5px;
+    // width: 50%;
+    // height: 100%;
+    // position: fixed;
+}
+
+.top-bar {
+    background-color: gray;
+    .menu {
+        background-color: gray;
+    }
+}
+
 .red-bg {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 50%;
     height: 100%;
     background-color: #4d0000;
     z-index: -1;
+    border-style: solid;
     border-width: 1rem;
-    border: black;
+    border: gray;
 }
 
 .vl {
