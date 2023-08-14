@@ -6,10 +6,10 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    knex.schema.createTable("pokemon", (table) => {
+    return knex.schema.createTable("pokemon", (table) => {
         table.bigIncrements("id");
         table
-            .bitInteger("projectId")
+            .bigInteger("projectId")
             .notNullable()
             .index()
             .unsigned()
@@ -21,7 +21,7 @@ exports.up = async (knex) => {
         table.bigInteger("nationalNum").notNullable()
         table.text("dexEntry")
         table
-            .bitInteger("type1Id")
+            .bigInteger("type1Id")
             .notNullable()
             .index()
             .unsigned()
@@ -29,7 +29,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("type2Id")
+            .bigInteger("type2Id")
             .notNullable()
             .index()
             .unsigned()
@@ -37,7 +37,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("ability1Id")
+            .bigInteger("ability1Id")
             .notNullable()
             .index()
             .unsigned()
@@ -45,7 +45,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("ability2Id")
+            .bigInteger("ability2Id")
             .notNullable()
             .index()
             .unsigned()
@@ -53,7 +53,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("ability3Id")
+            .bigInteger("ability3Id")
             .notNullable()
             .index()
             .unsigned()
@@ -69,7 +69,7 @@ exports.up = async (knex) => {
         table.integer("introGen")
         table.integer("catchRate").notNullable()
         table
-            .bitInteger("eggGroup1Id")
+            .bigInteger("eggGroup1Id")
             .notNullable()
             .index()
             .unsigned()
@@ -77,7 +77,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("eggGroup2Id")
+            .bigInteger("eggGroup2Id")
             .notNullable()
             .index()
             .unsigned()

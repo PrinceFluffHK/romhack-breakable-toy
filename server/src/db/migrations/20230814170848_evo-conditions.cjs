@@ -6,11 +6,11 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    knex.schema.createTable("evo-conditions", (table) => {
+    return knex.schema.createTable("evo-conditions", (table) => {
         table.bigIncrements("id");
         table.string("name").notNullable()
         table
-            .bitInteger("projectId")
+            .bigInteger("projectId")
             .notNullable()
             .index()
             .unsigned()

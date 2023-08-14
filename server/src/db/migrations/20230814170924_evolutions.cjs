@@ -6,13 +6,13 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    knex.schema.createTable("evolutions", (table) => {
+    return knex.schema.createTable("evolutions", (table) => {
         table.bigIncrements("id");
         table.string("name").notNullable()
         table.integer("minLevel").notNullable().defaultsTo(0)
         table.string("parameter").notNullable().defaultsTo("none")
         table
-            .bitInteger("preEvoId")
+            .bigInteger("preEvoId")
             .notNullable()
             .index()
             .unsigned()
@@ -20,7 +20,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("postEvoId")
+            .bigInteger("postEvoId")
             .notNullable()
             .index()
             .unsigned()
@@ -28,7 +28,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("conditionId")
+            .bigInteger("conditionId")
             .notNullable()
             .index()
             .unsigned()
@@ -36,7 +36,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
-            .bitInteger("projectId")
+            .bigInteger("projectId")
             .notNullable()
             .index()
             .unsigned()
