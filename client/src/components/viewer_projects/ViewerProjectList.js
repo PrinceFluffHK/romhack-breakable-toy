@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ProjectTile from "../user_projects/ProjectTile";
 
-const ViewerProjectList = props => {
-    const [projectList, setProjectList] = useState([])
+const ViewerProjectList = (props) => {
+    const [projectList, setProjectList] = useState([]);
 
     const getProjects = async () => {
         try {
-            const response = await fetch("/api/v1/projects/search")
-            if(!response.ok) {
+            const response = await fetch("/api/v1/projects/search");
+            if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
                 throw error;
@@ -18,15 +18,15 @@ const ViewerProjectList = props => {
         } catch (error) {
             console.error(`Error in Fetch: ${error.message}`);
         }
-    }
+    };
 
     useEffect(() => {
-        getProjects()
-    }, [])
+        getProjects();
+    }, []);
 
-    const projectsToRender = projectList.map(project => {
-        return(
-            <Link key={project.id} to={`/projects/${project.id}`}>
+    const projectsToRender = projectList.map((project) => {
+        return (
+            <Link key={project.id} to={`/projects/${project.id}/pokemon`} className="button project-list flex-left">
                 <ProjectTile
                     projectName={project.projectName}
                     regionName={project.regionName}
@@ -34,26 +34,20 @@ const ViewerProjectList = props => {
                     creatorName={project.creatorName}
                 />
             </Link>
-        )
-    })
+        );
+    });
 
-    return(
-        <div className="grid-x grid-margin-x">
-            <div className="red-bg"/>
-            <div className="vl"/>
-            <div className="cell auto">
+    return (
+        <div className="poke-grid-project-list">
+            <div className="left-nav">
                 <h1>Filters</h1>
             </div>
-            <div className="cell auto">
+            <div className="overflow-scroll">
                 <h1>Browse Projects</h1>
-                <div className="">
-                    {projectsToRender}
-
-                </div>
-
+                <div>{projectsToRender}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ViewerProjectList
+export default ViewerProjectList;

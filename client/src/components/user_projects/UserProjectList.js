@@ -16,7 +16,7 @@ const UserProjectList = (props) => {
             const responseBody = await response.json();
             setProjectList(responseBody.projects);
         } catch (error) {
-            console.error(`Error in Fetch: ${error.message}`);
+            console.error(`getProjects error in Fetch: ${error.message}`);
         }
     };
 
@@ -26,7 +26,11 @@ const UserProjectList = (props) => {
 
     const projectsToRender = projectList.map((project) => {
         return (
-            <Link key={project.id} to={`/projects/${project.id}/pokemon`}>
+            <Link
+                key={project.id}
+                to={`/projects/${project.id}/pokemon`}
+                className="button project-list flex-left"
+            >
                 <ProjectTile
                     projectName={project.projectName}
                     regionName={project.regionName}
@@ -38,15 +42,13 @@ const UserProjectList = (props) => {
     });
 
     return (
-        <div>
-            <div className="red-bg" />
-            <div className="vl" />
-            <div className="grid-x grid-margin-x ">
-                <div className="cell auto " />
-                <div className="cell auto">
-                    <h1>My Projects</h1>
-                    {projectsToRender}
-                </div>
+        <div className="poke-grid-project-list">
+            <div className="left-nav">
+                <h1>Filter</h1>
+            </div>
+            <div className="overflow-scroll">
+                <h1>My Projects</h1>
+                {projectsToRender}
             </div>
         </div>
     );

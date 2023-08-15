@@ -11,10 +11,13 @@ import HomePage from "./HomePage";
 import AuthenticatedRoute from "./authentication/AuthenticatedRoute";
 import UserProjectList from "./user_projects/UserProjectList";
 import ProjectForm from "./user_projects/ProjectForm";
+import PokemonPage from "./pokemon/PokemonPage";
 import ViewerProjectList from "./viewer_projects/ViewerProjectList";
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useState(undefined);
+    // const [currentProject, setCurrentProject] = useState({})
+
     const fetchCurrentUser = async () => {
         try {
             const user = await getCurrentUser();
@@ -36,6 +39,7 @@ const App = (props) => {
                 <Route exact path="/users/new" component={RegistrationForm} />
                 <Route exact path="/user-sessions/new" component={SignInForm} />
                 <Route exact path="/search-projects" component={ViewerProjectList} />
+                <AuthenticatedRoute exact path="/projects/:id/pokemon" component={PokemonPage} user={currentUser}/>
                 <AuthenticatedRoute exact path="/new-project" component={ProjectForm} user={currentUser}/>
                 <AuthenticatedRoute exact path="/my-projects" component={UserProjectList} user={currentUser}/>
             </Switch>

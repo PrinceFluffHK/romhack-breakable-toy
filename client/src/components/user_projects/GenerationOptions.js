@@ -1,7 +1,6 @@
 import React from "react";
 
 const GenerationOptions = ({ projectRecord, setProjectRecord }) => {
-
     const genNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     const handleChange = (event) => {
@@ -27,11 +26,18 @@ const GenerationOptions = ({ projectRecord, setProjectRecord }) => {
         )
     })
 
-    return(
-        <div className="radio-options">
-            {genRadio}
-        </div>
-    )
+    if(projectRecord.usePreset) {
+        return(
+            <div>
+                <h3>Generation</h3>
+                <div className="radio-options">
+                    {genRadio}
+                </div>
+            </div>
+        )
+    } else {
+        return(<></>)
+    }
 }
 
 export default GenerationOptions

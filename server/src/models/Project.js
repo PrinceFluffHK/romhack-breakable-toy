@@ -28,7 +28,7 @@ class Project extends Model {
                 projectName: { type: "string" },
                 generation: { type: ["string", "integer"] },
                 regionName: { type: "string" },
-                public: { type: "boolean" }
+                public: { type: "boolean"}
             }
         }
     }
