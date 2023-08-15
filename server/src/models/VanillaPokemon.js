@@ -1,21 +1,13 @@
 const Model = require("./Model");
 
-class Pokemon extends Model {
+class VanillaPokemon extends Model {
     static get tableName() {
-        return "pokemon";
+        return "vanilla-pokemon";
     }
 
     static get relationMappings() {
-        const { Project } = require("./index");
+        const { } = require("./index");
         return {
-            project: {
-                relation: Model.BelongsToOneRelation,
-                modelClass: Project,
-                join: {
-                    from: "pokemon.projectId",
-                    to: "project.id"
-                }
-            }
         }
     }
 
@@ -24,32 +16,42 @@ class Pokemon extends Model {
             type: "object",
             required: [
                 "name",
-                "nationalNum",
                 "baseHp",
+                "evHp",
                 "baseAtk",
+                "evAtk",
                 "baseDef",
+                "evDef",
                 "baseSpA",
+                "evSpA",
                 "baseSpD", 
+                "evSpD", 
                 "baseSpe", 
-                "catchRate", 
-                "spriteUrl"
+                "evSpe", 
+                "catchRate",
+                "spriteUrl",
+                "nationalNum",
             ],
             properties: {
                 name: { type: "string" },
-                nationalNum: { type: ["string", "integer"] },
-                dexEntry: { type: "string" },
                 baseHp: { type: ["string", "integer"] },
+                evHp: { type: ["string", "integer"] },
                 baseAtk: { type: ["string", "integer"] },
+                evAtk: { type: ["string", "integer"] },
                 baseDef: { type: ["string", "integer"] },
+                evDef: { type: ["string", "integer"] },
                 baseSpA: { type: ["string", "integer"] },
+                evSpA: { type: ["string", "integer"] },
                 baseSpD: { type: ["string", "integer"] },
+                evSpD: { type: ["string", "integer"] },
                 baseSpe: { type: ["string", "integer"] },
-                introGen: { type: ["string", "integer"] },
+                evSpe: { type: ["string", "integer"] },
                 catchRate: { type: ["string", "integer"] },
                 spriteUrl: { type: "string" },
+                nationalNum: { type: ["string", "integer"] },
             }
         };
     }
 }
 
-module.exports = Pokemon;
+module.exports = VanillaPokemon;

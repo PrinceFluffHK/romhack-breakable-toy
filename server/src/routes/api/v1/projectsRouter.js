@@ -3,7 +3,7 @@ import Project from "../../../models/Project.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import { ValidationError } from "objection";
-import seedNewProject from "../../../services/seedNewProject.js";
+import seedNewProject from "../../../db/seeders/VanillaPokemonSeeder.js";
 
 
 const projectsRouter = new express.Router()
@@ -40,9 +40,9 @@ projectsRouter.post("/", async (req, res) => {
     formData.creatorId = req.user.id
     try {
         const newProject = await Project.query().insertAndFetch(formData)
-        if(usePreset) {
-            seedNewProject(newProject.generation, newProject.id)
-        }
+        // if(usePreset) {
+        //     seedNewProject(newProject.generation, newProject.id)
+        // }
         return res.status(201).json({ newProject })
     } catch (error) {
         if (error instanceof ValidationError) {

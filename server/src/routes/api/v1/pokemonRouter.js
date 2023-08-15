@@ -1,5 +1,5 @@
 import express from "express"
-import { Pokemon } from "../../../models/index.js"
+// import { Pokemon } from "../../../models/index.js"
 import PokemonSerializer from "../../../serializers/PokemonSerializer.js"
 
 const pokemonRouter = new express.Router()

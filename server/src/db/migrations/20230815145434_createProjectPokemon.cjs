@@ -6,7 +6,7 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    return knex.schema.createTable("vanilla-pokemon", (table) => {
+    return knex.schema.createTable("project-pokemon", (table) => {
         table.bigIncrements("id");
         table.string("name").notNullable();
         table.integer("baseHp").notNullable()
@@ -23,7 +23,17 @@ exports.up = async (knex) => {
         table.integer("evSpe").notNullable()
         table.integer("catchRate").notNullable();
         table.string("spriteUrl").notNullable();
+        table.integer("generation").defaultsTo(null)
         table.bigInteger("nationalNum").notNullable();
+        table.bigInteger("regionalNum").defaultsTo(null)
+        table
+            .bigInteger("projectId")
+            .notNullable()
+            .index()
+            .unsigned()
+            .references("projects.id")
+            .onUpdate("CASCADE")
+            .onDelete("CASCADE");
         table.timestamp("createdAt").notNullable().defaultsTo(knex.fn.now());
         table.timestamp("updatedAt").notNullable().defaultsTo(knex.fn.now());
     });
@@ -33,5 +43,5 @@ exports.up = async (knex) => {
  * @param {Knex} knex
  */
 exports.down = (knex) => {
-    return knex.schema.dropTableIfExists("vanilla-pokemon");
+    return knex.schema.dropTableIfExists("project-pokemon");
 };
