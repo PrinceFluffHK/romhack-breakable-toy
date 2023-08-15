@@ -32,9 +32,7 @@ class ProjectPokemon extends Model {
                 "baseSpe", 
                 "catchRate",
                 "spriteUrl",
-                "generation", 
                 "nationalNum",
-                "regionalNum",
             ],
             properties: {
                 name: { type: "string" },

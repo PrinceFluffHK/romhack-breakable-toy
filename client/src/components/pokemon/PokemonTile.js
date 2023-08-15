@@ -1,23 +1,31 @@
 import React from "react";
+import PokemonInfo from "./PokemonInfo";
 
 const PokemonTile = ({ name, spriteUrl, selectedId, setSelectedId, id }) => {
-
     const handleSelect = () => {
-        if(selectedId === id) {
-            setSelectedId(0)
+        if (selectedId === id) {
+            setSelectedId(0);
         } else {
-            setSelectedId(id)
+            setSelectedId(id);
         }
+    };
+
+    let gridClassName = ""
+    if(selectedId === 0) {
+        gridClassName = "list-grid"
     }
 
-    return(
-        <div onClick={handleSelect}>
-            <h4 className="margins">
-                {name}
-                <img src={spriteUrl} className="sprite-list"/>
-            </h4>
+    return (
+        <div className={`${gridClassName} list-mon`}>
+            <div onClick={handleSelect} className="flex-list-item">
+                <img src={spriteUrl} className="sprite-list" />
+                <p className="margins">{name}</p>
+            </div>
+            <PokemonInfo
+                selectedId={selectedId}
+            />
         </div>
-    )
-}
+    );
+};
 
-export default PokemonTile
+export default PokemonTile;

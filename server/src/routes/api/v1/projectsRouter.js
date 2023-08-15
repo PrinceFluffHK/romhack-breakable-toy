@@ -4,6 +4,7 @@ import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import { ValidationError } from "objection";
 import seedNewProject from "../../../db/seeders/VanillaPokemonSeeder.js";
+import CloneVanilla from "../../../services/cloneVanilla.js";
 
 
 const projectsRouter = new express.Router()
@@ -21,7 +22,6 @@ projectsRouter.get("/", async (req, res) => {
 })
 
 projectsRouter.get("/search", async (req, res) => {
-    // console.log(req.user)
     const { id } = req.user
     try {
         const projects = await Project.query().where('creatorId', `${id}`) 
@@ -40,9 +40,9 @@ projectsRouter.post("/", async (req, res) => {
     formData.creatorId = req.user.id
     try {
         const newProject = await Project.query().insertAndFetch(formData)
-        // if(usePreset) {
-        //     seedNewProject(newProject.generation, newProject.id)
-        // }
+        if(usePreset) {
+            CloneVanilla.pokemon(newProject.generation, newProject.id)
+        }
         return res.status(201).json({ newProject })
     } catch (error) {
         if (error instanceof ValidationError) {

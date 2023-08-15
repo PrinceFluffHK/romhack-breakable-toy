@@ -12,7 +12,6 @@ class VanillaPokemonSeeder {
                 const rawMonData = await got(`https://pokeapi.co/api/v2/pokemon/${mon.name}/`);
                 if (rawMonData) {
                     const parsedMonData = JSON.parse(rawMonData.body);
-                    // console.log(parsedMonData);
                     const upperName = _.capitalize(parsedMonData.name);
                     const vanillaMonData = {
                         name: upperName,

@@ -2,19 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PokemonTile from "./PokemonTile.js";
 import PokemonShow from "./PokemonShow.js";
+import PokemonInfo from "./PokemonInfo.js";
 
-const PokemonPage = props => {
-    const [pokemonList, setPokemonList] = useState([])
-    const [selectedId, setSelectedId] = useState(0)
+const PokemonPage = (props) => {
+    const [pokemonList, setPokemonList] = useState([]);
+    const [selectedId, setSelectedId] = useState(0);
 
-    const location = useLocation()
-    const trimFront = location.pathname.replace("/projects/", "")
-    const trimBack = trimFront.replace("/pokemon", "")
-    const projectId = parseInt(trimBack)
-    
+    const location = useLocation();
+    const trimFront = location.pathname.replace("/projects/", "");
+    const trimBack = trimFront.replace("/pokemon", "");
+    const projectId = parseInt(trimBack);
+
     const getPokemon = async () => {
         try {
-            const response = await fetch(`/api/v1/pokemon/${projectId}`)
+            const response = await fetch(`/api/v1/pokemon/${projectId}`);
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
@@ -25,59 +26,63 @@ const PokemonPage = props => {
         } catch (error) {
             console.error(`getPokemon error in Fetch: ${error.message}`);
         }
-    }
+    };
 
-    const selectedMon = pokemonList.filter(mon => {
-        return mon.id === selectedId
-    })[0]
+    const selectedMon = pokemonList.filter((mon) => {
+        return mon.id === selectedId;
+    })[0];
 
     useEffect(() => {
-        getPokemon()
-    }, [])
+        getPokemon();
+    }, []);
 
-    const pokemonTiles = pokemonList.map(mon => {
-        return(
-            <PokemonTile 
+    const pokemonTiles = pokemonList.map((mon) => {
+        return (
+            <PokemonTile
+                key={mon.id}
                 {...mon}
                 selectedId={selectedId}
                 setSelectedId={setSelectedId}
             />
-        )
-    })
+        );
+    });
 
-    let gridClass = ""
-    if(selectedId === 0) {
-        return(
+    const infoTiles = pokemonList.map((mon) => {
+        return <PokemonInfo selectedId={selectedId} />;
+    });
+
+    let gridClass = "";
+    if (selectedId === 0) {
+        return (
             <div className="poke-grid_pokedex-list">
                 <div className="left-nav">
                     <h1>Filters</h1>
                 </div>
-                <div>
+                <div className="list-grid overflow-scroll">
                     <h1>Pokemon</h1>
-                    {pokemonTiles}
+                    <h1>List of Other Things</h1>
+                    <div className="poke-grid-normalized">{pokemonTiles}</div>
                 </div>
             </div>
-        )
+        );
     } else {
-        return(
+        return (
             <div className="poke-grid_pokedex-show">
                 <div className="left-nav">
                     <h1>Filters</h1>
                 </div>
-                <div>
+
+                <div className="overflow-scroll">
                     <h1>Pokemon</h1>
                     {pokemonTiles}
                 </div>
-                <div>
+                <div className="overflow-scroll">
                     <h1>{selectedMon.name}</h1>
-                    <PokemonShow
-                        selectedMon={selectedMon}
-                    />
+                    <PokemonShow selectedMon={selectedMon} />
                 </div>
             </div>
-        )
+        );
     }
+};
 
-}
-
-export default PokemonPage
+export default PokemonPage;
