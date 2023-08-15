@@ -46,7 +46,7 @@ const UserProjectList = (props) => {
             <div className="left-nav">
                 <h1>Filter</h1>
             </div>
-            <div className="">
+            <div className="overflow-scroll">
                 <h1>My Projects</h1>
                 {projectsToRender}
             </div>
