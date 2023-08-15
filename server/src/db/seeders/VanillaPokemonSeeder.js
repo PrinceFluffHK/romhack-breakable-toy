@@ -41,7 +41,6 @@ class VanillaPokemonSeeder {
                 name: singleMon.name,
             });
             if (!currentMon) {
-                console.log(`Inserting ${singleMon.name}...`);
                 await VanillaPokemon.query().insert(singleMon);
             }
         }

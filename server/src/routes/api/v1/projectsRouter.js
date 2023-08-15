@@ -10,7 +10,6 @@ import CloneVanilla from "../../../services/cloneVanilla.js";
 const projectsRouter = new express.Router()
 
 projectsRouter.get("/", async (req, res) => {
-    // console.log(req.user)
     const { id } = req.user
     try {
         const projects = await Project.query().where('creatorId', `${id}`)

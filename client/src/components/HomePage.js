@@ -13,7 +13,7 @@ const HomePage = (props) => {
             </div>
             <div className=" ">
                 <h1 className="left-text">Romhack Studio</h1>
-                <div className="">
+                <div>
                     <Link to={"/new-project"} className="button flex-center">
                         <h3>New Project</h3>
                     </Link>
@@ -23,7 +23,7 @@ const HomePage = (props) => {
                         <h3>View My Projects</h3>
                     </Link>
                 </div>
-                <div className="">
+                <div>
                     <Link to={"/search-projects"} className="button flex-center">
                         <h3>Browse Romhacks</h3>
                     </Link>

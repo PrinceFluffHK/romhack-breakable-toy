@@ -80,7 +80,7 @@ const ProjectForm = (props) => {
     return (
         <div className="poke-grid">
             <div className="left-nav-fill" />
-            <div className="">
+            <div>
                 <h1>New Project</h1>
                 <form onSubmit={handleSubmit} className="margins">
                     <label htmlFor="projectName">
@@ -113,7 +113,7 @@ const ProjectForm = (props) => {
                             {usePresetValue}
                         </button>
                     </label>
-                    <label htmlFor="generation" className="">
+                    <label htmlFor="generation">
                         <GenerationOptions
                             projectRecord={projectRecord}
                             setProjectRecord={setProjectRecord}

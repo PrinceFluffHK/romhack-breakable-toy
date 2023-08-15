@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PokemonTile from "./PokemonTile.js";
 import PokemonShow from "./PokemonShow.js";
-import PokemonInfo from "./PokemonInfo.js";
 
 const PokemonPage = (props) => {
     const [pokemonList, setPokemonList] = useState([]);
@@ -47,11 +46,6 @@ const PokemonPage = (props) => {
         );
     });
 
-    const infoTiles = pokemonList.map((mon) => {
-        return <PokemonInfo selectedId={selectedId} />;
-    });
-
-    let gridClass = "";
     if (selectedId === 0) {
         return (
             <div className="poke-grid_pokedex-list">

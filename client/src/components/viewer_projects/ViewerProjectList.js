@@ -44,7 +44,7 @@ const ViewerProjectList = (props) => {
             </div>
             <div className="overflow-scroll">
                 <h1>Browse Projects</h1>
-                <div className="">{projectsToRender}</div>
+                <div>{projectsToRender}</div>
             </div>
         </div>
     );

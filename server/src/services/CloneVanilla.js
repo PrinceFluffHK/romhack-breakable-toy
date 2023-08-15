@@ -3,7 +3,7 @@ import { ProjectPokemon, VanillaPokemon } from "../models/index.js"
 class CloneVanilla {
     static async pokemon(generation, projectId) {
         const fullMonList = await VanillaPokemon.query()
-        fullMonList.map(async mon => {
+        fullMonList.forEach(async mon => {
             mon.generation = CloneVanilla.getPokemonGen(mon.nationalNum)
             if (mon.generation <= generation) {
                 mon.projectId = projectId
@@ -11,7 +11,6 @@ class CloneVanilla {
                 delete mon.createdAt
                 delete mon.updatedAt
                 const insertedMon = await ProjectPokemon.query().insert(mon)
-                console.log(`${mon.name} cloned`)
             }
         })
     }
