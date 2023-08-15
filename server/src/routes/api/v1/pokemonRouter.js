@@ -6,9 +6,8 @@ const pokemonRouter = new express.Router()
 
 pokemonRouter.get("/:projectId", async (req, res) =>{
     const { projectId } = req.params
-    // const { id } = req.user
     try {
-        const pokemonList = Pokemon.query().where('projectId', projectId).orderBy('nationalNum')
+        const pokemonList = await Pokemon.query().where('projectId', projectId).orderBy('nationalNum')
         const serializedPokemon = await PokemonSerializer.getSummary(pokemonList)
         return res.status(200).json({ pokemon: serializedPokemon })
     } catch (error) {

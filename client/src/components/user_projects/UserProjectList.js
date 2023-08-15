@@ -26,7 +26,11 @@ const UserProjectList = (props) => {
 
     const projectsToRender = projectList.map((project) => {
         return (
-            <Link key={project.id} to={`/projects/${project.id}/pokemon`} className="button center-button">
+            <Link
+                key={project.id}
+                to={`/projects/${project.id}/pokemon`}
+                className="button project-list flex-left"
+            >
                 <ProjectTile
                     projectName={project.projectName}
                     regionName={project.regionName}
@@ -38,15 +42,14 @@ const UserProjectList = (props) => {
     });
 
     return (
-        <div className="nav-grid">
-            <div className="left-nav"></div>
-            {/* <div className="grid-x "> */}
-                {/* <div className="cell auto " /> */}
-                <div className="cell auto">
-                    <h1>My Projects</h1>
-                    {projectsToRender}
-                </div>
-            {/* </div> */}
+        <div className="poke-grid-project-list">
+            <div className="left-nav">
+                <h1>Filter</h1>
+            </div>
+            <div className="">
+                <h1>My Projects</h1>
+                {projectsToRender}
+            </div>
         </div>
     );
 };

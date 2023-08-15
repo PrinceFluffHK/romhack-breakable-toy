@@ -3,11 +3,13 @@ import Project from "../../../models/Project.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import { ValidationError } from "objection";
+import seedNewProject from "../../../services/seedNewProject.js";
 
 
 const projectsRouter = new express.Router()
 
 projectsRouter.get("/", async (req, res) => {
+    // console.log(req.user)
     const { id } = req.user
     try {
         const projects = await Project.query().where('creatorId', `${id}`)
@@ -19,9 +21,10 @@ projectsRouter.get("/", async (req, res) => {
 })
 
 projectsRouter.get("/search", async (req, res) => {
+    // console.log(req.user)
     const { id } = req.user
     try {
-        const projects = await Project.query().where('creatorId', `${id}`) //projects.creatorId === userId
+        const projects = await Project.query().where('creatorId', `${id}`) 
         const serializedProjects = await ProjectSerializer.getSummary(projects)
         return res.status(200).json({ projects: serializedProjects })
     } catch (error) {
@@ -31,10 +34,15 @@ projectsRouter.get("/search", async (req, res) => {
 
 projectsRouter.post("/", async (req, res) => {
     const { body } = req
+    const { usePreset } = body
+    delete body.usePreset
     const formData = cleanUserInput(body)
     formData.creatorId = req.user.id
     try {
         const newProject = await Project.query().insertAndFetch(formData)
+        if(usePreset) {
+            seedNewProject(newProject.generation, newProject.id)
+        }
         return res.status(201).json({ newProject })
     } catch (error) {
         if (error instanceof ValidationError) {

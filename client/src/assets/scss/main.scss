@@ -13,13 +13,27 @@
     tab-size: 4;
 }
 
+.project-list {
+        text-align: left;
+        margin: 1px 1px 1px 1px;
+        padding: 1px 1px 1px 1px;
+}
+
+.sprite {
+    width: auto;
+    &-list {
+        @extend .sprite;
+        height: 50px;
+    };
+    &-show {
+        @extend .sprite;
+        height: 200px;
+    }
+}
+
 .button {
     outline-style: solid;
     outline-color: gray;
-}
-
-input {
-    padding-right: 3rem;
 }
 
 .left-pane-image {
@@ -43,37 +57,47 @@ input {
     margin: 0 1em 0 0;
 }
 
-.center-button {
-    display: flex;
-    justify-content: center;
+.margins {
     margin-left: 3rem;
     margin-right: 3rem;
 }
 
-.center-text {
-    text-align: center;
-}
-
-.right-text {
-    text-align: right;
-}
-
-.left-text {
-    text-align: left;
+.flex {
+    &-center {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        margin-left: 3rem;
+        margin-right: 3rem;
+    }
+    &-left {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        margin-left: 3rem;
+        margin-right: 3rem;
+    }
 }
 
 .poke-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    &_pokedex {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        
+    h1 {
+        text-align: center;
+        margin: 1.5rem 0rem
     }
-    &_pokedex-filter {
-        display: grid;
+    &-project-list {
+        @extend .poke-grid;
+        grid-template-columns: 1fr 2fr;
     }
-    // overflow-x: visible;
+    &_pokedex-list {
+        @extend .poke-grid;
+        grid-template-columns: 1fr 3fr;
+    }
+    &_pokedex-show {
+        @extend .poke-grid;
+        grid-template-columns: 1fr 1fr 2fr;
+    }
 }
 
 .left-nav {
@@ -81,9 +105,13 @@ input {
     border-right: gray;
     border-right-style: solid;
     border-width: 5px;
-    // width: 50%;
-    // height: 100%;
-    // position: fixed;
+    &-fill {
+        background-color: #4d0000;
+        border-right: gray;
+        border-right-style: solid;
+        border-width: 5px;
+        height: 100vh;
+    }
 }
 
 .top-bar {
@@ -91,28 +119,9 @@ input {
     .menu {
         background-color: gray;
     }
-}
-
-.red-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100%;
-    background-color: #4d0000;
-    z-index: -1;
-    border-style: solid;
-    border-width: 1rem;
-    border: gray;
-}
-
-.vl {
-    border-right: 6px solid gray;
-    height: 100%;
-    position: absolute;
-    left: 50%;
-    top: 0;
-    z-index: -1;
+    a {
+        color: white;
+    }
 }
 
 $grid__bp--md: 768;
@@ -138,71 +147,5 @@ $grid__cols: 12;
         &__col-md-#{$i} {
             flex-basis: (100 / ($grid__cols / $i)) * 1%;
         }
-    }
-}
-
-.align-right {
-    text-align: right;
-}
-
-.align-right {
-    align-content: right;
-}
-
-.image-border {
-    border: black 10px solid;
-    margin: 3rem;
-    justify-content: left;
-}
-$grid__bp-sm: 576;
-$grid__bp-md: 768;
-$grid__bp-lg: 992;
-$grid__bp-xl: 1200;
-$grid__cols: 12;
-
-$map-grid-props: (
-    "": 0,
-    "-sm": $grid__bp-sm,
-    "-md": $grid__bp-md,
-    "-lg": $grid__bp-lg,
-    "-xl": $grid__bp-xl,
-);
-
-@mixin create-mq($breakpoint) {
-    @if ($breakpoint == 0) {
-        @content;
-    }
-}
-
-@mixin create-col-classes($modifier, $grid-cols, $breakpoint) {
-    @include create-mq($breakpoint) {
-        &__col#{$modifier}-offset-0 {
-            margin-left: 0;
-        }
-        @for $i from 1 through $grid-cols {
-            &__col#{$modifier}-#{$i} {
-                flex-basis: (100 / ($grid-cols / $i)) * 1%;
-            }
-            &__col#{$modifier}-offset-#{$i} {
-                margin-left: (100 / ($grid-cols / $i)) * 1%;
-            }
-        }
-    }
-}
-
-.container {
-    max-width: $grid__bp-md * 1px;
-    margin: 0 auto;
-    &--fluid {
-        margin: 0;
-        max-width: 100%;
-    }
-    &__row {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-    @each $modifier, $breakpoint in $map-grid-props {
-        @include create-col-classes($modifier, $grid__cols, $breakpoint);
     }
 }

@@ -27,11 +27,18 @@ const GenerationOptions = ({ projectRecord, setProjectRecord }) => {
         )
     })
 
-    return(
-        <div className="radio-options">
-            {genRadio}
-        </div>
-    )
+    if(projectRecord.usePreset) {
+        return(
+            <div>
+                <h3>Generation</h3>
+                <div className="radio-options">
+                    {genRadio}
+                </div>
+            </div>
+        )
+    } else {
+        return(<></>)
+    }
 }
 
 export default GenerationOptions

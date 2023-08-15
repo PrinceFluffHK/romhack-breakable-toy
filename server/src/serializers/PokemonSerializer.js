@@ -1,6 +1,6 @@
 class PokemonSerializer {
     static async getSummary(array) {
-        const requiredAttributes = ["name", "spriteUrl"]
+        const requiredAttributes = ["name", "spriteUrl", "id"]
         const serializedPokemon = await Promise.all(
             array.map(async (mon) =>{
                 let serializedMon = {}

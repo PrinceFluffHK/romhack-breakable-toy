@@ -17,7 +17,7 @@ exports.up = async (knex) => {
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table.string("name").notNullable();
-        table.bigInteger("regionalNum").notNullable();
+        table.bigInteger("regionalNum")
         table.bigInteger("nationalNum").notNullable();
         table.text("dexEntry");
         table.integer("baseHp").notNullable().unsigned();

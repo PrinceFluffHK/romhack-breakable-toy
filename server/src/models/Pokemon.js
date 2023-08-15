@@ -24,7 +24,6 @@ class Pokemon extends Model {
             type: "object",
             required: [
                 "name",
-                "regionalNum",
                 "nationalNum",
                 "baseHp",
                 "baseAtk",
@@ -37,7 +36,6 @@ class Pokemon extends Model {
             ],
             properties: {
                 name: { type: "string" },
-                regionalNum: { type: ["string", "integer"] },
                 nationalNum: { type: ["string", "integer"] },
                 dexEntry: { type: "string" },
                 baseHp: { type: ["string", "integer"] },
