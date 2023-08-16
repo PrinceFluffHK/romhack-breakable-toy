@@ -15,11 +15,10 @@ class VanillaTypeSeeder {
                 const rawTypeData = await got(`https://pokeapi.co/api/v2/type/${singleType.name}`);
                 if (rawTypeData) {
                     const parsedType = JSON.parse(rawTypeData.body);
-                    // console.log(parsedType.name)
                     const vanillaType = {
                         name: parsedType.name,
-                        iconUrl: VanillaTypeSeeder.getTypeIcon(parsedType.name),
-                        labelUrl: VanillaTypeSeeder.getTypeLabel(parsedType.name),
+                        iconUrl: this.getTypeIcon(parsedType.name),
+                        labelUrl: this.getTypeLabel(parsedType.name),
                     };
                     console.log(`Inserting ${vanillaType.name}...`);
                     await VanillaType.query().insert(vanillaType);
