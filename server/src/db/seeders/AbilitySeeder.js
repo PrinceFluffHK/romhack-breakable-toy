@@ -22,7 +22,7 @@ class AbilitySeeder {
                     description: englishEffects[0],
                     generation: generation
                 }
-                await ability.query().insert(ability)
+                await Ability.query().insert(ability)
             }
         }
     }
