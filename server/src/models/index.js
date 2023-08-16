@@ -7,6 +7,10 @@ const VanillaType = require("./VanillaType.js");
 const VanillaTypeSlot = require("./VanillaTypeSlot.js");
 const ProjectType = require("./ProjectType.js");
 const ProjectTypeSlot = require("./ProjectTypeSlot.js");
+const VanillaAbility = require("./VanillaAbility.js");
+const VanillaAbilitySlot = require("./VanillaAbilitySlot.js");
+const ProjectAbility = require("./ProjectAbility.js");
+const ProjectAbilitySlot = require("./ProjectAbilitySlot.js");
 
 module.exports = {
     User,
@@ -17,4 +21,8 @@ module.exports = {
     VanillaTypeSlot,
     ProjectType,
     ProjectTypeSlot,
+    VanillaAbility,
+    VanillaAbilitySlot,
+    ProjectAbility,
+    ProjectAbilitySlot,
 };
