@@ -1,6 +1,7 @@
 import got from "got";
-import { VanillaPokemon } from "../../models/index.js";
-import CloneVanilla from "../../services/cloneVanilla.js";
+import { VanillaPokemon } from "../../../models/index.js";
+import CloneVanilla from "../../../services/cloneVanilla.js";
+import VanillaTypeSeeder from "./VanillaTypeSeeder.js";
 
 class VanillaPokemonSeeder {
     static async seed() {
@@ -15,6 +16,7 @@ class VanillaPokemonSeeder {
                 const rawMonData = await got(`https://pokeapi.co/api/v2/pokemon/${singleMon.name}/`);
                 if (rawMonData) {
                     const parsedMonData = JSON.parse(rawMonData.body);
+                    console.log(parsedMonData.sprites.other[`official-artwork`])
                     const vanillaMon = {
                         name: parsedMonData.name,
                         baseHp: parsedMonData.stats[0].base_stat,
@@ -31,11 +33,15 @@ class VanillaPokemonSeeder {
                         evSpe: parsedMonData.stats[5].effort,
                         catchRate: 100,
                         spriteUrl: parsedMonData.sprites.front_default,
+                        // profileUrl: parsedMonData.sprites.other["official-artwork"].front_default,
                         nationalNum: parsedMonData.id,
                         generation: VanillaPokemonSeeder.getPokemonGen(parsedMonData.id)
                     };
                     console.log(vanillaMon)
-                    await VanillaPokemon.query().insert(vanillaMon);
+                    const newMon = await VanillaPokemon.query().insertAndFetch(vanillaMon);
+                    const monTypes = parsedMonData.types
+                    VanillaTypeSeeder.seedSlots(newMon, monTypes)
+                    return heeebidyjeebidy
                 }
             }
         }

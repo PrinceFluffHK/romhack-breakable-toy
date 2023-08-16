@@ -44,6 +44,7 @@ class ProjectPokemon extends Model {
                 "baseSpe", 
                 "catchRate",
                 "spriteUrl",
+                "profileUrl",
                 "nationalNum",
             ],
             properties: {
@@ -56,6 +57,7 @@ class ProjectPokemon extends Model {
                 baseSpe: { type: ["string", "integer"] },
                 catchRate: { type: ["string", "integer"] },
                 spriteUrl: { type: "string" },
+                profileUrl: { type: "string" },
                 generation: { type: ["string", "integer"] },
                 nationalNum: { type: ["string", "integer"] },
             }

@@ -3,7 +3,7 @@ import Project from "../../../models/Project.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import { ValidationError } from "objection";
-import seedNewProject from "../../../db/seeders/VanillaPokemonSeeder.js";
+import seedNewProject from "../../../db/seeders/Vanilla/VanillaPokemonSeeder.js";
 import CloneVanilla from "../../../services/cloneVanilla.js";
 
 

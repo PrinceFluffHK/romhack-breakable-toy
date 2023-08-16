@@ -50,6 +50,7 @@ class VanillaPokemon extends Model {
                 "evSpe", 
                 "catchRate",
                 "spriteUrl",
+                // "profileUrl",
                 "nationalNum",
             ],
             properties: {
@@ -68,6 +69,7 @@ class VanillaPokemon extends Model {
                 evSpe: { type: ["string", "integer"] },
                 catchRate: { type: ["string", "integer"] },
                 spriteUrl: { type: "string" },
+                // profileUrl: { type: "string" },
                 nationalNum: { type: ["string", "integer"] },
             }
         };
