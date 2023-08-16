@@ -6,15 +6,15 @@
  * @param {Knex} knex
  */
 exports.up = async (knex) => {
-    return knex.schema.createTable("vanilla-ability-slots", (table) => {
+    return knex.schema.createTable("ability-slots", (table) => {
         table.bigIncrements("id");
-        table.integer("slotNum").notNullable();
+        table.integer("slotNum");
         table
             .bigInteger("abilityId")
             .notNullable()
             .index()
             .unsigned()
-            .references("vanilla-abilities.id")
+            .references("abilities.id")
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
         table
@@ -22,9 +22,10 @@ exports.up = async (knex) => {
             .notNullable()
             .index()
             .unsigned()
-            .references("vanilla-pokemon.id")
+            .references("pokemon.id")
             .onUpdate("CASCADE")
             .onDelete("CASCADE");
+        table.bigInteger("projectId").index().unsigned();
         table.timestamp("createdAt").notNullable().defaultsTo(knex.fn.now());
         table.timestamp("updatedAt").notNullable().defaultsTo(knex.fn.now());
     });
@@ -34,5 +35,5 @@ exports.up = async (knex) => {
  * @param {Knex} knex
  */
 exports.down = (knex) => {
-    return knex.schema.dropTableIfExists("vanilla-ability-slots");
+    return knex.schema.dropTableIfExists("ability-slots");
 };

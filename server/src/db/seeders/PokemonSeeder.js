@@ -1,21 +1,21 @@
 import got from "got";
-import { VanillaPokemon } from "../../models/index.js";
-import VanillaTypeSeeder from "./VanillaTypeSeeder.js";
+import { Pokemon } from "../../models/index.js";
+import TypeSeeder from "./TypeSeeder.js";
 
-class VanillaPokemonSeeder {
+class PokemonSeeder {
     static async seed() {
         const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=100000");
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
         for (const singleMon of parsedMonList) {
-            const currentMon = await VanillaPokemon.query().findOne({
+            const currentMon = await Pokemon.query().findOne({
                 name: singleMon.name,
             });
             if(!currentMon) {
                 const rawMonData = await got(`https://pokeapi.co/api/v2/pokemon/${singleMon.name}/`);
                 if (rawMonData) {
                     const parsedMonData = JSON.parse(rawMonData.body);
-                    const vanillaMon = {
+                    const mon = {
                         name: parsedMonData.name,
                         baseHp: parsedMonData.stats[0].base_stat,
                         baseAtk: parsedMonData.stats[1].base_stat,
@@ -34,9 +34,10 @@ class VanillaPokemonSeeder {
                         nationalNum: parsedMonData.id,
                         generation: this.getPokemonGen(parsedMonData.id)
                     };
-                    const newMon = await VanillaPokemon.query().insertAndFetch(vanillaMon);
+                    console.log(`Inserting ${mon.name}`)
+                    const newMon = await Pokemon.query().insertAndFetch(mon);
                     const monTypes = parsedMonData.types
-                    await VanillaTypeSeeder.seedSlots(newMon, monTypes)
+                    await TypeSeeder.seedSlots(newMon, monTypes)
 
                     return heeebidyjeebidy
                 }
@@ -83,4 +84,4 @@ class VanillaPokemonSeeder {
     }
 }
 
-export default VanillaPokemonSeeder;
+export default PokemonSeeder;

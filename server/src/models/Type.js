@@ -1,32 +1,31 @@
 const Model = require("./Model");
 
-class ProjectType extends Model {
+class Type extends Model {
     static get tableName() {
-        return "project-types";
+        return "types";
     }
 
     static get relationMappings() {
-        const { ProjectTypeSlot, ProjectPokemon } = require("./index.js");
-
+        const { TypeSlot, Pokemon } = require("./index.js");
         return {
-            typeSlot: {
+            slots: {
                 relation: Model.HasManyRelation,
-                modelClass: ProjectTypeSlot,
+                modelClass: TypeSlot,
                 join: {
-                    from: "project-types.id",
-                    to: "project-type-slots.typeId",
+                    from: "types.id",
+                    to: "type-slots.typeId",
                 },
             },
             pokemon: {
                 relation: Model.ManyToManyRelation,
-                modelClass: ProjectPokemon,
+                modelClass: Pokemon,
                 join: {
-                    from: "project-types.id",
+                    from: "types.id",
                     through: {
-                        from: "project-type-slots.typeId",
-                        to: "project-type-slots.pokemonId",
+                        from: "type-slots.typeId",
+                        to: "type-slots.pokemonId",
                     },
-                    to: "project-pokemon.id",
+                    to: "pokemon.id",
                 },
             },
         };
@@ -45,4 +44,4 @@ class ProjectType extends Model {
     }
 }
 
-module.exports = ProjectType;
+module.exports = Type;

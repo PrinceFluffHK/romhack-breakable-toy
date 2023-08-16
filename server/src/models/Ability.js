@@ -1,31 +1,31 @@
 const Model = require("./Model");
 
-class VanillaAbility extends Model {
+class Ability extends Model {
     static get tableName() {
-        return "vanilla-abilities"
+        return "abilities"
     }
 
     static get relationMappings() {
-        const { VanillaAbilitySlot, VanillaPokemon } = require ("./index.js")
+        const { AbilitySlot, Pokemon } = require ("./index.js")
         return {
             slots: {
                 relation: Model.HasManyRelation,
-                modelClass: VanillaAbilitySlot,
+                modelClass: AbilitySlot,
                 join: {
-                    from: "vanilla-abilities.id",
-                    to: "vanilla-ability-slots.abilityId"
+                    from: "abilities.id",
+                    to: "ability-slots.abilityId"
                 }
             },
             pokemon: {
                 relation: Model.ManyToManyRelation,
-                modelClass: VanillaPokemon,
+                modelClass: Pokemon,
                 join: {
-                    from: "vanilla-abilities.id",
+                    from: "abilities.id",
                     through: {
-                        from: "vanilla-ability-slots.abilityId",
-                        to: "vanilla-ability-slots.pokemonId"
+                        from: "ability-slots.abilityId",
+                        to: "ability-slots.pokemonId"
                     },
-                    to: "vanilla-pokemon.id"
+                    to: "pokemon.id"
                 }
             }
         }
@@ -42,4 +42,4 @@ class VanillaAbility extends Model {
     }
 }
 
-module.exports = VanillaAbility
+module.exports = Ability

@@ -9,7 +9,7 @@ class PokemonSerializer {
                 for (const attribute of requiredAttributes) {
                     serializedMon[attribute] = mon[attribute]
                 }
-                const upperName = serializedMon.name
+                const upperName = _.capitalize(serializedMon.name)
                 serializedMon.name = upperName
                 return serializedMon
             })

@@ -1,31 +1,31 @@
 const Model = require("./Model");
 
-class VanillaPokemon extends Model {
+class Pokemon extends Model {
     static get tableName() {
-        return "vanilla-pokemon";
+        return "pokemon";
     }
 
     static get relationMappings() {
-        const { VanillaTypeSlot, VanillaType } = require("./index");
+        const { TypeSlot, Type } = require("./index");
         return {
             typeSlots: {
                 relation: Model.HasManyRelation,
-                modelClass: VanillaTypeSlot,
+                modelClass: TypeSlot,
                 join: {
-                    from: "vanilla-pokemon.id",
-                    to: "vanilla-type-slots.pokemonId",
+                    from: "pokemon.id",
+                    to: "type-slots.pokemonId",
                 },
             },
             types: {
                 relation: Model.ManyToManyRelation,
-                modelClass: VanillaType,
+                modelClass: Type,
                 join: {
-                    from: "vanilla-pokemon.id",
+                    from: "pokemon.id",
                     through: {
-                        from: "vanilla-type-slots.pokemonId",
-                        to: "vanilla-type-slots.typeId",
+                        from: "type-slots.pokemonId",
+                        to: "type-slots.typeId",
                     },
-                    to: "vanilla-types.id",
+                    to: "types.id",
                 },
             },
         };
@@ -50,7 +50,6 @@ class VanillaPokemon extends Model {
                 "evSpe",
                 "spriteUrl",
                 "profileUrl",
-                "nationalNum",
             ],
             properties: {
                 name: { type: "string" },
@@ -68,10 +67,9 @@ class VanillaPokemon extends Model {
                 evSpe: { type: ["string", "integer"] },
                 spriteUrl: { type: "string" },
                 profileUrl: { type: "string" },
-                nationalNum: { type: ["string", "integer"] },
             },
         };
     }
 }
 
-module.exports = VanillaPokemon;
+module.exports = Pokemon;

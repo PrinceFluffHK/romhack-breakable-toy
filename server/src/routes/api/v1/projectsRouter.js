@@ -1,5 +1,5 @@
 import express from "express";
-import Project from "../../../models/Project.js";
+import { Project } from "../../../models/index.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import { ValidationError } from "objection";

@@ -1,34 +1,34 @@
 const Model = require("./Model");
 
-class VanillaAbilitySlot extends Model {
+class AbilitySlot extends Model {
     static get tableName() {
-        return "vanilla-abilities"
+        return "abilities"
     }
 
     static get relationMappings() {
-        const { VanillaAbility, VanillaPokemon, Project } = require ("./index.js")
+        const { Ability, Pokemon, Project } = require ("./index.js")
         return {
             ability: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: VanillaAbility,
+                modelClass: Ability,
                 join: {
-                    from: "vanilla-ability-slots.abilityId",
-                    to: "vanilla-abilities.id"
+                    from: "ability-slots.abilityId",
+                    to: "abilities.id"
                 }
             },
             pokemon: {
                 relation: Model.BelongsToOneRelation,
-                modelClass: VanillaPokemon,
+                modelClass: Pokemon,
                 join: {
-                    from: "vanilla-ability-slots.pokemonId",
-                    to: "vanilla-pokemon.id"
+                    from: "ability-slots.pokemonId",
+                    to: "pokemon.id"
                 }
             },
             project: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: Project,
                 join: {
-                    from: "vanilla-ability-slots.projectId",
+                    from: "ability-slots.projectId",
                     to: "projects.id"
                 }
             },
@@ -46,4 +46,4 @@ class VanillaAbilitySlot extends Model {
     }
 }
 
-module.exports = VanillaAbilitySlot
+module.exports = AbilitySlot

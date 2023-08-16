@@ -1,8 +1,9 @@
-import { ProjectPokemon, ProjectType, VanillaPokemon, VanillaType } from "../models/index.js";
+import { Pokemon, Type } from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
-        const fullMonList = await VanillaPokemon.query();
+        console.log("hello from CloneVanilla")
+        const fullMonList = await Pokemon.query();
         fullMonList.forEach(async (mon) => {
             if (mon.generation <= generation) {
                 const {
@@ -44,18 +45,19 @@ class CloneVanilla {
                     generation,
                     projectId,
                 };
-                const newProjectMon = await ProjectPokemon.query().insertAndFetch(newMon);
-                const vanillaTypes = await mon.$relatedQuery("types")
-                console.log(newProjectMon)
+                const newProjectMon = await Pokemon.query().insertAndFetch(newMon);
+                console.log(`Cloning ${newProjectMon.name}`)
+                const vanillaTypes = await mon.relatedQuery("types")
+                // console.log(newProjectMon)
                 console.log(vanillaTypes)
-                console.log(projectId)
+                // console.log(projectId)
                 // await this.typeSlots(newProjectMon, vanillaSlots, projectId)
             }
         });
     }
 
     static async types(projectId) {
-        const fullTypeList = await VanillaType.query();
+        const fullTypeList = await Type.query();
         fullTypeList.forEach(async (type) => {
             const { name, iconUrl, labelUrl } = type;
             const newType = {
@@ -64,7 +66,7 @@ class CloneVanilla {
                 labelUrl,
                 projectId,
             };
-            await ProjectType.query().insert(newType);
+            await Type.query().insert(newType);
         });
     }
 

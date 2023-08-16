@@ -1,26 +1,45 @@
 import got from "got";
-import { VanillaType } from "../../models/index.js";
+import _ from "lodash";
+import { Type, TypeSlot } from "../../models/index.js";
 
-class VanillaTypeSeeder {
+class TypeSeeder {
     static async seed() {
         const rawAllTypes = await got("https://pokeapi.co/api/v2/type");
         const parsedAllTypes = JSON.parse(rawAllTypes.body);
         const parsedTypeList = parsedAllTypes.results;
         for (const singleType of parsedTypeList) {
-            const currentType = await VanillaType.query().findOne({
+            const currentType = await Type.query().findOne({
                 name: singleType.name,
             });
             if (!currentType) {
-                const rawTypeData = await got(singleType.url);
-                const parsedType = JSON.parse(rawTypeData.body);
-                const vanillaType = {
-                    name: parsedType.name,
-                    iconUrl: VanillaTypeSeeder.getTypeIcon(parsedType.name),
-                    labelUrl: VanillaTypeSeeder.getTypeLabel(parsedType.name),
-                };
-                console.log(`Inserting ${vanillaType.name}...`);
-                await VanillaType.query().insert(vanillaType);
+                const rawTypeData = await got(`https://pokeapi.co/api/v2/type/${singleType.name}`);
+                if (rawTypeData) {
+                    const parsedType = JSON.parse(rawTypeData.body);
+                    const type = {
+                        name: parsedType.name,
+                        iconUrl: this.getTypeIcon(parsedType.name),
+                        labelUrl: this.getTypeLabel(parsedType.name),
+                    };
+                    console.log(`Inserting ${type.name}...`);
+                    await Type.query().insert(type);
+                }
             }
+        }
+    }
+
+    static async seedSlots(mon, types) {
+        for (const singleType of types) {
+            const currentType = await Type.query().findOne({
+                name: `${singleType.type.name}`,
+            });
+
+            const typeSlot = {
+                slotNum: singleType.slot,
+                typeId: currentType.id,
+                pokemonId: mon.id,
+            };
+            console.log(`Inserting ${singleType.type.name} into ${mon.name} in slot ${singleType.slot}`)
+            await TypeSlot.query().insert(typeSlot)
         }
     }
 
@@ -163,4 +182,4 @@ class VanillaTypeSeeder {
     }
 }
 
-export default VanillaTypeSeeder;
+export default TypeSeeder;
