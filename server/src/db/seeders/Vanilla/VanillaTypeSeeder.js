@@ -1,6 +1,6 @@
 import got from "got";
 import _ from "lodash";
-import { VanillaType } from "../../../models/index.js";
+import { VanillaType, VanillaTypeSlot } from "../../../models/index.js";
 
 class VanillaTypeSeeder {
     static async seed() {
@@ -29,21 +29,18 @@ class VanillaTypeSeeder {
     }
 
     static async seedSlots(mon, types) {
-        console.log("mon: ", mon);
-        console.log("types: ", types);
         for (const singleType of types) {
-            console.log(singleType.type.name)
             const currentType = await VanillaType.query().findOne({
-                name: singleType.type.name
+                name: `${singleType.type.name}`,
             });
-            //
-            console.log("hi2")
+
             const typeSlot = {
-                slotNUm: type.slot,
+                slotNum: singleType.slot,
                 typeId: currentType.id,
                 pokemonId: mon.id,
             };
-            console.log(typeSlot);
+            console.log(`Inserting ${singleType.type.name} into ${mon.name} in slot ${singleType.slot}`)
+            await VanillaTypeSlot.query().insert(typeSlot)
         }
     }
 

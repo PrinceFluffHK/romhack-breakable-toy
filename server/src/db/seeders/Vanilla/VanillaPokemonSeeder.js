@@ -1,6 +1,5 @@
 import got from "got";
 import { VanillaPokemon } from "../../../models/index.js";
-import CloneVanilla from "../../../services/cloneVanilla.js";
 import VanillaTypeSeeder from "./VanillaTypeSeeder.js";
 
 class VanillaPokemonSeeder {
@@ -20,27 +19,26 @@ class VanillaPokemonSeeder {
                     const vanillaMon = {
                         name: parsedMonData.name,
                         baseHp: parsedMonData.stats[0].base_stat,
-                        evHp: parsedMonData.stats[0].effort,
                         baseAtk: parsedMonData.stats[1].base_stat,
-                        evAtk: parsedMonData.stats[1].effort,
                         baseDef: parsedMonData.stats[2].base_stat,
-                        evDef: parsedMonData.stats[2].effort,
                         baseSpA: parsedMonData.stats[3].base_stat,
-                        evSpA: parsedMonData.stats[3].effort,
                         baseSpD: parsedMonData.stats[4].base_stat,
-                        evSpD: parsedMonData.stats[4].effort,
                         baseSpe: parsedMonData.stats[5].base_stat,
+                        evHp: parsedMonData.stats[0].effort,
+                        evAtk: parsedMonData.stats[1].effort,
+                        evDef: parsedMonData.stats[2].effort,
+                        evSpA: parsedMonData.stats[3].effort,
+                        evSpD: parsedMonData.stats[4].effort,
                         evSpe: parsedMonData.stats[5].effort,
-                        catchRate: 100,
                         spriteUrl: parsedMonData.sprites.front_default,
-                        // profileUrl: parsedMonData.sprites.other["official-artwork"].front_default,
+                        profileUrl: parsedMonData.sprites.other["official-artwork"].front_default,
                         nationalNum: parsedMonData.id,
-                        generation: VanillaPokemonSeeder.getPokemonGen(parsedMonData.id)
+                        generation: this.getPokemonGen(parsedMonData.id)
                     };
-                    console.log(vanillaMon)
                     const newMon = await VanillaPokemon.query().insertAndFetch(vanillaMon);
                     const monTypes = parsedMonData.types
-                    VanillaTypeSeeder.seedSlots(newMon, monTypes)
+                    await VanillaTypeSeeder.seedSlots(newMon, monTypes)
+
                     return heeebidyjeebidy
                 }
             }

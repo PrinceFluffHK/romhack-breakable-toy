@@ -13,8 +13,8 @@ class VanillaPokemon extends Model {
                 modelClass: VanillaTypeSlot,
                 join: {
                     from: "vanilla-pokemon.id",
-                    to: "vanilla-type-slots.pokemonId"
-                }
+                    to: "vanilla-type-slots.pokemonId",
+                },
             },
             types: {
                 relation: Model.ManyToManyRelation,
@@ -23,12 +23,12 @@ class VanillaPokemon extends Model {
                     from: "vanilla-pokemon.id",
                     through: {
                         from: "vanilla-type-slots.pokemonId",
-                        to: "vanilla-type-slots.typeId"
+                        to: "vanilla-type-slots.typeId",
                     },
-                    to: "vanilla-types.id"
-                }
-            }
-        }
+                    to: "vanilla-types.id",
+                },
+            },
+        };
     }
 
     static get jsonSchema() {
@@ -44,13 +44,12 @@ class VanillaPokemon extends Model {
                 "evDef",
                 "baseSpA",
                 "evSpA",
-                "baseSpD", 
-                "evSpD", 
-                "baseSpe", 
-                "evSpe", 
-                "catchRate",
+                "baseSpD",
+                "evSpD",
+                "baseSpe",
+                "evSpe",
                 "spriteUrl",
-                // "profileUrl",
+                "profileUrl",
                 "nationalNum",
             ],
             properties: {
@@ -67,11 +66,10 @@ class VanillaPokemon extends Model {
                 evSpD: { type: ["string", "integer"] },
                 baseSpe: { type: ["string", "integer"] },
                 evSpe: { type: ["string", "integer"] },
-                catchRate: { type: ["string", "integer"] },
                 spriteUrl: { type: "string" },
-                // profileUrl: { type: "string" },
+                profileUrl: { type: "string" },
                 nationalNum: { type: ["string", "integer"] },
-            }
+            },
         };
     }
 }
