@@ -9,6 +9,8 @@ exports.up = async (knex) => {
     return knex.schema.createTable("project-abilities", table => {
         table.bigIncrements("id")
         table.string("name").notNullable()
+        table.text("description")
+        table.integer("generation").notNullable()
         table
             .bigInteger("projectId")
             .notNullable()

@@ -32,16 +32,15 @@ class VanillaAbilitySlot extends Model {
                     to: "projects.id"
                 }
             },
-
         }
     }
 
     static get jsonSchema() {
         return {
             type: "object",
-            required: [""],
+            required: ["slotNum"],
             properties: {
-
+                slotNum: { type: ["string", "integer"] }
             }
         }
     }

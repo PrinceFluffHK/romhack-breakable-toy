@@ -3,7 +3,7 @@ import { connection } from "../boot.js"
 import ProjectSeeder from "./seeders/ProjectSeeder.js"
 import UserSeeder from "./seeders/UserSeeder.js"
 import VanillaPokemonSeeder from "./seeders/VanillaPokemonSeeder.js"
-import VanillaTypeSeeder from "./seeders/VanillaTypesSeeder.js"
+import VanillaTypeSeeder from "./seeders/Vanilla/VanillaTypesSeeder.js"
 
 class Seeder {
   static async seed() {

@@ -9,6 +9,8 @@ exports.up = async (knex) => {
     return knex.schema.createTable("vanilla-abilities", table => {
         table.bigIncrements("id")
         table.string("name").notNullable()
+        table.text("description")
+        table.integer("generation").notNullable()
         table.timestamp("createdAt").notNullable().defaultsTo(knex.fn.now());
         table.timestamp("updatedAt").notNullable().defaultsTo(knex.fn.now());
     })
