@@ -1,3 +1,5 @@
+import _ from "lodash"
+
 class PokemonSerializer {
     static async getSummary(array) {
         const requiredAttributes = ["name", "spriteUrl", "id"]
@@ -7,6 +9,8 @@ class PokemonSerializer {
                 for (const attribute of requiredAttributes) {
                     serializedMon[attribute] = mon[attribute]
                 }
+                const upperName = serializedMon.name
+                serializedMon.name = upperName
                 return serializedMon
             })
         )

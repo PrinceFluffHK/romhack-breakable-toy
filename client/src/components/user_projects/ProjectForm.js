@@ -79,7 +79,7 @@ const ProjectForm = (props) => {
 
     return (
         <div className="poke-grid">
-            <div className="left-nav-fill" />
+            <div className="nav-pane-left" />
             <div>
                 <h1>New Project</h1>
                 <form onSubmit={handleSubmit} className="margins">

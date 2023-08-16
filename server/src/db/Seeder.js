@@ -3,6 +3,7 @@ import { connection } from "../boot.js"
 import ProjectSeeder from "./seeders/ProjectSeeder.js"
 import UserSeeder from "./seeders/UserSeeder.js"
 import VanillaPokemonSeeder from "./seeders/VanillaPokemonSeeder.js"
+import VanillaTypeSeeder from "./seeders/VanillaTypesSeeder.js"
 
 class Seeder {
   static async seed() {
@@ -14,8 +15,11 @@ class Seeder {
     console.log("Seeding projects...")
     await ProjectSeeder.seed()
 
+    console.log("Seeding vanilla-types...")
+    await VanillaTypeSeeder.seed()
+
     console.log("Seeding vanilla-pokemon...")
-    await VanillaPokemonSeeder.seed()
+    // await VanillaPokemonSeeder.seed()
 
     console.log("Done!")
     await connection.destroy()

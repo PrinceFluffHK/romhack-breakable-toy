@@ -49,7 +49,7 @@ const PokemonPage = (props) => {
     if (selectedId === 0) {
         return (
             <div className="poke-grid_pokedex-list">
-                <div className="left-nav">
+                <div className="nav-pane-left">
                     <h1>Filters</h1>
                 </div>
                 <div className="list-grid overflow-scroll">
@@ -62,7 +62,7 @@ const PokemonPage = (props) => {
     } else {
         return (
             <div className="poke-grid_pokedex-show">
-                <div className="left-nav">
+                <div className="nav-pane-left">
                     <h1>Filters</h1>
                 </div>
 
@@ -70,7 +70,7 @@ const PokemonPage = (props) => {
                     <h1>Pokemon</h1>
                     {pokemonTiles}
                 </div>
-                <div className="overflow-scroll">
+                <div className="overflow-scroll nav-pane-right">
                     <h1>{selectedMon.name}</h1>
                     <PokemonShow selectedMon={selectedMon} />
                 </div>

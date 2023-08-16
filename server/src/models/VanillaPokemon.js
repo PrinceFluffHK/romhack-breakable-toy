@@ -6,8 +6,28 @@ class VanillaPokemon extends Model {
     }
 
     static get relationMappings() {
-        const { } = require("./index");
+        const { VanillaTypeSlot, VanillaType } = require("./index");
         return {
+            typeSlots: {
+                relation: Model.HasManyRelation,
+                modelClass: VanillaTypeSlot,
+                join: {
+                    from: "vanilla-pokemon.id",
+                    to: "vanilla-type-slots.pokemonId"
+                }
+            },
+            types: {
+                relation: Model.ManyToManyRelation,
+                modelClass: VanillaType,
+                join: {
+                    from: "vanilla-pokemon.id",
+                    through: {
+                        from: "vanilla-type-slots.pokemonId",
+                        to: "vanilla-type-slots.typeId"
+                    },
+                    to: "vanilla-types.id"
+                }
+            }
         }
     }
 

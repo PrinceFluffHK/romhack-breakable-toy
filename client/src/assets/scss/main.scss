@@ -136,14 +136,18 @@
     border-color: gray;
 }
 
-.left-nav {
-    background-color: #4d0000;
-    border-right: gray;
-    border-right-style: solid;
-    border-width: 5px;
-    &-fill {
-        @extend .left-nav;
-        // height: 100vh;
+.nav-pane {
+    border-width: 4px;
+    &-left {
+        @extend .nav-pane;
+        border-right-style: solid;
+        border-right-color: gray;
+        background-color: #4d0000;
+    }
+    &-right {
+        @extend .nav-pane;
+        border-left-style: solid;
+        border-left-color: gray;
     }
 }
 

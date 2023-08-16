@@ -43,7 +43,7 @@ const UserProjectList = (props) => {
 
     return (
         <div className="poke-grid-project-list">
-            <div className="left-nav">
+            <div className="nav-pane-left">
                 <h1>Filter</h1>
             </div>
             <div className="overflow-scroll">

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const HomePage = (props) => {
     return (
         <div className="poke-grid">
-            <div className="left-nav-fill">
+            <div className="nav-pane-left">
                 <h1 className="right-text">Prince Fluff's</h1>
                 <img
                     className="left-pane-image"

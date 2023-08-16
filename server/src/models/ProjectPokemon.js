@@ -6,7 +6,7 @@ class ProjectPokemon extends Model {
     }
 
     static get relationMappings() {
-        const { Project } = require("./index");
+        const { Project, ProjectType } = require("./index");
         return {
             project: {
                 relation: Model.BelongsToOneRelation,
@@ -14,6 +14,18 @@ class ProjectPokemon extends Model {
                 join: {
                     from: "project-pokemon.projectId",
                     to: "project.id"
+                }
+            },
+            types: {
+                relation: Model.ManyToManyRelation,
+                modelClass: ProjectType,
+                join: {
+                    from: "project-pokemon.projectId",
+                    through: {
+                        from: "project-type-slots.pokemonId",
+                        to: "project-type-slots.typeId"
+                    },
+                    to: "project-types.id"
                 }
             }
         }
