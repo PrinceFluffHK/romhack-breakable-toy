@@ -1,5 +1,5 @@
 import got from "got";
-import { VanillaAbility } from "../../../models/index.js";
+import { VanillaAbility } from "../../models/index.js";
 
 class VanillaAbilitySeeder {
     static async seed() {
@@ -17,7 +17,6 @@ class VanillaAbilitySeeder {
                     entry.language.name === "en"
                 })
                 const generation = parseInt(parsedAbility.generation.url[38])
-                console.log(generation)
                 const vanillaAbility = {
                     name: parsedAbility.name,
                     description: englishEffects[0],

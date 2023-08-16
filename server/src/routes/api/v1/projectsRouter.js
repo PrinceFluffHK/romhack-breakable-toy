@@ -3,8 +3,7 @@ import Project from "../../../models/Project.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js"
 import { ValidationError } from "objection";
-import seedNewProject from "../../../db/seeders/VanillaPokemonSeeder.js";
-import CloneVanilla from "../../../services/cloneVanilla.js";
+import CloneVanilla from "../../../services/CloneVanilla.js";
 
 
 const projectsRouter = new express.Router()

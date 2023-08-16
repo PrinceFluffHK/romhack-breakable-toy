@@ -1,5 +1,5 @@
 import got from "got";
-import { VanillaType } from "../../../models/index.js";
+import { VanillaType } from "../../models/index.js";
 
 class VanillaTypeSeeder {
     static async seed() {
@@ -13,7 +13,6 @@ class VanillaTypeSeeder {
             if (!currentType) {
                 const rawTypeData = await got(singleType.url);
                 const parsedType = JSON.parse(rawTypeData.body);
-                // console.log(parsedType.name)
                 const vanillaType = {
                     name: parsedType.name,
                     iconUrl: VanillaTypeSeeder.getTypeIcon(parsedType.name),
