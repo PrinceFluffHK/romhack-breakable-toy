@@ -38,8 +38,11 @@ projectsRouter.post("/", async (req, res) => {
     formData.creatorId = req.user.id
     try {
         const newProject = await Project.query().insertAndFetch(formData)
+        const { generation, id } = newProject
         if(usePreset) {
-            CloneVanilla.pokemon(newProject.generation, newProject.id)
+            const projectPokemon = await CloneVanilla.pokemon(generation, id)
+            const projectTypes = await CloneVanilla.types(generation, id)
+            const projectTypeSlots = await CloneVanilla.typeSlots(projectPokemon, projectTypes, id, generation)
         }
         return res.status(201).json({ newProject })
     } catch (error) {

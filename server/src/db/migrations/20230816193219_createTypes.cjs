@@ -11,6 +11,7 @@ exports.up = async (knex) => {
         table.string("name").notNullable()
         table.string("iconUrl").notNullable()
         table.string("labelUrl").notNullable()
+        table.integer("generation")
         table
             .bigInteger("projectId")
             .index()

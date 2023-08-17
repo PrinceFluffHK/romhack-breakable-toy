@@ -1,78 +1,77 @@
-import { Pokemon, Type } from "../models/index.js";
+import { Pokemon, Type, TypeSlot } from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
-        console.log("hello from CloneVanilla")
-        const fullMonList = await Pokemon.query();
-        fullMonList.forEach(async (mon) => {
-            if (mon.generation <= generation) {
-                const {
-                    name,
-                    baseHp,
-                    baseAtk,
-                    baseDef,
-                    baseSpA,
-                    baseSpD,
-                    baseSpe,
-                    evHp,
-                    evAtk,
-                    evDef,
-                    evSpA,
-                    evSpD,
-                    evSpe,
-                    spriteUrl,
-                    profileUrl,
-                    nationalNum,
-                    generation,
-                } = mon;
-                const newMon = {
-                    name,
-                    baseHp,
-                    baseAtk,
-                    baseDef,
-                    baseSpA,
-                    baseSpD,
-                    baseSpe,
-                    evHp,
-                    evAtk,
-                    evDef,
-                    evSpA,
-                    evSpD,
-                    evSpe,
-                    spriteUrl,
-                    profileUrl,
-                    nationalNum,
-                    generation,
-                    projectId,
-                };
-                const newProjectMon = await Pokemon.query().insertAndFetch(newMon);
-                console.log(`Cloning ${newProjectMon.name}`)
-                const vanillaTypes = await mon.relatedQuery("types")
-                // console.log(newProjectMon)
-                console.log(vanillaTypes)
-                // console.log(projectId)
-                // await this.typeSlots(newProjectMon, vanillaSlots, projectId)
-            }
-        });
-    }
-
-    static async types(projectId) {
-        const fullTypeList = await Type.query();
-        fullTypeList.forEach(async (type) => {
-            const { name, iconUrl, labelUrl } = type;
-            const newType = {
-                name,
-                iconUrl,
-                labelUrl,
+        const vanillaPokemon = await Pokemon.query()
+            .whereNot("generation", ">", generation)
+            .andWhere("projectId", null);
+        const projectPokemon = vanillaPokemon.map((mon) => {
+            const newMon = {
+                ...mon,
                 projectId,
             };
-            await Type.query().insert(newType);
+            delete newMon.id;
+            delete newMon.createdAt;
+            delete newMon.updatedAt;
+            console.log(`Cloning ${newMon.name}`);
+            return newMon;
         });
+        const clonedPokemon = await Pokemon.query().insertGraphAndFetch(projectPokemon);
+        return clonedPokemon;
     }
 
-    static async typeSlots(mon, slots, projectId) {
-        
+    static async types(generation, projectId) {
+        const vanillaTypes = await Type.query()
+            .whereNot("generation", ">", generation)
+            .andWhere("projectId", null);
+        const projectTypes = vanillaTypes.map((type) => {
+            const newType = {
+                ...type,
+                projectId,
+            };
+            delete newType.id;
+            delete newType.createdAt;
+            delete newType.updatedAt;
+            console.log(`Cloning ${newType.name}`);
+            return newType;
+        });
+        const clonedTypes = await Type.query().insertGraphAndFetch(projectTypes);
+        return clonedTypes;
+    }
+
+    // get vanilla mons
+    // for each vanilla mon
+    // related query for vanillaTypes
+    // find matching projectMon + id
+    // for each vanillaType
+    // find matching projectType + id
+
+    static async typeSlots(projectPokemon, projectTypes, projectId, generation) {
+        const vanillaPokemon = await Pokemon.query()
+            .whereNot("generation", ">", generation)
+            .andWhere("projectId", null);
+        const projectTypeSlots = [];
+        const manipVanillaPokemon = await Promise.all(
+            vanillaPokemon.map(async (mon) => {
+                const relatedVanillaTypes = await mon.$relatedQuery("types");
+                const matchingMon = projectPokemon.find((matchMon) => matchMon.name === mon.name);
+                relatedVanillaTypes.forEach((type, index) => {
+                    const matchingType = projectTypes.find(
+                        (matchType) => matchType.name === type.name
+                    );
+                    const newTypeSlot = {
+                        slotNum: index + 1,
+                        typeId: matchingType.id,
+                        pokemonId: matchingMon.id,
+                        projectId,
+                    };
+                    projectTypeSlots.push(newTypeSlot);
+                });
+            })
+        );
+        const clonedTypeSlots = await TypeSlot.query().insertGraphAndFetch(projectTypeSlots);
+        return clonedTypeSlots;
     }
 }
 
-export default CloneVanilla
+export default CloneVanilla;

@@ -1,6 +1,6 @@
 import got from "got";
-import _ from "lodash";
 import { Type, TypeSlot } from "../../models/index.js";
+import parseGeneration from "../../services/parseGeneration.js";
 
 class TypeSeeder {
     static async seed() {
@@ -15,10 +15,13 @@ class TypeSeeder {
                 const rawTypeData = await got(`https://pokeapi.co/api/v2/type/${singleType.name}`);
                 if (rawTypeData) {
                     const parsedType = JSON.parse(rawTypeData.body);
+                    const name = parsedType.name;
+                    const generation = parseGeneration(parsedType.generation.name)
                     const type = {
-                        name: parsedType.name,
+                        name,
                         iconUrl: this.getTypeIcon(parsedType.name),
                         labelUrl: this.getTypeLabel(parsedType.name),
+                        generation,
                     };
                     console.log(`Inserting ${type.name}...`);
                     await Type.query().insert(type);
@@ -38,8 +41,10 @@ class TypeSeeder {
                 typeId: currentType.id,
                 pokemonId: mon.id,
             };
-            console.log(`Inserting ${singleType.type.name} into ${mon.name} in slot ${singleType.slot}`)
-            await TypeSlot.query().insert(typeSlot)
+            console.log(
+                `Inserting ${singleType.type.name} into ${mon.name} in slot ${singleType.slot}`
+            );
+            await TypeSlot.query().insert(typeSlot);
         }
     }
 

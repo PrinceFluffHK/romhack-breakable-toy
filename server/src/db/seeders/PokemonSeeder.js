@@ -4,7 +4,7 @@ import TypeSeeder from "./TypeSeeder.js";
 
 class PokemonSeeder {
     static async seed() {
-        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=100000");
+        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=15");
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
         for (const singleMon of parsedMonList) {
@@ -39,7 +39,7 @@ class PokemonSeeder {
                     const monTypes = parsedMonData.types
                     await TypeSeeder.seedSlots(newMon, monTypes)
 
-                    return heeebidyjeebidy
+                    // return heeebidyjeebidy
                 }
             }
         }
