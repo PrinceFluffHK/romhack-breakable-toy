@@ -2,7 +2,6 @@ import { Pokemon, Type } from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
-        console.log("hello from CloneVanilla")
         const fullMonList = await Pokemon.query();
         fullMonList.forEach(async (mon) => {
             if (mon.generation <= generation) {
@@ -47,7 +46,9 @@ class CloneVanilla {
                 };
                 const newProjectMon = await Pokemon.query().insertAndFetch(newMon);
                 console.log(`Cloning ${newProjectMon.name}`)
+
                 const vanillaTypes = await mon.relatedQuery("types")
+
                 // console.log(newProjectMon)
                 console.log(vanillaTypes)
                 // console.log(projectId)
