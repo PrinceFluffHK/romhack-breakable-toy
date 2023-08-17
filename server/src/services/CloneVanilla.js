@@ -13,7 +13,6 @@ class CloneVanilla {
             delete newMon.id;
             delete newMon.createdAt;
             delete newMon.updatedAt;
-            console.log(`Cloning ${newMon.name}`);
             return newMon;
         });
         const clonedPokemon = await Pokemon.query().insertGraphAndFetch(projectPokemon);
@@ -32,19 +31,11 @@ class CloneVanilla {
             delete newType.id;
             delete newType.createdAt;
             delete newType.updatedAt;
-            console.log(`Cloning ${newType.name}`);
             return newType;
         });
         const clonedTypes = await Type.query().insertGraphAndFetch(projectTypes);
         return clonedTypes;
     }
-
-    // get vanilla mons
-    // for each vanilla mon
-    // related query for vanillaTypes
-    // find matching projectMon + id
-    // for each vanillaType
-    // find matching projectType + id
 
     static async typeSlots(projectPokemon, projectTypes, projectId, generation) {
         const vanillaPokemon = await Pokemon.query()

@@ -38,8 +38,6 @@ class PokemonSeeder {
                     const newMon = await Pokemon.query().insertAndFetch(mon);
                     const monTypes = parsedMonData.types
                     await TypeSeeder.seedSlots(newMon, monTypes)
-
-                    // return heeebidyjeebidy
                 }
             }
         }
