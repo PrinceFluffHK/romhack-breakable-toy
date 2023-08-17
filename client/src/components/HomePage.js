@@ -7,7 +7,7 @@ const HomePage = (props) => {
             <div className="nav-pane-left">
                 <h1 className="right-text">Prince Fluff's</h1>
                 <img
-                    className="left-pane-image"
+                    className="image-left-pane"
                     src="https://preview.redd.it/gzv1pc4bvdyz.png?width=640&crop=smart&auto=webp&s=198383d05cff22edc432f9311ecd31b98d56761c"
                 />
             </div>

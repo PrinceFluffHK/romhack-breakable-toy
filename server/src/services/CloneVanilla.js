@@ -42,7 +42,7 @@ class CloneVanilla {
             .whereNot("generation", ">", generation)
             .andWhere("projectId", null);
         const projectTypeSlots = [];
-        const manipVanillaPokemon = await Promise.all(
+        const manipulateVanillaPokemon = await Promise.all(
             vanillaPokemon.map(async (mon) => {
                 const relatedVanillaTypes = await mon.$relatedQuery("types");
                 const matchingMon = projectPokemon.find((matchMon) => matchMon.name === mon.name);
