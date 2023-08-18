@@ -5,8 +5,8 @@ import AbilitySlotSeeder from "./AbilitySlotSeeder.js";
 
 class PokemonSeeder {
     static async seed() {
-        const vanillaAbilities = Ability.query().where("projectId", null)
-        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=15");
+        const vanillaAbilities = await Ability.query().where("projectId", null)
+        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=50");
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
         const abilityArraysArray = []
@@ -39,7 +39,7 @@ class PokemonSeeder {
                     };
                     console.log(`Inserting ${mon.name}`)
                     const newMon = await Pokemon.query().insertAndFetch(mon);
-                    const abilitySlotsArray = AbilitySlotSeeder.construct(newMon.id, parsedMonData.abilities, vanillaAbilities)
+                    const abilitySlotsArray = await AbilitySlotSeeder.construct(newMon.id, parsedMonData.abilities, vanillaAbilities)
                     abilityArraysArray.push(abilitySlotsArray)
                     const monTypes = parsedMonData.types
                     await TypeSeeder.seedSlots(newMon, monTypes)
@@ -47,6 +47,7 @@ class PokemonSeeder {
             }
         }
         const flattenedArray = abilityArraysArray.flat()
+        console.log("Inserting ability slots...")
         await AbilitySlot.query().insertGraph(flattenedArray)
     }
 

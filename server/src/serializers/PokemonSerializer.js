@@ -33,21 +33,31 @@ class PokemonSerializer {
                 if (serializedMon.name === "Squirtle") {
                     serializedMon.name = "[REDACTED]"
                 }
+                serializedMon.types = await this.getTypes(mon)
+                serializedMon.abilities = await this.getAbilities(mon)
 
-                const types = await mon.$relatedQuery("types")
-                const reversedTypes = types.map(type => {
-                    const upperTypeName = _.capitalize(type.name)
-                    return {
-                        name: upperTypeName,
-                        icon: type.iconUrl,
-                        label: type.labelUrl
-                    }
-                })
-                serializedMon.types = reversedTypes.reverse()
                 return serializedMon
             })
         )
         return serializedPokemon
+    }
+
+    static async getTypes(mon) {
+        const types = await mon.$relatedQuery("types")
+        const reversedTypes = types.map(type => {
+            const upperTypeName = _.capitalize(type.name)
+            return {
+                name: upperTypeName,
+                icon: type.iconUrl,
+                label: type.labelUrl
+            }
+        })
+        return reversedTypes.reverse()
+    }
+
+    static async getAbilities(mon) {
+        // const abilities = await mon.$relatedQuery("abilities")
+        // console.log(abilities)
     }
 }
 

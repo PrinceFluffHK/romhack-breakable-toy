@@ -13,11 +13,6 @@ class AbilitySlotSeeder {
         });
         return projectAbilitySlots
     }
-
-    // static async flattenAndInsert(abilitiesArray) {
-    //     const flattenedArray = abilitiesArray.flat()
-
-    // }
 }
 
 export default AbilitySlotSeeder;

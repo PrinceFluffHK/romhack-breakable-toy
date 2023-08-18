@@ -53,8 +53,8 @@ class TypeSeeder {
         switch (typeName) {
             case "normal":
                 return {
-                    iconUrl: "https://pfrs-production.s3.amazonaws.com/NormalIC_SV.png",
-                    labelUrl: "https://pfrs-production.s3.amazonaws.com/Normal_icon_HOME3.png",
+                    iconUrl: "https://pfrs-production.s3.amazonaws.com/Normal_icon_HOME3.png",
+                    labelUrl: "https://pfrs-production.s3.amazonaws.com/NormalIC_SV.png",
                 };
             case "fighting":
                 return {

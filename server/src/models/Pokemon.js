@@ -6,7 +6,7 @@ class Pokemon extends Model {
     }
 
     static get relationMappings() {
-        const { TypeSlot, Type } = require("./index");
+        const { TypeSlot, Type, Ability, AbilitySlot } = require("./index");
         return {
             typeSlots: {
                 relation: Model.HasManyRelation,
@@ -28,6 +28,27 @@ class Pokemon extends Model {
                     to: "types.id",
                 },
             },
+
+            abilitySlots: {
+                relation: Model.HasManyRelation,
+                modelClass: AbilitySlot,
+                join: {
+                    from: "pokemon.id",
+                    to: "ability-slots.pokemonId",
+                },
+            },
+            abilities: {
+                relation: Model.ManyToManyRelation,
+                modelClass: Ability,
+                join: {
+                    from: "pokemon.id",
+                    through: {
+                        from: "ability-slots.pokemonId",
+                        to: "ability-slots.abilityId"
+                    },
+                    to: "abilities.id"
+                }
+            }
         };
     }
 

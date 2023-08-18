@@ -1,5 +1,5 @@
 import express from "express";
-import { Project } from "../../../models/index.js";
+import { Pokemon, Project, Type } from "../../../models/index.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js";
 import { ValidationError } from "objection";
@@ -39,21 +39,27 @@ projectsRouter.post("/", async (req, res) => {
         const newProject = await Project.query().insertAndFetch(formData);
         const { generation, id } = newProject;
         if (usePreset) {
+
             const projectPokemon = await CloneVanilla.pokemon(generation, id);
+
             const projectTypes = await CloneVanilla.types(generation, id);
-            const projectTypeSlots = await CloneVanilla.typeSlots(
+
+            await CloneVanilla.typeSlots(
                 projectPokemon,
                 projectTypes,
                 id,
                 generation
             );
-            const projectAbilities = await CloneVanilla.abilities(generation, id)
-            const projectAbilitySlots = await CloneVanilla.abilitySlots(
-                projectPokemon,
-                projectAbilities,
-                id,
-                generation
-            )
+
+            if (generation >= 3) {
+                const projectAbilities = await CloneVanilla.abilities(generation, id);
+                const projectAbilitySlots = await CloneVanilla.abilitySlots(
+                    projectPokemon,
+                    projectAbilities,
+                    id,
+                    generation
+                );
+            }
         }
         return res.status(201).json({ newProject });
     } catch (error) {
