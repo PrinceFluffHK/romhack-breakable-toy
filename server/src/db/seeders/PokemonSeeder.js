@@ -1,12 +1,15 @@
 import got from "got";
-import { Pokemon } from "../../models/index.js";
+import { Ability, AbilitySlot, Pokemon } from "../../models/index.js";
 import TypeSeeder from "./TypeSeeder.js";
+import AbilitySlotSeeder from "./AbilitySlotSeeder.js";
 
 class PokemonSeeder {
     static async seed() {
-        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=100000");
+        const vanillaAbilities = Ability.query().where("projectId", null)
+        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=15");
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
+        const abilityArraysArray = []
         for (const singleMon of parsedMonList) {
             const currentMon = await Pokemon.query().findOne({
                 name: singleMon.name,
@@ -36,13 +39,15 @@ class PokemonSeeder {
                     };
                     console.log(`Inserting ${mon.name}`)
                     const newMon = await Pokemon.query().insertAndFetch(mon);
+                    const abilitySlotsArray = AbilitySlotSeeder.construct(newMon.id, parsedMonData.abilities, vanillaAbilities)
+                    abilityArraysArray.push(abilitySlotsArray)
                     const monTypes = parsedMonData.types
                     await TypeSeeder.seedSlots(newMon, monTypes)
-
-                    return heeebidyjeebidy
                 }
             }
         }
+        const flattenedArray = abilityArraysArray.flat()
+        await AbilitySlot.query().insertGraph(flattenedArray)
     }
 
     static getPokemonGen(monId) {
