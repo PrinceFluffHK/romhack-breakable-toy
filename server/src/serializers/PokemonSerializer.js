@@ -44,7 +44,7 @@ class PokemonSerializer {
 
     static async getTypes(mon) {
         const types = await mon.$relatedQuery("types")
-        const reversedTypes = types.map(type => {
+        const backwardsTypes = types.map(type => {
             const upperTypeName = _.capitalize(type.name)
             return {
                 name: upperTypeName,
@@ -52,12 +52,27 @@ class PokemonSerializer {
                 label: type.labelUrl
             }
         })
-        return reversedTypes.reverse()
+        return backwardsTypes.reverse()
     }
 
     static async getAbilities(mon) {
-        // const abilities = await mon.$relatedQuery("abilities")
-        // console.log(abilities)
+        try {
+            const abilitySlots = await mon.$relatedQuery("abilitySlots")
+            const abilities = await Promise.all(
+                abilitySlots.map(async (slot) => {
+                    const ability = await slot.$relatedQuery("ability")
+                    const upperName = _.capitalize(ability.name)
+                    return {
+                        name: upperName,
+                        slot: slot.slotNum,
+                        description: ability.description
+                    }
+                })
+            )
+            return abilities
+        } catch (error) {
+            console.error("Failed to get ability slots")
+        }
     }
 }
 
