@@ -1,4 +1,4 @@
-import { Pokemon, Type, TypeSlot } from "../models/index.js";
+import { Ability, Pokemon, Type, TypeSlot } from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
@@ -62,6 +62,28 @@ class CloneVanilla {
         );
         const clonedTypeSlots = await TypeSlot.query().insertGraphAndFetch(projectTypeSlots);
         return clonedTypeSlots;
+    }
+
+    static async abilities(generation, projectId) {
+        const vanillaAbilities = await Ability.query()
+            .whereNot("generation", ">", generation)
+            .andWhere("projectId", null);
+        const projectAbilities = vanillaAbilities.map((ability) => {
+            const newAbility = {
+                ...ability,
+                projectId,
+            };
+            delete newAbility.id;
+            delete newAbility.createdAt;
+            delete newAbility.updatedAt;
+            return newAbility;
+        });
+        const clonedAbilities = await Ability.query().insertGraphAndFetch(projectAbilities);
+        return clonedAbilities;
+    }
+
+    static async abilitySlots() {
+        
     }
 }
 

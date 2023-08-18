@@ -4,6 +4,7 @@ import ProjectSeeder from "./seeders/ProjectSeeder.js"
 import UserSeeder from "./seeders/UserSeeder.js"
 import PokemonSeeder from "./seeders/PokemonSeeder.js"
 import TypeSeeder from "./seeders/TypeSeeder.js"
+import AbilitySeeder from "./seeders/AbilitySeeder.js"
 
 class Seeder {
   static async seed() {
@@ -17,6 +18,9 @@ class Seeder {
 
     console.log("Seeding types...")
     await TypeSeeder.seed()
+
+    console.log("Seeding abilities...")
+    await AbilitySeeder.seed()
 
     console.log("Seeding pokemon...")
     await PokemonSeeder.seed()

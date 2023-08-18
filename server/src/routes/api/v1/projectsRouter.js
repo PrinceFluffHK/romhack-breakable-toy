@@ -47,6 +47,13 @@ projectsRouter.post("/", async (req, res) => {
                 id,
                 generation
             );
+            const projectAbilities = await CloneVanilla.abilities(generation, id)
+            const projectAbilitySlots = await CloneVanilla.abilitySlots(
+                projectPokemon,
+                projectAbilities,
+                id,
+                generation
+            )
         }
         return res.status(201).json({ newProject });
     } catch (error) {
