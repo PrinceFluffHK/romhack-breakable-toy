@@ -1,5 +1,6 @@
 import React from "react";
 import getTypeDisplay from "../../services/getTypeDisplay";
+import AbilityDisplayShow from "./AbilityDisplayShow";
 
 const PokemonShow = ({ selectedMon }) => {
     const typeDisplay = getTypeDisplay(selectedMon.types, "flex-show-top", "image-show-label");
@@ -10,9 +11,7 @@ const PokemonShow = ({ selectedMon }) => {
                 <div id="type-cell" className="">
                     <img src={selectedMon.profileUrl} className="sprite-show" />
                 </div>
-                <div id="abilities" className="flex-show-top">
-                    [Abilities]
-                </div>
+                <AbilityDisplayShow abilities={selectedMon.abilities} />
             </div>
             <div id="evo-and-stats-row">
                 <h1>[Evos and Stats]</h1>

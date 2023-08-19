@@ -15,6 +15,7 @@ const PokemonTile = ({
     baseSpD,
     baseSpe,
     types,
+    abilities
 }) => {
     const handleSelect = () => {
         if (selectedId === id) {
@@ -46,6 +47,7 @@ const PokemonTile = ({
                 baseSpD={baseSpD}
                 baseSpe={baseSpe}
                 types={types}
+                abilities={abilities}
             />
         </div>
     );

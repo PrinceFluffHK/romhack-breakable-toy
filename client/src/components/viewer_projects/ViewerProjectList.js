@@ -26,7 +26,11 @@ const ViewerProjectList = (props) => {
 
     const projectsToRender = projectList.map((project) => {
         return (
-            <Link key={project.id} to={`/projects/${project.id}/pokemon`} className="button project-list flex-left">
+            <Link
+                key={project.id}
+                to={`/projects/${project.id}/pokemon`}
+                className="button project-list flex-left"
+            >
                 <ProjectTile
                     projectName={project.projectName}
                     regionName={project.regionName}

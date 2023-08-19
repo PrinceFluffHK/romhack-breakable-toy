@@ -42,9 +42,6 @@ class TypeSeeder {
                 typeId: currentType.id,
                 pokemonId: mon.id,
             };
-            console.log(
-                `Inserting ${singleType.type.name} into ${mon.name} in slot ${singleType.slot}`
-            );
             await TypeSlot.query().insert(typeSlot);
         }
     }
@@ -53,8 +50,8 @@ class TypeSeeder {
         switch (typeName) {
             case "normal":
                 return {
-                    iconUrl: "https://pfrs-production.s3.amazonaws.com/NormalIC_SV.png",
-                    labelUrl: "https://pfrs-production.s3.amazonaws.com/Normal_icon_HOME3.png",
+                    iconUrl: "https://pfrs-production.s3.amazonaws.com/Normal_icon_HOME3.png",
+                    labelUrl: "https://pfrs-production.s3.amazonaws.com/NormalIC_SV.png",
                 };
             case "fighting":
                 return {

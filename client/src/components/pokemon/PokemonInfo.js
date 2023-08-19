@@ -1,5 +1,6 @@
 import React from "react";
 import getTypeDisplay from "../../services/getTypeDisplay";
+import AbilityDisplayList from "./AbilityDisplayList";
 
 const PokemonInfo = ({
     selectedId,
@@ -10,7 +11,9 @@ const PokemonInfo = ({
     baseSpD,
     baseSpe,
     types,
+    abilities
 }) => {
+
     const typeDisplay = getTypeDisplay(types, "", "image-type-label");
 
     const statList = [
@@ -39,12 +42,31 @@ const PokemonInfo = ({
             value: baseSpe,
         },
     ];
+    
+    let statTotal = 0
+    const statDisplay = statList.map(stat => {
+        statTotal += stat.value
+        return(
+            <div key={stat.name} className="flex-single-stat">
+                {stat.value}
+            </div>
+        )
+    })
 
     if (selectedId === 0) {
         return (
             <div className="poke-grid-list-info">
                 <div className="flex-small-types">
                     <div className="">{typeDisplay}</div>
+                </div>
+                <AbilityDisplayList
+                    abilities={abilities}
+                />
+                <div id="stats-display" className="poke-grid-stats-list">
+                    {statDisplay}
+                    <div className="flex-single-stat text-bold">
+                        {statTotal}
+                    </div>
                 </div>
             </div>
         );

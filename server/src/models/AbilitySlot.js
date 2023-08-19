@@ -2,7 +2,7 @@ const Model = require("./Model");
 
 class AbilitySlot extends Model {
     static get tableName() {
-        return "abilities"
+        return "ability-slots"
     }
 
     static get relationMappings() {

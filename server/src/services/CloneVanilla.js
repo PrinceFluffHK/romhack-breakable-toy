@@ -1,4 +1,4 @@
-import { Ability, Pokemon, Type, TypeSlot } from "../models/index.js";
+import { Ability, AbilitySlot, Pokemon, Type, TypeSlot } from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
@@ -41,33 +41,44 @@ class CloneVanilla {
         const vanillaPokemon = await Pokemon.query()
             .whereNot("generation", ">", generation)
             .andWhere("projectId", null);
-        const projectTypeSlots = [];
-        const manipulateVanillaPokemon = await Promise.all(
-            vanillaPokemon.map(async (mon) => {
+        const slotsNestedArray = await Promise.all(
+            vanillaPokemon.map(async (mon, index) => {
                 const relatedVanillaTypes = await mon.$relatedQuery("types");
                 const matchingMon = projectPokemon.find((matchMon) => matchMon.name === mon.name);
-                relatedVanillaTypes.forEach((type, index) => {
-                    const matchingType = projectTypes.find(
-                        (matchType) => matchType.name === type.name
-                    );
-                    const newTypeSlot = {
-                        slotNum: index + 1,
-                        typeId: matchingType.id,
-                        pokemonId: matchingMon.id,
-                        projectId,
-                    };
-                    projectTypeSlots.push(newTypeSlot);
-                });
+                const slotsArray = this.buildTypeSlotsArray(
+                    relatedVanillaTypes,
+                    projectTypes,
+                    projectId,
+                    matchingMon
+                );
+                return slotsArray;
             })
         );
-        const clonedTypeSlots = await TypeSlot.query().insertGraphAndFetch(projectTypeSlots);
-        return clonedTypeSlots;
+        const flattenedArray = slotsNestedArray.flat();
+        await TypeSlot.query().insertGraph(flattenedArray);
+    }
+
+    static buildTypeSlotsArray(typesArray, projectTypes, projectId, matchingMon) {
+        const slotsArray = typesArray.map((type, index) => {
+            let matchingType = projectTypes.find((matchType) => matchType.name === type.name);
+            if (!matchingType) {
+                const projectNormal = projectTypes.find((matchType) => matchType.name === "normal");
+                matchingType = projectNormal;
+            }
+            const newTypeSlot = {
+                slotNum: typesArray.length - index,
+                typeId: matchingType.id,
+                pokemonId: matchingMon.id,
+                projectId,
+            };
+            return newTypeSlot;
+        });
+        return slotsArray;
     }
 
     static async abilities(generation, projectId) {
-        const vanillaAbilities = await Ability.query()
-            .whereNot("generation", ">", generation)
-            .andWhere("projectId", null);
+        const vanillaAbilities = await Ability.query().where("projectId", null);
+        // not currently accounting for past generation ability assignments
         const projectAbilities = vanillaAbilities.map((ability) => {
             const newAbility = {
                 ...ability,
@@ -82,8 +93,49 @@ class CloneVanilla {
         return clonedAbilities;
     }
 
-    static async abilitySlots() {
-        
+    static async abilitySlots(projectPokemon, projectAbilities, projectId, generation) {
+        const vanillaPokemon = await Pokemon.query()
+            .whereNot("generation", ">", generation)
+            .andWhere("projectId", null);
+        const slotsNestedArray = await Promise.all(
+            vanillaPokemon.map(async (mon) => {
+                const relatedVanillaAbilities = await mon.$relatedQuery("abilities");
+                const relatedVanillaSlots = await mon.$relatedQuery("abilitySlots");
+                const matchingMon = projectPokemon.find((matchMon) => matchMon.name === mon.name);
+                return this.buildAbilitySlotsArray(
+                    relatedVanillaAbilities,
+                    relatedVanillaSlots,
+                    projectAbilities,
+                    projectId,
+                    matchingMon
+                );
+            })
+        );
+        const flattenedArray = slotsNestedArray.flat();
+        const clonedAbilitySlots = await AbilitySlot.query().insertGraphAndFetch(flattenedArray);
+        return clonedAbilitySlots;
+    }
+
+    static buildAbilitySlotsArray(
+        vanillaAbilities,
+        vanillaSlots,
+        projectAbilities,
+        projectId,
+        matchingMon
+    ) {
+        const slotsArray = vanillaAbilities.map((ability, index) => {
+            const matchingAbility = projectAbilities.find(
+                (matchAbility) => matchAbility.name === ability.name
+            );
+            const newTypeSlot = {
+                slotNum: vanillaSlots[index].slotNum,
+                abilityId: matchingAbility.id,
+                pokemonId: matchingMon.id,
+                projectId,
+            };
+            return newTypeSlot;
+        });
+        return slotsArray;
     }
 
     static async evoTriggers() {

@@ -10,7 +10,7 @@ class ProjectSerializer {
                     serializedProject[attribute] = project[attribute];
                 }
                 const creator = await project.$relatedQuery("creator");
-                serializedProject.creatorName = creator.username
+                serializedProject.creatorName = creator.username;
                 return serializedProject;
             })
         );

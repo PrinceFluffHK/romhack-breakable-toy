@@ -59,9 +59,21 @@ const PokemonPage = (props) => {
                         <div className="flex-between margins-even-1rem">
                             <h4>#: Pokemon</h4>
                         </div>
-                        <h4>
-                            Types
-                        </h4>
+                        <h4>Types</h4>
+                        <div className="poke-grid-abilities-list">
+                            <h4 className="flex-single-ability">Ability 1</h4>
+                            <h4 className="flex-single-ability">Ability 2</h4>
+                            <h4 className="flex-single-ability">Ability 3</h4>
+                        </div>
+                        <div className="poke-grid-stats-list">
+                            <div className="flex-single-stat">HP</div>
+                            <div className="flex-single-stat">Atk</div>
+                            <div className="flex-single-stat">Def</div>
+                            <div className="flex-single-stat">SpA</div>
+                            <div className="flex-single-stat">SpD</div>
+                            <div className="flex-single-stat">Spe</div>
+                            <div className="flex-single-stat text-bold">BST</div>
+                        </div>
                     </div>
                     <div className="poke-grid-normalized overflow-scroll">{pokemonTiles}</div>
                 </div>

@@ -8,10 +8,10 @@ class AbilitySlotSeeder {
                 slotNum: ability.slot,
                 pokemonId: monId,
                 abilityId: abilityWithId[0].id,
-            }
-            return newSlot
+            };
+            return newSlot;
         });
-        return projectAbilitySlots
+        return projectAbilitySlots;
     }
 }
 
