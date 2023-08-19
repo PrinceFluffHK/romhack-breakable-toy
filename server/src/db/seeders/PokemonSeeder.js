@@ -1,12 +1,13 @@
 import got from "got";
-import { Ability, AbilitySlot, Pokemon } from "../../models/index.js";
+import { Ability, AbilitySlot, Evolution, Pokemon } from "../../models/index.js";
 import TypeSeeder from "./TypeSeeder.js";
 import AbilitySlotSeeder from "./AbilitySlotSeeder.js";
+import EvolutionSeeder from "./EvolutionSeeder.js";
 
 class PokemonSeeder {
-    static async seed() {
+    static async seed(cap) {
         const vanillaAbilities = await Ability.query().where("projectId", null);
-        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=50");
+        const rawAllMons = await got(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${cap}`);
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
         const abilityArraysArray = [];
@@ -41,19 +42,21 @@ class PokemonSeeder {
                     };
                     console.log(`Inserting ${mon.name}`);
                     const newMon = await Pokemon.query().insertAndFetch(mon);
+
                     const abilitySlotsArray = await AbilitySlotSeeder.construct(
                         newMon.id,
                         parsedMonData.abilities,
                         vanillaAbilities
                     );
                     abilityArraysArray.push(abilitySlotsArray);
+
                     const monTypes = parsedMonData.types;
                     await TypeSeeder.seedSlots(newMon, monTypes);
                 }
             }
         }
         const flattenedArray = abilityArraysArray.flat();
-        console.log("Inserting ability slots...");
+        console.log("Seeding ability slots...");
         await AbilitySlot.query().insertGraph(flattenedArray);
     }
 

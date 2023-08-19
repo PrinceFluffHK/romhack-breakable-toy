@@ -5,6 +5,8 @@ import UserSeeder from "./seeders/UserSeeder.js";
 import PokemonSeeder from "./seeders/PokemonSeeder.js";
 import TypeSeeder from "./seeders/TypeSeeder.js";
 import AbilitySeeder from "./seeders/AbilitySeeder.js";
+import EvoTriggerSeeder from "./seeders/EvoTriggerSeeder.js";
+import EvolutionSeeder from "./seeders/EvolutionSeeder.js";
 
 class Seeder {
     static async seed() {
@@ -20,10 +22,16 @@ class Seeder {
         await TypeSeeder.seed();
 
         console.log("Seeding abilities...");
-        await AbilitySeeder.seed();
+        await AbilitySeeder.seed(358); //current count: 358
+        
+        console.log("Seeding evolution triggers...")
+        await EvoTriggerSeeder.seed();
 
         console.log("Seeding pokemon...");
-        await PokemonSeeder.seed();
+        await PokemonSeeder.seed(150); //current count: 1281
+
+        console.log("Seeding evolutions...")
+        await EvolutionSeeder.seed(530) //current count: 530
 
         console.log("Done!");
         await connection.destroy();

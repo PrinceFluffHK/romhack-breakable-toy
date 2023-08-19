@@ -3,8 +3,8 @@ import { Ability } from "../../models/index.js";
 import parseGeneration from "../../services/parseGeneration.js";
 
 class AbilitySeeder {
-    static async seed() {
-        const rawAllAbilities = await got("https://pokeapi.co/api/v2/ability?offset=0&limit=300");
+    static async seed(cap) {
+        const rawAllAbilities = await got(`https://pokeapi.co/api/v2/ability?offset=0&limit=${cap}`);
         const parsedAllAbilities = JSON.parse(rawAllAbilities.body);
         const parsedAbilityList = parsedAllAbilities.results;
         for (const singleAbility of parsedAbilityList) {
