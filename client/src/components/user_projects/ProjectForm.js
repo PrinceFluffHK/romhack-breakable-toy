@@ -57,11 +57,11 @@ const ProjectForm = (props) => {
             [event.currentTarget.name]: event.currentTarget.value,
         });
     };
-    let usePresetValue = ""
+    let usePresetValue = "";
     if (projectRecord.usePreset) {
-        usePresetValue = "Yes"
+        usePresetValue = "Yes";
     } else {
-        usePresetValue = "No"
+        usePresetValue = "No";
     }
     const handleCheckbox = (event) => {
         let bool;
@@ -105,11 +105,7 @@ const ProjectForm = (props) => {
                     </label>
                     <label htmlFor="usePreset">
                         <h3>Use Preset?</h3>
-                        <button 
-                            className="button" 
-                            type="button"
-                            onClick={handleCheckbox}
-                        >
+                        <button className="button" type="button" onClick={handleCheckbox}>
                             {usePresetValue}
                         </button>
                     </label>

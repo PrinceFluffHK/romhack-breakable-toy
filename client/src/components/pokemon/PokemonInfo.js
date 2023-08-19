@@ -1,6 +1,6 @@
 import React from "react";
 import getTypeDisplay from "../../services/getTypeDisplay";
-import AbilityDisplay from "./AbilityDisplay";
+import AbilityDisplayList from "./AbilityDisplayList";
 
 const PokemonInfo = ({
     selectedId,
@@ -14,7 +14,6 @@ const PokemonInfo = ({
     abilities
 }) => {
 
-    console.log()
     const typeDisplay = getTypeDisplay(types, "", "image-type-label");
 
     const statList = [
@@ -43,8 +42,10 @@ const PokemonInfo = ({
             value: baseSpe,
         },
     ];
-
+    
+    let statTotal = 0
     const statDisplay = statList.map(stat => {
+        statTotal += stat.value
         return(
             <div key={stat.name} className="flex-single-stat">
                 {stat.value}
@@ -58,11 +59,14 @@ const PokemonInfo = ({
                 <div className="flex-small-types">
                     <div className="">{typeDisplay}</div>
                 </div>
-                <AbilityDisplay
+                <AbilityDisplayList
                     abilities={abilities}
                 />
                 <div id="stats-display" className="poke-grid-stats-list">
                     {statDisplay}
+                    <div className="flex-single-stat text-bold">
+                        {statTotal}
+                    </div>
                 </div>
             </div>
         );

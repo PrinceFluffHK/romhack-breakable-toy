@@ -42,9 +42,6 @@ class TypeSeeder {
                 typeId: currentType.id,
                 pokemonId: mon.id,
             };
-            console.log(
-                `Inserting ${singleType.type.name} into ${mon.name} in slot ${singleType.slot}`
-            );
             await TypeSlot.query().insert(typeSlot);
         }
     }

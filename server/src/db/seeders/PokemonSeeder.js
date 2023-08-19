@@ -5,17 +5,19 @@ import AbilitySlotSeeder from "./AbilitySlotSeeder.js";
 
 class PokemonSeeder {
     static async seed() {
-        const vanillaAbilities = await Ability.query().where("projectId", null)
+        const vanillaAbilities = await Ability.query().where("projectId", null);
         const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=50");
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
-        const abilityArraysArray = []
+        const abilityArraysArray = [];
         for (const singleMon of parsedMonList) {
             const currentMon = await Pokemon.query().findOne({
                 name: singleMon.name,
             });
-            if(!currentMon) {
-                const rawMonData = await got(`https://pokeapi.co/api/v2/pokemon/${singleMon.name}/`);
+            if (!currentMon) {
+                const rawMonData = await got(
+                    `https://pokeapi.co/api/v2/pokemon/${singleMon.name}/`
+                );
                 if (rawMonData) {
                     const parsedMonData = JSON.parse(rawMonData.body);
                     const mon = {
@@ -35,57 +37,61 @@ class PokemonSeeder {
                         spriteUrl: parsedMonData.sprites.front_default,
                         profileUrl: parsedMonData.sprites.other["official-artwork"].front_default,
                         nationalNum: parsedMonData.id,
-                        generation: this.getPokemonGen(parsedMonData.id)
+                        generation: this.getPokemonGen(parsedMonData.id),
                     };
-                    console.log(`Inserting ${mon.name}`)
+                    console.log(`Inserting ${mon.name}`);
                     const newMon = await Pokemon.query().insertAndFetch(mon);
-                    const abilitySlotsArray = await AbilitySlotSeeder.construct(newMon.id, parsedMonData.abilities, vanillaAbilities)
-                    abilityArraysArray.push(abilitySlotsArray)
-                    const monTypes = parsedMonData.types
-                    await TypeSeeder.seedSlots(newMon, monTypes)
+                    const abilitySlotsArray = await AbilitySlotSeeder.construct(
+                        newMon.id,
+                        parsedMonData.abilities,
+                        vanillaAbilities
+                    );
+                    abilityArraysArray.push(abilitySlotsArray);
+                    const monTypes = parsedMonData.types;
+                    await TypeSeeder.seedSlots(newMon, monTypes);
                 }
             }
         }
-        const flattenedArray = abilityArraysArray.flat()
-        console.log("Inserting ability slots...")
-        await AbilitySlot.query().insertGraph(flattenedArray)
+        const flattenedArray = abilityArraysArray.flat();
+        console.log("Inserting ability slots...");
+        await AbilitySlot.query().insertGraph(flattenedArray);
     }
 
     static getPokemonGen(monId) {
         if (monId <= 151) {
-            return 1
+            return 1;
         } else if (monId <= 251) {
-            return 2
+            return 2;
         } else if (monId <= 386) {
-            return 3
+            return 3;
         } else if (monId <= 493) {
-            return 4
+            return 4;
         } else if (monId <= 649) {
-            return 5
+            return 5;
         } else if (monId <= 721) {
-            return 6
+            return 6;
         } else if (monId <= 809) {
-            return 7
+            return 7;
         } else if (monId <= 905) {
-            return 8
+            return 8;
         } else if (monId <= 1200) {
-            return 9
+            return 9;
         } else if (monId <= 10003) {
-            return 3 
+            return 3;
         } else if (monId <= 10012) {
-            return 4
+            return 4;
         } else if (monId <= 10015) {
-            return 3
+            return 3;
         } else if (monId <= 10024) {
-            return 5
+            return 5;
         } else if (monId <= 10090) {
-            return 6
+            return 6;
         } else if (monId <= 10160) {
-            return 7
+            return 7;
         } else if (monId <= 10249) {
-            return 8
+            return 8;
         } else {
-            return 9
+            return 9;
         }
     }
 }

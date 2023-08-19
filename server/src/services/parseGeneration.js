@@ -1,35 +1,35 @@
 const parseGeneration = (genString) => {
-    let genNumber = 0
+    let genNumber = 0;
     switch (genString) {
         case "generation-i":
-            genNumber = 1
-            break
+            genNumber = 1;
+            break;
         case "generation-ii":
-            genNumber = 2
-            break
+            genNumber = 2;
+            break;
         case "generation-iii":
-            genNumber = 3
-            break
+            genNumber = 3;
+            break;
         case "generation-iv":
-            genNumber = 4
-            break
+            genNumber = 4;
+            break;
         case "generation-v":
-            genNumber = 5
-            break
+            genNumber = 5;
+            break;
         case "generation-vi":
-            genNumber = 6
-            break
+            genNumber = 6;
+            break;
         case "generation-vii":
-            genNumber = 7
-            break
+            genNumber = 7;
+            break;
         case "generation-viii":
-            genNumber = 8
-            break
+            genNumber = 8;
+            break;
         case "generation-ix":
-            genNumber = 9
-            break
+            genNumber = 9;
+            break;
     }
-    return genNumber
-}
+    return genNumber;
+};
 
-export default parseGeneration
+export default parseGeneration;

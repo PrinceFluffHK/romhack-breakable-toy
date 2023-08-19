@@ -38,7 +38,6 @@ class CloneVanilla {
     }
 
     static async typeSlots(projectPokemon, projectTypes, projectId, generation) {
-        console.log("gaming.");
         const vanillaPokemon = await Pokemon.query()
             .whereNot("generation", ">", generation)
             .andWhere("projectId", null);
@@ -72,17 +71,13 @@ class CloneVanilla {
                 pokemonId: matchingMon.id,
                 projectId,
             };
-            console.log(
-                `Cloning ${type.name} onto ${matchingMon.name} at slot ${newTypeSlot.slotNum}`
-            );
             return newTypeSlot;
         });
         return slotsArray;
     }
 
     static async abilities(generation, projectId) {
-        const vanillaAbilities = await Ability.query() 
-            .where("projectId", null);
+        const vanillaAbilities = await Ability.query().where("projectId", null);
         // not currently accounting for past generation ability assignments
         const projectAbilities = vanillaAbilities.map((ability) => {
             const newAbility = {
@@ -92,7 +87,6 @@ class CloneVanilla {
             delete newAbility.id;
             delete newAbility.createdAt;
             delete newAbility.updatedAt;
-            console.log(`Cloning ${newAbility.name}`);
             return newAbility;
         });
         const clonedAbilities = await Ability.query().insertGraphAndFetch(projectAbilities);
@@ -139,9 +133,6 @@ class CloneVanilla {
                 pokemonId: matchingMon.id,
                 projectId,
             };
-            console.log(
-                `Cloning ${ability.name} onto ${matchingMon.name} at slot ${newTypeSlot.slotNum}`
-            );
             return newTypeSlot;
         });
         return slotsArray;
