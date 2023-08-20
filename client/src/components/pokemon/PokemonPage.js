@@ -52,7 +52,7 @@ const PokemonPage = (props) => {
                 <div className="nav-pane-left">
                     <h1>Filters</h1>
                 </div>
-                <div className="list-grid ">
+                <div className="list-grid overflow-scroll">
                     <h1>Pokemon</h1>
                     <h1>List of Other Things</h1>
                     <div className="poke-grid-normalized poke-grid-list-info-header">
@@ -75,7 +75,7 @@ const PokemonPage = (props) => {
                             <div className="flex-single-stat text-bold">BST</div>
                         </div>
                     </div>
-                    <div className="poke-grid-normalized overflow-scroll">{pokemonTiles}</div>
+                    <div className="poke-grid-normalized">{pokemonTiles}</div>
                 </div>
             </div>
         );

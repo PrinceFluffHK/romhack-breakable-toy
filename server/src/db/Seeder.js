@@ -28,10 +28,10 @@ class Seeder {
         await EvoTriggerSeeder.seed();
 
         console.log("Seeding pokemon...");
-        await PokemonSeeder.seed(150); //current count: 1281
+        await PokemonSeeder.seed(1281); //current count: 1281
 
         console.log("Seeding evolutions...")
-        await EvolutionSeeder.seed(530) //current count: 530
+        await EvolutionSeeder.seed(50) //current count: 530
 
         console.log("Done!");
         await connection.destroy();
