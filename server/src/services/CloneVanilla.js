@@ -1,4 +1,4 @@
-import { Ability, AbilitySlot, Pokemon, Type, TypeSlot } from "../models/index.js";
+import { Ability, AbilitySlot, EvoTrigger, Evolution, Pokemon, Type, TypeSlot } from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
@@ -138,8 +138,59 @@ class CloneVanilla {
         return slotsArray;
     }
 
-    static async evoTriggers() {
-        
+    static async evoTriggers(projectId) {
+        const vanillaTriggers = await EvoTrigger.query().where("projectId", null);
+        const projectTriggers = vanillaTriggers.map((trigger) => {
+            const newTrigger = {
+                ...trigger,
+                projectId,
+            };
+            delete newTrigger.id;
+            delete newTrigger.createdAt;
+            delete newTrigger.updatedAt;
+            return newTrigger;
+        });
+        const clonedTriggers = await EvoTrigger.query().insertGraphAndFetch(projectTriggers);
+        return clonedTriggers;
+    }
+
+    static async evolutions(projectPokemon, projectTriggers, projectId, generation) {
+        const vanillaPokemon = await Pokemon.query()
+            .whereNot("generation", ">", generation)
+            .andWhere("projectId", null);
+        const projectEvolutions = await Promise.all(
+            vanillaPokemon.map(async (mon) => {
+                const matchingPreEvo = projectPokemon.find((matchMon) => matchMon.name === mon.name);
+                const relatedEvolutions = await mon.$relatedQuery("futureEvolutions");
+                const clonedEvolutions = await Promise.all(
+                    relatedEvolutions.map(async (evolution) => {
+                        const relatedVanillaTrigger = await evolution.$relatedQuery("trigger");
+                        const matchingTrigger = projectTriggers.find(
+                            (matchTrigger) => matchTrigger.name === relatedVanillaTrigger.name
+                        );
+
+                        const relatedVanillaPostEvo = await evolution.$relatedQuery("postEvo")
+                        const matchingPostEvo = projectPokemon.find(
+                            (matchMon) => matchMon.name === relatedVanillaPostEvo.name
+                        )
+
+                        const newEvolution = {
+                            triggerId: matchingTrigger.id,
+                            preEvoId: matchingPreEvo.id,
+                            postEvoId: matchingPostEvo.id,
+                            levelReq: evolution.levelReq,
+                            parameters: evolution.parameters,
+                            projectId,
+                        }
+                        return newEvolution
+                    })
+                );
+                return clonedEvolutions
+            })
+        );
+        const flattenedEvolutions = projectEvolutions.flat()
+        console.log(flattenedEvolutions)
+        // await Evolution.query().insertGraph(flattenedEvolutions)
     }
 }
 

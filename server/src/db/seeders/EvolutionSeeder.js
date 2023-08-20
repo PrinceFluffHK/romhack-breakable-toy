@@ -1,6 +1,6 @@
 import got from "got";
 import _ from "lodash"
-import { EvoTrigger, Pokemon } from "../../models/index.js";
+import { EvoTrigger, Evolution, Pokemon } from "../../models/index.js";
 
 class EvolutionSeeder {
     static async seed(cap) {
@@ -17,13 +17,12 @@ class EvolutionSeeder {
                     name: parsedChainData.chain.species.name,
                     projectId: null,
                 });
-                console.log("linkOneMon: ", linkOneMon)
-                const linksArray = this.parseEvolutions(linkOneMon, parsedChainData.chain.evolves_to)
+                const linksArray = await this.parseEvolutions(linkOneMon, parsedChainData.chain.evolves_to)
                 return linksArray;
             })
         );
-        const flatChainList = deepChainList.flat();
-        console.log(flatChainList)
+        const flatChainList = deepChainList.flat(2);
+        await Evolution.query().insertGraph(flatChainList)
     }
 
     static async parseEvolutions(currentLinkMon, evolves_to_array) {
@@ -34,20 +33,26 @@ class EvolutionSeeder {
                         name: nextLink.species.name,
                         projectId: null,
                     });
-                    const details = await this.getDetails(nextLink.evolution_details[0]);
-                    const newLink = {
-                        preEvoId: currentLinkMon.id,
+                    const currentLink = await Evolution.query().findOne({
                         postEvoId: nextLinkMon.id,
-                        triggerId: details.triggerId,
-                        levelReq: details.levelReq,
-                        parameters: details.parameters,
-                    };
-                    console.log(`Inserting evolution from ${currentLinkMon.name} to ${nextLinkMon.name}`)
-                    const nextLinks = this.parseEvolutions(nextLinkMon, nextLink.evolves_to)
-                    if(nextLinks) {
-                        return [newLink, nextLinks]
-                    } else {
-                        return newLink
+                        projectId: null,
+                    })
+                    if (!currentLink) {
+                        const details = await this.getDetails(nextLink.evolution_details[0]);
+                        const newLink = {
+                            preEvoId: currentLinkMon.id,
+                            postEvoId: nextLinkMon.id,
+                            triggerId: details.triggerId,
+                            levelReq: details.levelReq,
+                            parameters: details.parameters,
+                        };
+                        console.log(`Inserting evolution from ${currentLinkMon.name} to ${nextLinkMon.name}`)
+                        const nextLinks = await this.parseEvolutions(nextLinkMon, nextLink.evolves_to)
+                        if(nextLinks) {
+                            return [newLink, ...nextLinks]
+                        } else {
+                            return newLink
+                        }
                     }
                 })
             )
@@ -104,15 +109,15 @@ class EvolutionSeeder {
         }
         if (known_move) {
             const capitalMove = _.capitalize(known_move.name)
-            parameters = parameters.concat(`\nKnowing: ${capitalMove}`)
+            parameters = parameters.concat(`\nKnowing ${capitalMove}`)
         }
         if (known_move_type) {
             const capitalType = _.capitalize(known_move_type.name)
-            parameters = parameters.concat(`\nKnowing: ${capitalType}-type move`)
+            parameters = parameters.concat(`\nKnowing a ${capitalType}-type move`)
         }
         if (location) {
             const capitalLocation = _.capitalize(location.name)
-            parameters = parameters.concat(`\nKnowing: ${capitalLocation}`)
+            parameters = parameters.concat(`\nAt ${capitalLocation}`)
         }
         if (min_affection) {
             parameters = parameters.concat(`\nAffection: ${min_affection}`)

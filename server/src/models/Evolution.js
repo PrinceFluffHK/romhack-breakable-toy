@@ -8,7 +8,7 @@ class Evolution extends Model {
     static get relationMappings() {
         const { EvoTrigger, Pokemon } = require("./index.js");
         return {
-            triggers: {
+            trigger: {
                 relation: Model.BelongsToOneRelation,
                 modelClass: EvoTrigger,
                 join: {

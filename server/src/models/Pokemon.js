@@ -6,7 +6,7 @@ class Pokemon extends Model {
     }
 
     static get relationMappings() {
-        const { TypeSlot, Type, Ability, AbilitySlot } = require("./index");
+        const { TypeSlot, Type, Ability, AbilitySlot, Evolution } = require("./index");
         return {
             typeSlots: {
                 relation: Model.HasManyRelation,
@@ -48,7 +48,40 @@ class Pokemon extends Model {
                     },
                     to: "abilities.id"
                 }
-            }
+            },
+
+            futureEvolutions: {
+                relation: Model.HasManyRelation,
+                modelClass: Evolution,
+                join: {
+                    from: "pokemon.id",
+                    to: "evolutions.preEvoId"
+                }
+            },
+            preEvos: {
+                relation: Model.ManyToManyRelation,
+                modelClass: Pokemon,
+                join: {
+                    from: "pokemon.id",
+                    through: {
+                        from: "evolutions.postEvoId",
+                        to: "evolutions.preEvoId"
+                    },
+                    to: "pokemon.id"
+                }
+            },
+            postEvos: {
+                relation: Model.ManyToManyRelation,
+                modelClass: Pokemon,
+                join: {
+                    from: "pokemon.id",
+                    through: {
+                        from: "evolutions.preEvoId",
+                        to: "evolutions.postEvoId"
+                    },
+                    to: "pokemon.id"
+                }
+            },
         };
     }
 
