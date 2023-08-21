@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import PokemonTile from "./PokemonTile.js";
 import PokemonShow from "./PokemonShow.js";
+import PokemonEdit from "./PokemonEdit.js";
 
 const PokemonPage = (props) => {
     const [pokemonList, setPokemonList] = useState([]);
     const [selectedId, setSelectedId] = useState(0);
+    const [editing, setEditing] = useState(false);
 
     const location = useLocation();
     const trimFront = location.pathname.replace("/projects/", "");
@@ -45,6 +47,23 @@ const PokemonPage = (props) => {
             />
         );
     });
+
+    const LastPanel = (props) => {
+        if(editing) {
+            return(
+                <div className="overflow-scroll nav-pane-right">
+                    <PokemonEdit />
+                </div>
+            )
+        } else {
+            return(
+                <div className="overflow-scroll nav-pane-right">
+                    <PokemonShow selectedMon={selectedMon} />
+                </div>
+
+            ) 
+        }
+    }
 
     if (selectedId === 0) {
         return (
@@ -92,10 +111,7 @@ const PokemonPage = (props) => {
                     </div>
                     {pokemonTiles}
                 </div>
-                <div className="overflow-scroll nav-pane-right">
-                    <h1 className="text-height-varies-h1">{selectedMon.name}</h1>
-                    <PokemonShow selectedMon={selectedMon} />
-                </div>
+                <LastPanel />
             </div>
         );
     }
