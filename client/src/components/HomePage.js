@@ -14,22 +14,22 @@ const HomePage = (props) => {
             <div className=" ">
                 <h1 className="left-text">Romhack Studio</h1>
                 <div>
-                    <Link to={"/new-project"} className="button flex-center">
+                    <Link to={"/new-project"} className="button flex-menu-item">
                         <h3>New Project</h3>
                     </Link>
                 </div>
                 <div>
-                    <Link to={"/my-projects"} className="button flex-center">
+                    <Link to={"/my-projects"} className="button flex-menu-item">
                         <h3>View My Projects</h3>
                     </Link>
                 </div>
                 <div>
-                    <Link to={"/search-projects"} className="button flex-center">
+                    <Link to={"/search-projects"} className="button flex-menu-item">
                         <h3>Browse Romhacks</h3>
                     </Link>
                 </div>
                 <div>
-                    <Link to={"/my-collabs"} className="button flex-center">
+                    <Link to={"/my-collabs"} className="button flex-menu-item">
                         <h3>View My Collaborations</h3>
                     </Link>
                 </div>

@@ -44,6 +44,12 @@
     &-bold {
         font-weight: bold;
     }
+    &-height-varies-p{
+        font-size: 1.5vw;
+    }
+    &-height-varies-h1{ 
+        font-size: 5vw;
+    }
 }
 
 .sprite {
@@ -68,9 +74,9 @@
     }
     &-type-label {
         @extend .image;
+        margin-right: .5rem;
         margin-top: 4px;
-        margin-bottom: 3px;
-        height: 18px;
+        height: 40px;
         width: auto;
     }
     &-show {
@@ -78,6 +84,11 @@
             width: 15vw;
             height: auto;
         }
+    }
+    &-arrow {
+        display: block;
+        height: 1rem;
+        width: 100%;
     }
 }
 
@@ -97,17 +108,30 @@
 
 .flex {
     display: flex;
-    margin-left: 3rem;
-    margin-right: 3rem;
     &-center {
         @extend .flex;
         justify-content: center;
         align-content: center;
+        &-vertical {
+            @extend .flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
+    &-type-icons {
+        @extend .flex;
+        justify-content: left;
     }
     &-left {
         @extend .flex;
         justify-content: left;
-        align-items: center;
+        align-content: center;
+    }
+    &-right {
+        @extend .flex;
+        justify-content: right;
+        align-content: center;
     }
     &-between {
         display: flex;
@@ -138,7 +162,8 @@
     }
     &-show-top {
         display: flex;
-        margin-left: 3rem;
+        // margin-left: 3rem;
+        // margin-right: 3rem;
         flex-direction: column;
         justify-content: space-around;
         align-content: center;
@@ -153,6 +178,19 @@
     &-single-stat {
         display: flex;
         align-items: center;
+    }
+    &-arrow {
+        display: flex;
+        align-items: center;
+        p {
+            margin: 0
+        }
+    }
+    &-menu-item {
+        justify-content: center;
+        align-content: center;
+        display: flex;
+        margin: 1rem 3rem;
     }
 }
 
@@ -187,15 +225,15 @@
     }
     &-show-top {
         @extend .poke-grid;
-        grid-template-columns: 2fr 1fr 2fr;
-        grid-template-rows: 10vw;
+        grid-template-columns: 1fr 1fr 1fr;
+        // grid-template-rows: 10vw;
     }
     &-list-info {
         display: grid;
-        grid-template-columns: 7fr 40fr 21fr;
+        grid-template-columns: 7fr 21fr 40fr;
         &-header {
             display: grid;
-            grid-template-columns: 22.25fr 7fr 40fr 21fr;
+            grid-template-columns: 22.25fr 7fr 21fr 40fr;
         }
     }
     &-abilities-list {

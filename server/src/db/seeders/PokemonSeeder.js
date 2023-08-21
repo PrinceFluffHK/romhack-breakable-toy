@@ -4,9 +4,13 @@ import TypeSeeder from "./TypeSeeder.js";
 import AbilitySlotSeeder from "./AbilitySlotSeeder.js";
 
 class PokemonSeeder {
-    static async seed() {
+    static async seed(cap) {
+        const defaultSpriteUrl = "https://pfrs-production.s3.amazonaws.com/anim_front.png";
+        const defaultProfileUrl = "https://pfrs-production.s3.amazonaws.com/unown-question.png";
+
         const vanillaAbilities = await Ability.query().where("projectId", null);
-        const rawAllMons = await got("https://pokeapi.co/api/v2/pokemon?offset=0&limit=50");
+
+        const rawAllMons = await got(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${cap}`);
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
         const abilityArraysArray = [];
@@ -20,6 +24,12 @@ class PokemonSeeder {
                 );
                 if (rawMonData) {
                     const parsedMonData = JSON.parse(rawMonData.body);
+                    const spriteUrl = parsedMonData.sprites.front_default
+                        ? parsedMonData.sprites.front_default
+                        : defaultSpriteUrl;
+                    const profileUrl = parsedMonData.sprites.other["official-artwork"].front_default
+                        ? parsedMonData.sprites.other["official-artwork"].front_default
+                        : defaultProfileUrl;
                     const mon = {
                         name: parsedMonData.name,
                         baseHp: parsedMonData.stats[0].base_stat,
@@ -34,26 +44,26 @@ class PokemonSeeder {
                         evSpA: parsedMonData.stats[3].effort,
                         evSpD: parsedMonData.stats[4].effort,
                         evSpe: parsedMonData.stats[5].effort,
-                        spriteUrl: parsedMonData.sprites.front_default,
-                        profileUrl: parsedMonData.sprites.other["official-artwork"].front_default,
+                        spriteUrl,
+                        profileUrl,
                         nationalNum: parsedMonData.id,
                         generation: this.getPokemonGen(parsedMonData.id),
                     };
-                    console.log(`Inserting ${mon.name}`);
                     const newMon = await Pokemon.query().insertAndFetch(mon);
+
                     const abilitySlotsArray = await AbilitySlotSeeder.construct(
                         newMon.id,
                         parsedMonData.abilities,
                         vanillaAbilities
                     );
                     abilityArraysArray.push(abilitySlotsArray);
+
                     const monTypes = parsedMonData.types;
                     await TypeSeeder.seedSlots(newMon, monTypes);
                 }
             }
         }
         const flattenedArray = abilityArraysArray.flat();
-        console.log("Inserting ability slots...");
         await AbilitySlot.query().insertGraph(flattenedArray);
     }
 

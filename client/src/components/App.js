@@ -16,7 +16,7 @@ import ViewerProjectList from "./viewer_projects/ViewerProjectList";
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useState(undefined);
-    // const [currentProject, setCurrentProject] = useState({})
+    const [currentProjectId, setCurrentProjectId] = useState(null)
 
     const fetchCurrentUser = async () => {
         try {

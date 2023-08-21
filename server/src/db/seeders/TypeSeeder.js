@@ -24,7 +24,6 @@ class TypeSeeder {
                         labelUrl: typeImg.labelUrl,
                         generation,
                     };
-                    console.log(`Inserting ${type.name}...`);
                     await Type.query().insert(type);
                 }
             }

@@ -54,6 +54,10 @@ projectsRouter.post("/", async (req, res) => {
                     generation
                 );
             }
+
+            const projectTriggers = await CloneVanilla.evoTriggers(id)
+
+            await CloneVanilla.evolutions(projectPokemon, projectTriggers, id, generation)
         }
         return res.status(201).json({ newProject });
     } catch (error) {

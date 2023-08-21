@@ -6,6 +6,8 @@ const Type = require("./Type.js");
 const TypeSlot = require("./TypeSlot.js");
 const Ability = require("./Ability.js");
 const AbilitySlot = require("./AbilitySlot.js");
+const Evolution = require("./Evolution.js");
+const EvoTrigger = require("./EvoTrigger.js");
 
 module.exports = {
     User,
@@ -15,4 +17,6 @@ module.exports = {
     TypeSlot,
     Ability,
     AbilitySlot,
+    Evolution,
+    EvoTrigger
 };
