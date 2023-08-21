@@ -50,7 +50,15 @@ class Pokemon extends Model {
                 }
             },
 
-            futureEvolutions: {
+            preLinks: {
+                relation: Model.HasManyRelation,
+                modelClass: Evolution,
+                join: {
+                    from: "pokemon.id",
+                    to: "evolutions.postEvoId"
+                }
+            },
+            postLinks: {
                 relation: Model.HasManyRelation,
                 modelClass: Evolution,
                 join: {
@@ -58,6 +66,7 @@ class Pokemon extends Model {
                     to: "evolutions.preEvoId"
                 }
             },
+
             preEvos: {
                 relation: Model.ManyToManyRelation,
                 modelClass: Pokemon,

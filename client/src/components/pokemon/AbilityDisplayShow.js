@@ -4,17 +4,20 @@ import AbilityServices from "../../../../server/src/services/AbilityServices";
 const AbilityDisplayShow = ({ abilities }) => {
     const abilityList = AbilityServices.makeList(abilities)
     const abilityDisplay = abilityList.map(ability => {
-        let textClass = ""
+        let slotAbbreviation = ability.slot
+        if (slotAbbreviation === 3) {
+            slotAbbreviation = "H"
+        }
+        let textClass = "text-height-varies-p"
         if (ability.name === "[No ability]") {
-            textClass = "text-grayed"
+            textClass += " text-grayed"
         }
         return(
-            <h4 className={textClass}>{ability.slot}. {ability.name}</h4>
+            <h4 key={ability.slot} className={textClass}>{slotAbbreviation}. {ability.name}</h4>
         )
     })
     return(
         <div className="flex-show-top">
-            <h3>Abilities:</h3>
             {abilityDisplay}
         </div>
     )

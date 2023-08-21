@@ -1,14 +1,15 @@
 import got from "got";
-import { Ability, AbilitySlot, Evolution, Pokemon } from "../../models/index.js";
+import { Ability, AbilitySlot, Pokemon } from "../../models/index.js";
 import TypeSeeder from "./TypeSeeder.js";
 import AbilitySlotSeeder from "./AbilitySlotSeeder.js";
-import EvolutionSeeder from "./EvolutionSeeder.js";
 
 class PokemonSeeder {
     static async seed(cap) {
         const defaultSpriteUrl = "https://pfrs-production.s3.amazonaws.com/anim_front.png";
         const defaultProfileUrl = "https://pfrs-production.s3.amazonaws.com/unown-question.png";
+
         const vanillaAbilities = await Ability.query().where("projectId", null);
+
         const rawAllMons = await got(`https://pokeapi.co/api/v2/pokemon?offset=0&limit=${cap}`);
         const parsedAllMons = JSON.parse(rawAllMons.body);
         const parsedMonList = parsedAllMons.results;
@@ -48,7 +49,6 @@ class PokemonSeeder {
                         nationalNum: parsedMonData.id,
                         generation: this.getPokemonGen(parsedMonData.id),
                     };
-                    console.log(`Inserting ${mon.name}`);
                     const newMon = await Pokemon.query().insertAndFetch(mon);
 
                     const abilitySlotsArray = await AbilitySlotSeeder.construct(
@@ -64,7 +64,6 @@ class PokemonSeeder {
             }
         }
         const flattenedArray = abilityArraysArray.flat();
-        console.log("Seeding ability slots...");
         await AbilitySlot.query().insertGraph(flattenedArray);
     }
 

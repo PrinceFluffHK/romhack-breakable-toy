@@ -1,4 +1,5 @@
 import _ from "lodash";
+import EvoSerializer from "./EvoSerializer.js";
 
 class PokemonSerializer {
     static async getSummary(array) {
@@ -35,6 +36,7 @@ class PokemonSerializer {
                 }
                 serializedMon.types = await this.getTypes(mon);
                 serializedMon.abilities = await this.getAbilities(mon);
+                serializedMon.evolutions = await this.getEvos(mon)
 
                 return serializedMon;
             })
@@ -71,7 +73,25 @@ class PokemonSerializer {
             );
             return abilities;
         } catch (error) {
-            console.error("Failed to get ability slots");
+            console.error(`Failed to get abilities for ${mon.name}`)
+        }
+    }
+
+    static async getEvos(mon) {
+        try {
+            const preEvoLinks = await mon.$relatedQuery("preLinks")
+            const preEvos = await EvoSerializer.getEvos(preEvoLinks, "pre")
+            
+            const postEvoLinks = await mon.$relatedQuery("postLinks")
+            const postEvos = await EvoSerializer.getEvos(postEvoLinks, "post")
+
+            return {
+                preEvos,
+                postEvos
+            }
+
+        } catch (error) {
+            console.error(`Failed to get evolutions for ${mon.name}`)
         }
     }
 }

@@ -1,4 +1,12 @@
-import { Ability, AbilitySlot, EvoTrigger, Evolution, Pokemon, Type, TypeSlot } from "../models/index.js";
+import {
+    Ability,
+    AbilitySlot,
+    EvoTrigger,
+    Evolution,
+    Pokemon,
+    Type,
+    TypeSlot,
+} from "../models/index.js";
 
 class CloneVanilla {
     static async pokemon(generation, projectId) {
@@ -160,10 +168,10 @@ class CloneVanilla {
             .andWhere("projectId", null);
         const projectEvolutions = await Promise.all(
             vanillaPokemon.map(async (mon) => {
-                const matchingPreEvo = projectPokemon.find((matchMon) => matchMon.name === mon.name);
-                const relatedEvolutions = await mon.$relatedQuery("futureEvolutions");
-                console.log(mon)
-                console.log(`relatedEvolutions of ${mon.name}: `, relatedEvolutions)
+                const matchingPreEvo = projectPokemon.find(
+                    (matchMon) => matchMon.name === mon.name
+                );
+                const relatedEvolutions = await mon.$relatedQuery("postLinks");
                 const clonedEvolutions = await Promise.all(
                     relatedEvolutions.map(async (evolution) => {
                         const relatedVanillaTrigger = await evolution.$relatedQuery("trigger");
@@ -171,11 +179,11 @@ class CloneVanilla {
                             (matchTrigger) => matchTrigger.name === relatedVanillaTrigger.name
                         );
 
-                        const relatedVanillaPostEvo = await evolution.$relatedQuery("postEvo")
+                        const relatedVanillaPostEvo = await evolution.$relatedQuery("postEvo");
                         const matchingPostEvo = projectPokemon.find(
                             (matchMon) => matchMon.name === relatedVanillaPostEvo.name
-                        )
-                        if(matchingPostEvo) {
+                        );
+                        if (matchingPostEvo) {
                             const newEvolution = {
                                 triggerId: matchingTrigger.id,
                                 preEvoId: matchingPreEvo.id,
@@ -183,21 +191,19 @@ class CloneVanilla {
                                 levelReq: evolution.levelReq,
                                 parameter: evolution.parameter,
                                 projectId,
-                            }
-                            console.log(`Cloning evolution of ${matchingPreEvo.name} to ${matchingPostEvo.name}`)
-                            return newEvolution
+                            };
+                            return newEvolution;
                         }
                     })
                 );
-                return clonedEvolutions
+                return clonedEvolutions;
             })
         );
-        const flattenedEvolutions = projectEvolutions.flat()
-        const filteredArray = flattenedEvolutions.filter(link => {
-            return link !== undefined
-        })
-        console.log(filteredArray)
-        await Evolution.query().insertGraph(filteredArray)
+        const flattenedEvolutions = projectEvolutions.flat();
+        const filteredArray = flattenedEvolutions.filter((link) => {
+            return link !== undefined;
+        });
+        await Evolution.query().insertGraph(filteredArray);
     }
 }
 

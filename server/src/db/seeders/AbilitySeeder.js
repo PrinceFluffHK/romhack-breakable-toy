@@ -24,7 +24,6 @@ class AbilitySeeder {
                     description: this.parseEffect(englishEffects),
                     generation: generation,
                 };
-                console.log(`Inserting ${ability.name}`);
                 await Ability.query().insert(ability);
             }
         }

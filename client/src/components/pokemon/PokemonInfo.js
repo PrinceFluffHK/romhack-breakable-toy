@@ -11,10 +11,9 @@ const PokemonInfo = ({
     baseSpD,
     baseSpe,
     types,
-    abilities
+    abilities,
 }) => {
-
-    const typeDisplay = getTypeDisplay(types, "", "image-type-label");
+    const typeDisplay = getTypeDisplay(types, "flex-type-icons", "image-type-label");
 
     const statList = [
         {
@@ -42,16 +41,16 @@ const PokemonInfo = ({
             value: baseSpe,
         },
     ];
-    
-    let statTotal = 0
-    const statDisplay = statList.map(stat => {
-        statTotal += stat.value
-        return(
+
+    let statTotal = 0;
+    const statDisplay = statList.map((stat) => {
+        statTotal += stat.value;
+        return (
             <div key={stat.name} className="flex-single-stat">
                 {stat.value}
             </div>
-        )
-    })
+        );
+    });
 
     if (selectedId === 0) {
         return (
@@ -59,15 +58,11 @@ const PokemonInfo = ({
                 <div className="flex-small-types">
                     <div className="">{typeDisplay}</div>
                 </div>
-                <AbilityDisplayList
-                    abilities={abilities}
-                />
                 <div id="stats-display" className="poke-grid-stats-list">
                     {statDisplay}
-                    <div className="flex-single-stat text-bold">
-                        {statTotal}
-                    </div>
+                    <div className="flex-single-stat text-bold">{statTotal}</div>
                 </div>
+                <AbilityDisplayList abilities={abilities} />
             </div>
         );
     } else {

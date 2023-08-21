@@ -24,7 +24,6 @@ class TypeSeeder {
                         labelUrl: typeImg.labelUrl,
                         generation,
                     };
-                    console.log(`Inserting ${type.name}...`);
                     await Type.query().insert(type);
                 }
             }
@@ -32,7 +31,6 @@ class TypeSeeder {
     }
 
     static async seedSlots(mon, types) {
-        console.log("Seeding type slots...")
         for (const singleType of types) {
             const currentType = await Type.query().findOne({
                 name: `${singleType.type.name}`,

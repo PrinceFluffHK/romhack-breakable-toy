@@ -14,7 +14,6 @@ class EvoTriggerSeeder {
                 const newTrigger = {
                     name: singleTrigger.name
                 }
-                console.log(`Inserting ${newTrigger.name}`)
                 await EvoTrigger.query().insert(newTrigger)
             }
         }
