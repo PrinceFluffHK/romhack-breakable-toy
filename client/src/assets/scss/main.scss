@@ -44,10 +44,10 @@
     &-bold {
         font-weight: bold;
     }
-    &-height-varies-p{
+    &-height-varies-p {
         font-size: 1.5vw;
     }
-    &-height-varies-h1{ 
+    &-height-varies-h1 {
         font-size: 5vw;
     }
 }
@@ -74,7 +74,7 @@
     }
     &-type-label {
         @extend .image;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
         margin-top: 4px;
         height: 40px;
         width: auto;
@@ -141,6 +141,11 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
+        &-top {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+        }
     }
     &-list-item {
         @extend .flex;
@@ -183,7 +188,7 @@
         display: flex;
         align-items: center;
         p {
-            margin: 0
+            margin: 0;
         }
     }
     &-menu-item {

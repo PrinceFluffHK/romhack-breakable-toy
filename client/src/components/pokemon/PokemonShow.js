@@ -2,50 +2,93 @@ import React from "react";
 import AbilityDisplayShow from "./AbilityDisplayShow";
 import EvolutionDisplay from "./EvolutionDisplay";
 import TypeDisplay from "./TypeDisplay";
-// import CanvasJSReact from "@canvasjs/react-charts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import getTypeColor from "../../services/getTypeColor";
 
 const PokemonShow = ({ selectedMon }) => {
+    const { baseHp, baseAtk, baseDef, baseSpA, baseSpD, baseSpe, profileUrl, abilities, types } =
+        selectedMon;
+    console.log(types);
+    const primaryColor = getTypeColor(types[0].name);
 
-    // const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
-    const chartProps = {
-        title: {
-            text: "TestTest",
+    const data = [
+        {
+            name: "HP",
+            stat: baseHp,
         },
-        data: [
-            {
-                type: "column",
-                dataPoints: [
-                    { label: "Atk", y: 50 },
-                    { label: "def", y: 50 },
-                ],
-            },
-        ],
-    };
+        {
+            name: "Atk",
+            stat: baseAtk,
+        },
+        {
+            name: "Def",
+            stat: baseDef,
+        },
+        {
+            name: "SpA",
+            stat: baseSpA,
+        },
+        {
+            name: "SpD",
+            stat: baseSpD,
+        },
+        {
+            name: "Spe",
+            stat: baseSpe,
+        },
+    ];
 
+    const renderLabel = () => {
+        return <text>{"value"}</text>;
+    };
     return (
         <div id="whole-thing" className="">
             <div id="top-row" className="poke-grid-abilities-list ">
                 <div className="flex-right">
                     <TypeDisplay
-                        typeList={selectedMon.types}
+                        typeList={types}
                         labelClass={"image-show-label"}
                         containerClass={"flex-show-top"}
                     />
                 </div>
                 <div className="flex-center">
-                    <img src={selectedMon.profileUrl} className="sprite-show" />
+                    <img src={profileUrl} className="sprite-show" />
                 </div>
                 <div className="flex-left">
-                    <AbilityDisplayShow abilities={selectedMon.abilities} />
+                    <AbilityDisplayShow abilities={abilities} />
                 </div>
             </div>
             <div id="middle bar">
-                <div id="evo-and-stats-row" className="flex-center">
+                <div id="evo-and-stats-row" className="flex-around">
+                    <div id="stats" className="grid-y">
+                        <div className="cell">
+                            <div className="flex-around-top" style={{margin: "5px"}}>
+                                <div className="text-bold" style={{margin: "0px 5px 0rem 0px"}}>HP</div>
+                                <div className="text-bold" style={{margin: "0px 5px 0rem 0px"}}>Atk</div>
+                                <div className="text-bold">Def</div>
+                                <div className="text-bold">SpA</div>
+                                <div className="text-bold">SpD</div>
+                                <div className="text-bold">Spe</div>
+                            </div>
+                        </div>
+                        <div className="cell">
+                            <BarChart width={300} height={150} data={data}>
+                                <Bar
+                                    type="monotone"
+                                    dataKey="stat"
+                                    fill={primaryColor}
+                                    stroke={"#FFFFFF"}
+                                    margin={{
+                                        top: 5,
+                                        right: 30,
+                                    }}
+                                    label={renderLabel}
+                                />
+                                <XAxis dataKey="stat" color={primaryColor} />
+                            </BarChart>
+                        </div>
+                    </div>
                     <EvolutionDisplay selectedMon={selectedMon} />
-                </div>
-                <div id="stats">
-                    {/* <CanvasJSChart options={chartProps} /> */}
                 </div>
             </div>
             <div id="moves-row">
