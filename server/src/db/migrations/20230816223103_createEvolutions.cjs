@@ -47,5 +47,5 @@ exports.up = async (knex) => {
  * @param {Knex} knex
 */
 exports.down = (knex) => {
-    return knex.schema.createTable("evolutions")
+    return knex.schema.dropTableIfExists("evolutions")
 }

@@ -162,6 +162,8 @@ class CloneVanilla {
             vanillaPokemon.map(async (mon) => {
                 const matchingPreEvo = projectPokemon.find((matchMon) => matchMon.name === mon.name);
                 const relatedEvolutions = await mon.$relatedQuery("futureEvolutions");
+                console.log(mon)
+                console.log(`relatedEvolutions of ${mon.name}: `, relatedEvolutions)
                 const clonedEvolutions = await Promise.all(
                     relatedEvolutions.map(async (evolution) => {
                         const relatedVanillaTrigger = await evolution.$relatedQuery("trigger");
@@ -173,24 +175,29 @@ class CloneVanilla {
                         const matchingPostEvo = projectPokemon.find(
                             (matchMon) => matchMon.name === relatedVanillaPostEvo.name
                         )
-
-                        const newEvolution = {
-                            triggerId: matchingTrigger.id,
-                            preEvoId: matchingPreEvo.id,
-                            postEvoId: matchingPostEvo.id,
-                            levelReq: evolution.levelReq,
-                            parameters: evolution.parameters,
-                            projectId,
+                        if(matchingPostEvo) {
+                            const newEvolution = {
+                                triggerId: matchingTrigger.id,
+                                preEvoId: matchingPreEvo.id,
+                                postEvoId: matchingPostEvo.id,
+                                levelReq: evolution.levelReq,
+                                parameter: evolution.parameter,
+                                projectId,
+                            }
+                            console.log(`Cloning evolution of ${matchingPreEvo.name} to ${matchingPostEvo.name}`)
+                            return newEvolution
                         }
-                        return newEvolution
                     })
                 );
                 return clonedEvolutions
             })
         );
         const flattenedEvolutions = projectEvolutions.flat()
-        console.log(flattenedEvolutions)
-        // await Evolution.query().insertGraph(flattenedEvolutions)
+        const filteredArray = flattenedEvolutions.filter(link => {
+            return link !== undefined
+        })
+        console.log(filteredArray)
+        await Evolution.query().insertGraph(filteredArray)
     }
 }
 

@@ -10,24 +10,32 @@ class EvolutionSeeder {
         const parsedAllChains = JSON.parse(rawAllChains.body);
         const parsedChainList = parsedAllChains.results;
         const deepChainList = await Promise.all(
-            parsedChainList.map(async (chain) => {
+            parsedChainList.map(async (chain, index) => {
                 const rawChainData = await got(chain.url);
-                const parsedChainData = JSON.parse(rawChainData.body);
-                const linkOneMon = await Pokemon.query().findOne({
-                    name: parsedChainData.chain.species.name,
-                    projectId: null,
-                });
-                const linksArray = await this.parseEvolutions(linkOneMon, parsedChainData.chain.evolves_to)
-                return linksArray;
+                if (rawChainData) {
+                    const parsedChainData = JSON.parse(rawChainData.body);
+                    const linkOneMon = await Pokemon.query().findOne({
+                        name: parsedChainData.chain.species.name,
+                        projectId: null,
+                    });
+                    const linksArray = await this.parseEvolutions(linkOneMon, parsedChainData.chain.evolves_to)
+                    if (linksArray) {
+                        return linksArray;
+                    }
+                }
             })
         );
         const flatChainList = deepChainList.flat(2);
-        await Evolution.query().insertGraph(flatChainList)
+        const filteredArray = flatChainList.filter(link => {
+            return link !== undefined
+        })
+        console.log(filteredArray)
+        await Evolution.query().insertGraph(filteredArray)
     }
 
     static async parseEvolutions(currentLinkMon, evolves_to_array) {
         if (evolves_to_array.length > 0) {
-            const nextLinkArray = Promise.all(
+            const nextLinkArray = await Promise.all(
                 evolves_to_array.map(async (nextLink) => {
                     const nextLinkMon = await Pokemon.query().findOne({
                         name: nextLink.species.name,
@@ -44,7 +52,7 @@ class EvolutionSeeder {
                             postEvoId: nextLinkMon.id,
                             triggerId: details.triggerId,
                             levelReq: details.levelReq,
-                            parameters: details.parameters,
+                            parameter: details.parameter,
                         };
                         console.log(`Inserting evolution from ${currentLinkMon.name} to ${nextLinkMon.name}`)
                         const nextLinks = await this.parseEvolutions(nextLinkMon, nextLink.evolves_to)
@@ -65,16 +73,16 @@ class EvolutionSeeder {
             name: evo_details.trigger.name,
             projectId: null,
         });
-        const parameters = this.getParameters(evo_details);
+        const parameter = this.getParameter(evo_details);
 
         return {
             triggerId: trigger.id,
             levelReq: evo_details.min_level,
-            parameters,
+            parameter,
         };
     }
 
-    static getParameters(evo_details) {
+    static getParameter(evo_details) {
         const {
             gender,
             held_item,
@@ -93,72 +101,72 @@ class EvolutionSeeder {
             trade_species,
             turn_upside_down,
         } = evo_details;
-        let parameters = "";
+        let parameter = "";
         if (gender === 1) {
-            parameters = parameters.concat("\nGender: Female");
+            parameter = parameter.concat("\nGender: Female");
         } else if (gender === 2) {
-            parameters = parameters.concat("\nGender: Male");
+            parameter = parameter.concat("\nGender: Male");
         }
         if (held_item) {
             const capitalItem = _.capitalize(held_item.name)
-            parameters = parameters.concat(`\nHolding: ${capitalItem}`)
+            parameter = parameter.concat(`\nHolding: ${capitalItem}`)
         }
         if (item) {
             const capitalItem = _.capitalize(item.name)
-            parameters = parameters.concat(`\nItem: ${capitalItem}`)
+            parameter = parameter.concat(`\nItem: ${capitalItem}`)
         }
         if (known_move) {
             const capitalMove = _.capitalize(known_move.name)
-            parameters = parameters.concat(`\nKnowing ${capitalMove}`)
+            parameter = parameter.concat(`\nKnowing ${capitalMove}`)
         }
         if (known_move_type) {
             const capitalType = _.capitalize(known_move_type.name)
-            parameters = parameters.concat(`\nKnowing a ${capitalType}-type move`)
+            parameter = parameter.concat(`\nKnowing a ${capitalType}-type move`)
         }
         if (location) {
             const capitalLocation = _.capitalize(location.name)
-            parameters = parameters.concat(`\nAt ${capitalLocation}`)
+            parameter = parameter.concat(`\nAt ${capitalLocation}`)
         }
         if (min_affection) {
-            parameters = parameters.concat(`\nAffection: ${min_affection}`)
+            parameter = parameter.concat(`\nAffection: ${min_affection}`)
         }
         if (min_beauty) {
-            parameters = parameters.concat(`\nBeauty: ${min_beauty}`)
+            parameter = parameter.concat(`\nBeauty: ${min_beauty}`)
         }
         if (min_happiness) {
-            parameters = parameters.concat(`\nHappiness: ${min_happiness}`)
+            parameter = parameter.concat(`\nHappiness: ${min_happiness}`)
         }
         if (needs_overworld_rain) {
-            parameters = parameters.concat(`\nNeeds Overworld Rain`)
+            parameter = parameter.concat(`\nNeeds Overworld Rain`)
         }
         if (party_species) {
             const capitalSpecies = _.capitalize(party_species.name)
-            parameters = parameters.concat(`\n${capitalSpecies} in party`)
+            parameter = parameter.concat(`\n${capitalSpecies} in party`)
         }
         if (party_type) {
             const capitalType = _.capitalize(party_type.name)
-            parameters = parameters.concat(`\n${capitalType}-type in party`)
+            parameter = parameter.concat(`\n${capitalType}-type in party`)
         }
         if (relative_physical_stats === 1) {
-            parameters = parameters.concat(`\nAtk > Def`)
+            parameter = parameter.concat(`\nAtk > Def`)
         } else if (relative_physical_stats === -1) {
-            parameters = parameters.concat(`\nDef > Atk`)
+            parameter = parameter.concat(`\nDef > Atk`)
         } else if (relative_physical_stats === 0) {
-            parameters = parameters.concat(`\nDef = Atk`)
+            parameter = parameter.concat(`\nDef = Atk`)
         }
         if (time_of_day) {
             const capitalType = _.capitalize(time_of_day)
-            parameters = parameters.concat(`\nTime: ${capitalType}`)
+            parameter = parameter.concat(`\nTime: ${capitalType}`)
         }
         if (trade_species) {
             const capitalSpecies = _.capitalize(trade_species.name)
-            parameters = parameters.concat(`\nTrade with ${capitalSpecies}`)
+            parameter = parameter.concat(`\nTrade with ${capitalSpecies}`)
         }
         if (turn_upside_down) {
-            parameters = parameters.concat(`\nTurn console upside-down`)
+            parameter = parameter.concat(`\nTurn console upside-down`)
         }
         
-        return parameters
+        return parameter
     }
 }
 
