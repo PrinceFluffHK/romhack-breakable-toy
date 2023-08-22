@@ -49,21 +49,24 @@ const PokemonPage = (props) => {
     });
 
     const LastPanel = (props) => {
-        if(editing) {
-            return(
+        if (editing) {
+            return (
                 <div className="overflow-scroll nav-pane-right">
                     <PokemonEdit />
                 </div>
-            )
+            );
         } else {
-            return(
+            return (
                 <div className="overflow-scroll nav-pane-right">
-                    <PokemonShow selectedMon={selectedMon} />
+                    <PokemonShow
+                        selectedMon={selectedMon}
+                        setEditing={setEditing}
+                        setSelectedId={setSelectedId}
+                    />
                 </div>
-
-            ) 
+            );
         }
-    }
+    };
 
     if (selectedId === 0) {
         return (
@@ -71,9 +74,10 @@ const PokemonPage = (props) => {
                 <div className="nav-pane-left">
                     <h1>Filters</h1>
                 </div>
-                <div className="list-grid overflow-scroll">
-                    <h1>Pokemon</h1>
-                    <h1>List of Other Things</h1>
+                <div
+                    className="list-grid overflow-scroll"
+                    style={{ margin: ".8rem 0rem 0rem 0rem" }}
+                >
                     <div className="poke-grid-normalized poke-grid-list-info-header">
                         <div className="flex-between margins-even-1rem">
                             <h4>#: Pokemon</h4>

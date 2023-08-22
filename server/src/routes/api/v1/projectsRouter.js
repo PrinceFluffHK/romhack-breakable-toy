@@ -1,9 +1,11 @@
 import express from "express";
-import { Pokemon, Project, Type } from "../../../models/index.js";
+import { Ability, Pokemon, Project, Type } from "../../../models/index.js";
 import ProjectSerializer from "../../../serializers/ProjectSerializer.js";
 import cleanUserInput from "../../../services/cleanUserInput.js";
 import { ValidationError } from "objection";
 import CloneVanilla from "../../../services/CloneVanilla.js";
+import TypeSerializer from "../../../serializers/TypeSerializer.js";
+import AbilitySerializer from "../../../serializers/AbilitySerializer.js";
 
 const projectsRouter = new express.Router();
 
@@ -28,6 +30,25 @@ projectsRouter.get("/search", async (req, res) => {
         return res.status(500).json({ errors: error });
     }
 });
+
+projectsRouter.get("/:projectId", async (req, res) => {
+    const { id } = req.user
+    const { projectId } = req.params
+    try {
+        const rawTypeData = Type.query().where("projectId", projectId)
+        const serializedTypes = TypeSerializer.trim(rawTypeData)
+
+        const rawAbilityData = Ability.query().where("projectId", projectId)
+        const serializedAbilities = AbilitySerializer.trim(rawAbilityData)
+        const projectData = {
+            types: serializedTypes,
+            abilities: serializedAbilities,
+        }
+        return res.status(200).json({ projectData })
+    } catch (error) {
+        return res.status(500).json({ errors: error });
+    }
+})
 
 projectsRouter.post("/", async (req, res) => {
     const { body } = req;

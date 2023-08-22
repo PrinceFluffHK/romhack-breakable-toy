@@ -3,13 +3,26 @@ import AbilityDisplayShow from "./AbilityDisplayShow";
 import EvolutionDisplay from "./EvolutionDisplay";
 import TypeDisplay from "./TypeDisplay";
 
-const PokemonShow = ({ selectedMon }) => {
+const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
+    const handleCloseClick = () => {
+        setSelectedId(0)
+    }
+
+    const handleEditClick = () => {
+        setEditing(true)
+    }
+
     return (
         <div id="whole-thing" className="">
-            <div className="layer-1 flex-edit-button">
-                <h4 className="button">Edit</h4>
+            <div className="flex-between">
+                <div className="">
+                    <h4 className="button" onClick={handleCloseClick}>Close</h4>
+                </div>
+                <h1 className="text-height-varies-h1">{selectedMon.name}</h1>
+                <div className="">
+                    <h4 className="button" onClick={handleEditClick}>Edit {selectedMon.name}</h4>
+                </div>
             </div>
-            <h1 className="text-height-varies-h1">{selectedMon.name}</h1>
             <div id="top-row" className="poke-grid-abilities-list ">
                 <div className="flex-right">
                     <TypeDisplay

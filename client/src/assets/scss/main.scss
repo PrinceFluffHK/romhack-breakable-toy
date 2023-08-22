@@ -80,9 +80,9 @@
     }
     &-type-label {
         @extend .image;
-        margin-right: .5rem;
-        margin-top: 4px;
-        height: 40px;
+        margin-right: .3rem;
+        margin-top: 7px;
+        height: 35px;
         width: auto;
     }
     &-show {
@@ -168,8 +168,6 @@
     }
     &-show-top {
         display: flex;
-        // margin-left: 3rem;
-        // margin-right: 3rem;
         flex-direction: column;
         justify-content: space-around;
         align-content: center;
