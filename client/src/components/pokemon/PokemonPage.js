@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import PokemonTile from "./PokemonTile.js";
 import PokemonShow from "./PokemonShow.js";
+import PokemonEdit from "./PokemonEdit.js";
 
 const PokemonPage = (props) => {
     const [pokemonList, setPokemonList] = useState([]);
     const [selectedId, setSelectedId] = useState(0);
-
-    const location = useLocation();
-    const trimFront = location.pathname.replace("/projects/", "");
-    const trimBack = trimFront.replace("/pokemon", "");
-    const projectId = parseInt(trimBack);
+    const [editing, setEditing] = useState(false);
 
     const getPokemon = async () => {
         try {
-            const response = await fetch(`/api/v1/pokemon/${projectId}`);
+            const response = await fetch(`/api/v1/pokemon/${props.projectId}`);
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
                 throw error;
             }
             const responseBody = await response.json();
+
+            props.setProjectId(responseBody.projectId)
             setPokemonList(responseBody.pokemon);
         } catch (error) {
             console.error(`getPokemon error in Fetch: ${error.message}`);
@@ -46,15 +44,43 @@ const PokemonPage = (props) => {
         );
     });
 
+    const LastPanel = () => {
+        if (editing) {
+            return (
+                <div className="overflow-scroll nav-pane-right">
+                    <PokemonEdit 
+                        projectId={props.projectId}
+                        selectedMon={selectedMon}
+                        setEditing={setEditing}
+                        pokemonList={pokemonList}
+                        setPokemonList={setPokemonList}
+                        setSelectedId={setSelectedId}
+                    />
+                </div>
+            );
+        } else {
+            return (
+                <div className="overflow-scroll nav-pane-right">
+                    <PokemonShow
+                        selectedMon={selectedMon}
+                        setEditing={setEditing}
+                        setSelectedId={setSelectedId}
+                    />
+                </div>
+            );
+        }
+    };
+
     if (selectedId === 0) {
         return (
             <div className="poke-grid-pokedex-list">
                 <div className="nav-pane-left">
                     <h1>Filters</h1>
                 </div>
-                <div className="list-grid overflow-scroll">
-                    <h1>Pokemon</h1>
-                    <h1>List of Other Things</h1>
+                <div
+                    className="list-grid overflow-scroll"
+                    style={{ margin: ".8rem 0rem 0rem 0rem" }}
+                >
                     <div className="poke-grid-normalized poke-grid-list-info-header">
                         <div className="flex-between margins-even-1rem">
                             <h4>#: Pokemon</h4>
@@ -92,10 +118,7 @@ const PokemonPage = (props) => {
                     </div>
                     {pokemonTiles}
                 </div>
-                <div className="overflow-scroll nav-pane-right">
-                    <h1 className="text-height-varies-h1">{selectedMon.name}</h1>
-                    <PokemonShow selectedMon={selectedMon} />
-                </div>
+                <LastPanel />
             </div>
         );
     }

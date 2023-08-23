@@ -5,11 +5,18 @@ import TypeDisplay from "./TypeDisplay";
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import getTypeColor from "../../services/getTypeColor";
 
-const PokemonShow = ({ selectedMon }) => {
+const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
     const { baseHp, baseAtk, baseDef, baseSpA, baseSpD, baseSpe, profileUrl, abilities, types } =
         selectedMon;
     console.log(types);
     const primaryColor = getTypeColor(types[0].name);
+    const handleCloseClick = () => {
+        setSelectedId(0)
+    }
+
+    const handleEditClick = () => {
+        setEditing(true)
+    }
 
     const data = [
         {
@@ -43,6 +50,15 @@ const PokemonShow = ({ selectedMon }) => {
     };
     return (
         <div id="whole-thing" className="">
+            <div className="flex-between">
+                <div className="">
+                    <h4 className="button" onClick={handleCloseClick}>Close</h4>
+                </div>
+                <h1 className="text-height-varies-h1">{selectedMon.name}</h1>
+                <div className="">
+                    <h4 className="button" onClick={handleEditClick}>Edit {selectedMon.name}</h4>
+                </div>
+            </div>
             <div id="top-row" className="poke-grid-abilities-list ">
                 <div className="flex-right">
                     <TypeDisplay
