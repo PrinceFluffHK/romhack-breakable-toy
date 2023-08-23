@@ -25,14 +25,30 @@ pokemonRouter.patch("/edit/:projectId", async (req, res) => {
     try {
         const newType1 = await PokemonPatch.updateType(type1, projectId, currentMon, 1)
         const newType2 = await PokemonPatch.updateType(type2, projectId, currentMon, 2)
-        
+        const typeArray = [newType1, newType2]
+        const finalTypeArray = []
+        typeArray.forEach(type => {
+            if(type) {
+                finalTypeArray.push(type)
+            }
+        })
+
         const newAbility1 = await PokemonPatch.updateAbility(ability1, projectId, currentMon, 1)
         const newAbility2 = await PokemonPatch.updateAbility(ability2, projectId, currentMon, 2)
         const newAbility3 = await PokemonPatch.updateAbility(ability3, projectId, currentMon, 3)
+        const abilityArray = [newAbility1, newAbility2, newAbility3]
+        
+        const finalAbilityArray = []
+        abilityArray.forEach(ability => {
+            if (ability) {
+                finalAbilityArray.push(ability)
+            }
+        }) 
 
         const newMon = {
             ...currentMon,
-            types: newType2 ? [newType1, newType2] : [newType1]
+            types: finalTypeArray,
+            abilities: finalAbilityArray
         }
         return res.status(200).json({ newMon })
     } catch (error) {

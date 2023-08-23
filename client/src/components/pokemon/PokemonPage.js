@@ -55,7 +55,6 @@ const PokemonPage = (props) => {
                         pokemonList={pokemonList}
                         setPokemonList={setPokemonList}
                         setSelectedId={setSelectedId}
-                        selectedId={selectedId}
                     />
                 </div>
             );

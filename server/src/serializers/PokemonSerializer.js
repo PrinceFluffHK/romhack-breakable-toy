@@ -75,7 +75,7 @@ class PokemonSerializer {
                     const upperName = _.capitalize(ability.name);
                     return {
                         name: upperName,
-                        slot: slot.slotNum,
+                        slotNum: slot.slotNum,
                         description: ability.description,
                     };
                 })

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 
-const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokemonList, selectedId, setSelectedId }) => {
+const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokemonList, setSelectedId }) => {
+    const [editTabNum, setEditTabNum] = useState(1)
     const [monRecord, setMonRecord] = useState({
         name: "",
         type1: "",
@@ -9,7 +10,7 @@ const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokem
         ability2: "",
         ability3: "",
     });
-    
+
     const editMonProperties = async () => {
         try {
             const submission = {
@@ -47,9 +48,9 @@ const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokem
     };
 
     const setInitialMonRecord = () => {
-        const ability1 = selectedMon.abilities.find((ability) => ability.slot === 1);
-        const ability2 = selectedMon.abilities.find((ability) => ability.slot === 2);
-        const ability3 = selectedMon.abilities.find((ability) => ability.slot === 3);
+        const ability1 = selectedMon.abilities.find((ability) => ability.slotNum === 1);
+        const ability2 = selectedMon.abilities.find((ability) => ability.slotNum === 2);
+        const ability3 = selectedMon.abilities.find((ability) => ability.slotNum === 3);
 
         const newMonRecord = {
             name: selectedMon.name,
