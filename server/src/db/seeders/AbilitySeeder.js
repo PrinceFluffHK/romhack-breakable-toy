@@ -10,6 +10,7 @@ class AbilitySeeder {
         for (const singleAbility of parsedAbilityList) {
             const currentAbility = await Ability.query().findOne({
                 name: singleAbility.name,
+                projectId: null
             });
             if (!currentAbility) {
                 const rawAbilityData = await got(singleAbility.url);
@@ -19,8 +20,13 @@ class AbilitySeeder {
                 );
 
                 const generation = parseGeneration(parsedAbility.generation.name);
+                let newName = parsedAbility.name
+                if (newName != "well-baked-body" && newName != "soul-heart") {
+                    newName = newName.replace("-", " ")
+                }
+
                 const ability = {
-                    name: parsedAbility.name,
+                    name: newName,
                     description: this.parseEffect(englishEffects),
                     generation: generation,
                 };

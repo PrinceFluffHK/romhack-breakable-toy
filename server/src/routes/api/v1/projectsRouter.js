@@ -35,10 +35,9 @@ projectsRouter.get("/:projectId", async (req, res) => {
     const { id } = req.user
     const { projectId } = req.params
     try {
-        const rawTypeData = Type.query().where("projectId", projectId)
+        const rawTypeData = await Type.query().where("projectId", projectId)
         const serializedTypes = TypeSerializer.trim(rawTypeData)
-
-        const rawAbilityData = Ability.query().where("projectId", projectId)
+        const rawAbilityData = await Ability.query().where("projectId", projectId)
         const serializedAbilities = AbilitySerializer.trim(rawAbilityData)
         const projectData = {
             types: serializedTypes,

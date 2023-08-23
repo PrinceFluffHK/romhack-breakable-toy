@@ -36,6 +36,8 @@ const UserProjectList = (props) => {
                     regionName={project.regionName}
                     generation={project.generation}
                     creatorName={project.creatorName}
+                    setProjectId={props.setProjectId}
+                    projectId={project.id}
                 />
             </Link>
         );

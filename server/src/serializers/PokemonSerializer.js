@@ -36,7 +36,7 @@ class PokemonSerializer {
                 }
                 serializedMon.types = await this.getTypes(mon);
                 serializedMon.abilities = await this.getAbilities(mon);
-                serializedMon.evolutions = await this.getEvos(mon)
+                serializedMon.evolutions = await this.getEvos(mon);
 
                 return serializedMon;
             })
@@ -45,16 +45,25 @@ class PokemonSerializer {
     }
 
     static async getTypes(mon) {
-        const types = await mon.$relatedQuery("types");
-        const backwardsTypes = types.map((type) => {
-            const upperTypeName = _.capitalize(type.name);
-            return {
-                name: upperTypeName,
-                icon: type.iconUrl,
-                label: type.labelUrl,
-            };
-        });
-        return backwardsTypes.reverse();
+        const typeSlots = await mon.$relatedQuery("typeSlots");
+        const backwardsTypes = await Promise.all(
+            typeSlots.map(async(slot) => {
+                const type = await slot.$relatedQuery("type")
+                const upperTypeName = _.capitalize(type.name);
+                const typeSlot =  {
+                    name: upperTypeName,
+                    icon: type.iconUrl,
+                    label: type.labelUrl,
+                    slotNum: slot.slotNum 
+                };
+                return typeSlot
+            })
+        );
+        let fixedTypes = backwardsTypes;
+        if ((fixedTypes[0].slotNum === 2)) {
+            fixedTypes = fixedTypes.reverse();
+        }
+        return fixedTypes;
     }
 
     static async getAbilities(mon) {
@@ -73,25 +82,24 @@ class PokemonSerializer {
             );
             return abilities;
         } catch (error) {
-            console.error(`Failed to get abilities for ${mon.name}`)
+            console.error(`Failed to get abilities for ${mon.name}`);
         }
     }
 
     static async getEvos(mon) {
         try {
-            const preEvoLinks = await mon.$relatedQuery("preLinks")
-            const preEvos = await EvoSerializer.getEvos(preEvoLinks, "pre")
-            
-            const postEvoLinks = await mon.$relatedQuery("postLinks")
-            const postEvos = await EvoSerializer.getEvos(postEvoLinks, "post")
+            const preEvoLinks = await mon.$relatedQuery("preLinks");
+            const preEvos = await EvoSerializer.getEvos(preEvoLinks, "pre");
+
+            const postEvoLinks = await mon.$relatedQuery("postLinks");
+            const postEvos = await EvoSerializer.getEvos(postEvoLinks, "post");
 
             return {
                 preEvos,
-                postEvos
-            }
-
+                postEvos,
+            };
         } catch (error) {
-            console.error(`Failed to get evolutions for ${mon.name}`)
+            console.error(`Failed to get evolutions for ${mon.name}`);
         }
     }
 }

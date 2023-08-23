@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 import PokemonTile from "./PokemonTile.js";
 import PokemonShow from "./PokemonShow.js";
 import PokemonEdit from "./PokemonEdit.js";
@@ -9,20 +8,17 @@ const PokemonPage = (props) => {
     const [selectedId, setSelectedId] = useState(0);
     const [editing, setEditing] = useState(false);
 
-    const location = useLocation();
-    const trimFront = location.pathname.replace("/projects/", "");
-    const trimBack = trimFront.replace("/pokemon", "");
-    const projectId = parseInt(trimBack);
-
     const getPokemon = async () => {
         try {
-            const response = await fetch(`/api/v1/pokemon/${projectId}`);
+            const response = await fetch(`/api/v1/pokemon/${props.projectId}`);
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
                 throw error;
             }
             const responseBody = await response.json();
+
+            props.setProjectId(responseBody.projectId)
             setPokemonList(responseBody.pokemon);
         } catch (error) {
             console.error(`getPokemon error in Fetch: ${error.message}`);
@@ -48,11 +44,19 @@ const PokemonPage = (props) => {
         );
     });
 
-    const LastPanel = (props) => {
+    const LastPanel = () => {
         if (editing) {
             return (
                 <div className="overflow-scroll nav-pane-right">
-                    <PokemonEdit />
+                    <PokemonEdit 
+                        projectId={props.projectId}
+                        selectedMon={selectedMon}
+                        setEditing={setEditing}
+                        pokemonList={pokemonList}
+                        setPokemonList={setPokemonList}
+                        setSelectedId={setSelectedId}
+                        selectedId={selectedId}
+                    />
                 </div>
             );
         } else {

@@ -16,7 +16,7 @@ import ViewerProjectList from "./viewer_projects/ViewerProjectList";
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useState(undefined);
-    const [currentProjectId, setCurrentProjectId] = useState(null)
+    const [projectId, setProjectId] = useState(null);
 
     const fetchCurrentUser = async () => {
         try {
@@ -35,13 +35,40 @@ const App = (props) => {
         <Router>
             <TopBar user={currentUser} />
             <Switch>
-                <Route exact path="/" render={(props) => <HomePage user={currentUser} {...props} /> } />
+                <Route
+                    exact
+                    path="/"
+                    render={(props) => <HomePage user={currentUser} {...props} />}
+                />
                 <Route exact path="/users/new" component={RegistrationForm} />
                 <Route exact path="/user-sessions/new" component={SignInForm} />
-                <Route exact path="/search-projects" component={ViewerProjectList} />
-                <AuthenticatedRoute exact path="/projects/:id/pokemon" component={PokemonPage} user={currentUser}/>
-                <AuthenticatedRoute exact path="/new-project" component={ProjectForm} user={currentUser}/>
-                <AuthenticatedRoute exact path="/my-projects" component={UserProjectList} user={currentUser}/>
+                <Route
+                    exact
+                    path="/search-projects"
+                    component={ViewerProjectList}
+                    setProjectId={setProjectId}
+                />
+                <AuthenticatedRoute
+                    exact={true}
+                    path="/projects/:id/pokemon"
+                    component={PokemonPage}
+                    user={currentUser}
+                    setProjectId={setProjectId}
+                    projectId={projectId}
+                />
+                <AuthenticatedRoute
+                    exact={true}
+                    path="/new-project"
+                    component={ProjectForm}
+                    user={currentUser}
+                />
+                <AuthenticatedRoute
+                    exact={true}
+                    path="/my-projects"
+                    component={UserProjectList}
+                    user={currentUser}
+                    setProjectId={setProjectId}
+                />
             </Switch>
         </Router>
     );
