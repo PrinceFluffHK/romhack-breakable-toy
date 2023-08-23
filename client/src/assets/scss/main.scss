@@ -261,6 +261,11 @@
     }
 }
 
+.stat-grid {
+    display: grid;
+    
+}
+
 .overflow {
     &-scroll {
         overflow-y: scroll;

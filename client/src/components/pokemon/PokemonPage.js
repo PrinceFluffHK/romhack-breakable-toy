@@ -112,7 +112,6 @@ const PokemonPage = (props) => {
                     <h1>Filters</h1>
                 </div>
                 <div className="overflow-scroll">
-                    <h1>Pokemon</h1>
                     <div className="flex-between margins-even-1rem">
                         <h4>#: Pokemon</h4>
                     </div>
