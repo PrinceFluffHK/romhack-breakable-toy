@@ -4,7 +4,7 @@ import AbilityServices from "../../../../server/src/services/AbilityServices";
 const AbilityDisplayShow = ({ abilities }) => {
     const abilityList = AbilityServices.makeList(abilities)
     const abilityDisplay = abilityList.map(ability => {
-        let slotAbbreviation = ability.slot
+        let slotAbbreviation = ability.slotNum
         if (slotAbbreviation === 3) {
             slotAbbreviation = "H"
         }
@@ -13,7 +13,7 @@ const AbilityDisplayShow = ({ abilities }) => {
             textClass += " text-grayed"
         }
         return(
-            <h4 key={ability.slot} className={textClass}>{slotAbbreviation}. {ability.name}</h4>
+            <h4 key={ability.slotNum} className={textClass}>{slotAbbreviation}. {ability.name}</h4>
         )
     })
     return(

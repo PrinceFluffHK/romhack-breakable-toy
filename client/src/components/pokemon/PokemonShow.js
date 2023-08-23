@@ -1,17 +1,31 @@
 import React from "react";
-import getTypeDisplay from "../../services/getTypeDisplay";
 import AbilityDisplayShow from "./AbilityDisplayShow";
 import EvolutionDisplay from "./EvolutionDisplay";
 import TypeDisplay from "./TypeDisplay";
 
-const PokemonShow = ({ selectedMon }) => {
-    const typeDisplay = getTypeDisplay(selectedMon.types, "flex-show-top", );
+const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
+    const handleCloseClick = () => {
+        setSelectedId(0)
+    }
+
+    const handleEditClick = () => {
+        setEditing(true)
+    }
 
     return (
         <div id="whole-thing" className="">
+            <div className="flex-between">
+                <div className="">
+                    <h4 className="button" onClick={handleCloseClick}>Close</h4>
+                </div>
+                <h1 className="text-height-varies-h1">{selectedMon.name}</h1>
+                <div className="">
+                    <h4 className="button" onClick={handleEditClick}>Edit {selectedMon.name}</h4>
+                </div>
+            </div>
             <div id="top-row" className="poke-grid-abilities-list ">
                 <div className="flex-right">
-                    <TypeDisplay 
+                    <TypeDisplay
                         typeList={selectedMon.types}
                         labelClass={"image-show-label"}
                         containerClass={"flex-show-top"}
