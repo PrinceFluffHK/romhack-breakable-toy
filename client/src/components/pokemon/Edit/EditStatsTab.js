@@ -31,8 +31,8 @@ const EditStats = ({
         evSpe: 0,
     });
 
-    // console.log(monRecord)
-    console.log(selectedMon.name, selectedMon.evolutions.postEvos);
+    console.log(monRecord)
+    // console.log(selectedMon.name, selectedMon.evolutions.postEvos);
 
     const editMonProperties = async () => {
         try {

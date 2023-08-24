@@ -51,13 +51,18 @@ pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
                 finalTypeArray.push(type);
             }
         });
-
+        
         const newAbility1 = await PokemonPatch.updateAbility(ability1, projectId, currentMon, 1);
         const newAbility2 = await PokemonPatch.updateAbility(ability2, projectId, currentMon, 2);
         const newAbility3 = await PokemonPatch.updateAbility(ability3, projectId, currentMon, 3);
         const abilityArray = [newAbility1, newAbility2, newAbility3];
-
-        //checkBaseStats
+        const finalAbilityArray = [];
+        abilityArray.forEach((ability) => {
+            if (ability) {
+                finalAbilityArray.push(ability);
+            }
+        });
+        
         const newBaseHp = await PokemonPatch.updateStat(currentMon, "baseHp", baseHp)
         const newBaseAtk = await PokemonPatch.updateStat(currentMon, "baseAtk", baseAtk)
         const newBaseDef = await PokemonPatch.updateStat(currentMon, "baseDef", baseDef)
@@ -70,14 +75,7 @@ pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
         const newEvSpA = await PokemonPatch.updateStat(currentMon, "evSpA", evSpA)
         const newEvSpD = await PokemonPatch.updateStat(currentMon, "evSpD", evSpD)
         const newEvSpe = await PokemonPatch.updateStat(currentMon, "evSpe", evSpe)
-
-        const finalAbilityArray = [];
-        abilityArray.forEach((ability) => {
-            if (ability) {
-                finalAbilityArray.push(ability);
-            }
-        });
-
+        
         const newMon = {
             ...currentMon,
             baseHp: newBaseHp,

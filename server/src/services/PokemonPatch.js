@@ -52,16 +52,18 @@ class PokemonPatch {
                 return slotExists;
             }
         } else {
-            if (slotExists.slotNum === 2) {
-                const numDeleted = await TypeSlot.query()
-                    .findOne({
-                        projectId,
-                        slotNum,
-                        pokemonId: currentMon.id,
-                    })
-                    .delete();
-            } else if (slotExists.slotNum === 1) {
-                return slotExists;
+            if (slotExists) {
+                if (slotExists.slotNum === 2) {
+                    const numDeleted = await TypeSlot.query()
+                        .findOne({
+                            projectId,
+                            slotNum,
+                            pokemonId: currentMon.id,
+                        })
+                        .delete();
+                } else if (slotExists.slotNum === 1) {
+                    return slotExists;
+                }
             }
         }
     }
