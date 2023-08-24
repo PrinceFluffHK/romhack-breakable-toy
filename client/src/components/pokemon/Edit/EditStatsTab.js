@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StatsForm from "./StatsForm.js";
 import TypesAbilitiesForm from "./TypesAbilitiesForm.js";
+import EditEvosTab from "./EditEvosTab.js";
 
 const EditStats = ({
     projectId,
@@ -121,11 +122,19 @@ const EditStats = ({
                 <img src={selectedMon.profileUrl} />
             </div>
             <form onSubmit={handleSubmit} className="cell small-8 grid-x grid-margin-x">
+                <h1 className="cell small-12">Properties</h1>
                 <div className="cell small-6">
                     <TypesAbilitiesForm handleChange={handleChange} monRecord={monRecord} />
                 </div>
                 <div className="cell small-6">
                     <StatsForm handleChange={handleChange} monRecord={monRecord} />
+                </div>
+                <h1 className="cell small-12">Evolutions</h1>
+                <div className="cell small-12">
+                    <EditEvosTab
+                        selectedMon={selectedMon}
+                        setEditing={setEditing} 
+                    />
                 </div>
                 <input type="submit" className="button" value="Save Changes" />
             </form>

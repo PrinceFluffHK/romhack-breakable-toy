@@ -61,9 +61,8 @@ const EditEvosTab = ({ setEditing, selectedMon }) => {
     });
 
     return (
-        <div className="grid-x grid-margin-x" style={{margin: "1rem"}}>
-            <div className="cell auto"></div>
-            <div className="cell auto">{evoList}</div>
+        <div className="grid-x grid-margin-x">
+            <div className="cell small-8 small-offset-2">{evoList}</div>
         </div>
     );
 };
