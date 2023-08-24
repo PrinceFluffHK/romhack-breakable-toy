@@ -11,7 +11,7 @@ class EvoSerializer {
                     serializedEvo[attribute] = link[attribute];
                 }
 
-                let relatedEvo
+                let relatedEvo 
                 if (prePost === "pre") {
                     relatedEvo = await link.$relatedQuery("preEvo");
                 } else {
@@ -19,6 +19,7 @@ class EvoSerializer {
                 }
 
                 const requiredEvoAttributes = ["spriteUrl", "name", "id"];
+                
                 for (const attribute of requiredEvoAttributes) {
                     serializedEvo[attribute] = relatedEvo[attribute];
                 }
@@ -27,6 +28,8 @@ class EvoSerializer {
                 const capitalTriggerName = _.capitalize(relatedTrigger.name)
                 const spacedTriggerName = capitalTriggerName.replace("-", " ")
                 serializedEvo.triggerName = spacedTriggerName;
+
+                serializedEvo.triggerId = relatedTrigger.id
 
                 return serializedEvo;
             })

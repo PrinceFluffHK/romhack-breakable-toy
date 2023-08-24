@@ -7,25 +7,9 @@ import getTypeColor from "../../services/getTypeColor";
 import StatGrid from "./StatGrid";
 
 const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
-    const {
-        baseHp,
-        baseAtk,
-        baseDef,
-        baseSpA,
-        baseSpD,
-        baseSpe,
-        profileUrl,
-        abilities,
-        types,
-        evHp,
-        evDef,
-        evAtk,
-        evSpA,
-        evSpD,
-        evSpe,
-    } = selectedMon;
-    console.log(types);
+    const { profileUrl, abilities, types } = selectedMon;
     const primaryColor = getTypeColor(types[0].name);
+    
     const handleCloseClick = () => {
         setSelectedId(0);
     };
@@ -34,9 +18,6 @@ const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
         setEditing(true);
     };
 
-    // const renderLabel = () => {
-    //     return <text>{"value"}</text>;
-    // };
     return (
         <div id="whole-thing" className="">
             <div className="flex-between">
@@ -69,9 +50,7 @@ const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
             </div>
             <div id="middle bar">
                 <div id="evo-and-stats-row" className="flex-around">
-                    <StatGrid 
-                        selectedMon={selectedMon}
-                    />
+                    <StatGrid selectedMon={selectedMon} />
                     <EvolutionDisplay selectedMon={selectedMon} />
                 </div>
             </div>

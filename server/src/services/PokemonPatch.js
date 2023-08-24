@@ -1,4 +1,4 @@
-import { Ability, AbilitySlot, Type, TypeSlot } from "../models/index.js";
+import { Ability, AbilitySlot, Pokemon, Type, TypeSlot } from "../models/index.js";
 import _ from "lodash";
 
 class PokemonPatch {
@@ -15,8 +15,8 @@ class PokemonPatch {
                         (currentType) => currentType.name.toLowerCase() === type.toLowerCase()
                     );
                     if (sameType) {
-                        return slotExists
-                    } else { 
+                        return slotExists;
+                    } else {
                         const foundSlot = await TypeSlot.query()
                             .findOne({
                                 projectId: projectId,
@@ -124,6 +124,22 @@ class PokemonPatch {
                     .delete();
             }
         }
+    }
+
+    static async updateStat(currentMon, propertyName, property) {
+        const propInt = parseInt(property);
+        if (currentMon[propertyName] != propInt) {
+            try {
+                await Pokemon.query()
+                    .findById(currentMon.id)
+                    .patch({
+                        [propertyName]: propInt,
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        return propInt;
     }
 }
 

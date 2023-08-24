@@ -79,7 +79,7 @@ const PokemonPage = (props) => {
                 </div>
                 <div
                     className="list-grid overflow-scroll"
-                    style={{ margin: ".8rem 0rem 0rem 0rem" }}
+                    style={{ padding: ".8rem 0rem 0rem 0rem" }}
                 >
                     <div className="poke-grid-normalized poke-grid-list-info-header">
                         <div className="flex-between margins-even-1rem">
@@ -111,7 +111,7 @@ const PokemonPage = (props) => {
                 <div className="nav-pane-left">
                     <h1>Filters</h1>
                 </div>
-                <div className="overflow-scroll">
+                <div className="overflow-scroll" style={{ padding: ".8rem 0rem 0rem 0rem" }}>
                     <div className="flex-between margins-even-1rem">
                         <h4>#: Pokemon</h4>
                     </div>
