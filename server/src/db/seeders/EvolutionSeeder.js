@@ -15,6 +15,7 @@ class EvolutionSeeder {
                     const rawChainData = await got(chain.url);
                     if (rawChainData) {
                         const parsedChainData = JSON.parse(rawChainData.body);
+                        
                         const linkOneMon = await Pokemon.query().findOne({
                             name: parsedChainData.chain.species.name,
                             projectId: null,

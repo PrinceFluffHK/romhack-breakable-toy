@@ -1,4 +1,4 @@
-import { Ability, AbilitySlot, Type, TypeSlot } from "../models/index.js";
+import { Ability, AbilitySlot, Pokemon, Type, TypeSlot } from "../models/index.js";
 import _ from "lodash";
 
 class PokemonPatch {
@@ -15,8 +15,8 @@ class PokemonPatch {
                         (currentType) => currentType.name.toLowerCase() === type.toLowerCase()
                     );
                     if (sameType) {
-                        return slotExists
-                    } else { 
+                        return slotExists;
+                    } else {
                         const foundSlot = await TypeSlot.query()
                             .findOne({
                                 projectId: projectId,
@@ -52,16 +52,18 @@ class PokemonPatch {
                 return slotExists;
             }
         } else {
-            if (slotExists.slotNum === 2) {
-                const numDeleted = await TypeSlot.query()
-                    .findOne({
-                        projectId,
-                        slotNum,
-                        pokemonId: currentMon.id,
-                    })
-                    .delete();
-            } else if (slotExists.slotNum === 1) {
-                return slotExists;
+            if (slotExists) {
+                if (slotExists.slotNum === 2) {
+                    const numDeleted = await TypeSlot.query()
+                        .findOne({
+                            projectId,
+                            slotNum,
+                            pokemonId: currentMon.id,
+                        })
+                        .delete();
+                } else if (slotExists.slotNum === 1) {
+                    return slotExists;
+                }
             }
         }
     }
@@ -124,6 +126,22 @@ class PokemonPatch {
                     .delete();
             }
         }
+    }
+
+    static async updateStat(currentMon, propertyName, property) {
+        const propInt = parseInt(property);
+        if (currentMon[propertyName] != propInt) {
+            try {
+                await Pokemon.query()
+                    .findById(currentMon.id)
+                    .patch({
+                        [propertyName]: propInt,
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        return propInt;
     }
 }
 
