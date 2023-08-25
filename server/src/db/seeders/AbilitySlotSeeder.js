@@ -1,9 +1,14 @@
 class AbilitySlotSeeder {
     static async construct(monId, monAbilities, vanillaAbilities) {
         const projectAbilitySlots = monAbilities.map((ability) => {
+            let noDashName = ability.ability.name
+            if (noDashName != "well-baked-body" && noDashName != "soul-heart") {
+                noDashName = noDashName.replace("-", " ")
+            }
             const abilityWithId = vanillaAbilities.filter(
-                (vanillaAbility) => ability.ability.name === vanillaAbility.name
+                (vanillaAbility) => noDashName === vanillaAbility.name
             );
+            // console.log(ability.ability.name, abilityWithId)
             const newSlot = {
                 slotNum: ability.slot,
                 pokemonId: monId,

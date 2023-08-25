@@ -11,6 +11,7 @@ pokemonRouter.get("/:projectId", async (req, res) => {
         const pokemonList = await Pokemon.query()
             .where("projectId", projectId)
             .orderBy("nationalNum");
+        console.log("in between :0");
         const serializedPokemon = await PokemonSerializer.getSummary(pokemonList);
         return res.status(200).json({ pokemon: serializedPokemon, projectId });
     } catch (error) {
@@ -20,7 +21,7 @@ pokemonRouter.get("/:projectId", async (req, res) => {
 
 pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
     const { projectId } = req.params;
-    const { currentMon } = req.body;
+    const { currentMon, evolutions } = req.body;
     const {
         name,
         type1,
@@ -42,6 +43,17 @@ pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
         evSpe,
     } = req.body.newMon;
     try {
+        const newEvolutions = await Promise.all(
+            evolutions.map(async (evolution) => {
+                const updatedEvo = await PokemonPatch.updateEvolution(
+                    currentMon,
+                    evolution,
+                    projectId
+                );
+                return updatedEvo;
+            })
+        );
+
         const newType1 = await PokemonPatch.updateType(type1, projectId, currentMon, 1);
         const newType2 = await PokemonPatch.updateType(type2, projectId, currentMon, 2);
         const typeArray = [newType1, newType2];
@@ -56,26 +68,25 @@ pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
         const newAbility2 = await PokemonPatch.updateAbility(ability2, projectId, currentMon, 2);
         const newAbility3 = await PokemonPatch.updateAbility(ability3, projectId, currentMon, 3);
         const abilityArray = [newAbility1, newAbility2, newAbility3];
-        
-                const finalAbilityArray = [];
-                abilityArray.forEach((ability) => {
-                    if (ability) {
-                        finalAbilityArray.push(ability);
-                    }
-                });
+        const finalAbilityArray = [];
+        abilityArray.forEach((ability) => {
+            if (ability) {
+                finalAbilityArray.push(ability);
+            }
+        });
 
-        const newBaseHp = await PokemonPatch.updateStat(currentMon, "baseHp", baseHp)
-        const newBaseAtk = await PokemonPatch.updateStat(currentMon, "baseAtk", baseAtk)
-        const newBaseDef = await PokemonPatch.updateStat(currentMon, "baseDef", baseDef)
-        const newBaseSpA = await PokemonPatch.updateStat(currentMon, "baseSpA", baseSpA)
-        const newBaseSpD = await PokemonPatch.updateStat(currentMon, "baseSpD", baseSpD)
-        const newBaseSpe = await PokemonPatch.updateStat(currentMon, "baseSpe", baseSpe)
-        const newEvHp = await PokemonPatch.updateStat(currentMon, "evHp", evHp)
-        const newEvAtk = await PokemonPatch.updateStat(currentMon, "evAtk", evAtk)
-        const newEvDef = await PokemonPatch.updateStat(currentMon, "evDef", evDef)
-        const newEvSpA = await PokemonPatch.updateStat(currentMon, "evSpA", evSpA)
-        const newEvSpD = await PokemonPatch.updateStat(currentMon, "evSpD", evSpD)
-        const newEvSpe = await PokemonPatch.updateStat(currentMon, "evSpe", evSpe)
+        const newBaseHp = await PokemonPatch.updateStat(currentMon, "baseHp", baseHp);
+        const newBaseAtk = await PokemonPatch.updateStat(currentMon, "baseAtk", baseAtk);
+        const newBaseDef = await PokemonPatch.updateStat(currentMon, "baseDef", baseDef);
+        const newBaseSpA = await PokemonPatch.updateStat(currentMon, "baseSpA", baseSpA);
+        const newBaseSpD = await PokemonPatch.updateStat(currentMon, "baseSpD", baseSpD);
+        const newBaseSpe = await PokemonPatch.updateStat(currentMon, "baseSpe", baseSpe);
+        const newEvHp = await PokemonPatch.updateStat(currentMon, "evHp", evHp);
+        const newEvAtk = await PokemonPatch.updateStat(currentMon, "evAtk", evAtk);
+        const newEvDef = await PokemonPatch.updateStat(currentMon, "evDef", evDef);
+        const newEvSpA = await PokemonPatch.updateStat(currentMon, "evSpA", evSpA);
+        const newEvSpD = await PokemonPatch.updateStat(currentMon, "evSpD", evSpD);
+        const newEvSpe = await PokemonPatch.updateStat(currentMon, "evSpe", evSpe);
 
         const newMon = {
             ...currentMon,
@@ -93,6 +104,10 @@ pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
             evSpe: newEvSpe,
             types: finalTypeArray,
             abilities: finalAbilityArray,
+            evolutions: {
+                preEvos: currentMon.evolutions.preEvos,
+                postEvos: newEvolutions,
+            },
         };
         return res.status(200).json({ newMon });
     } catch (error) {
@@ -100,8 +115,6 @@ pokemonRouter.patch("/edit-stats/:projectId", async (req, res) => {
     }
 });
 
-pokemonRouter.patch("/edit-evos/:projectId", async (req, res) => {
-
-})
+pokemonRouter.patch("/edit-evos/:projectId", async (req, res) => {});
 
 export default pokemonRouter;

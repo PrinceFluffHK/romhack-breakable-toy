@@ -2,14 +2,11 @@ import React from "react";
 import AbilityDisplayShow from "./AbilityDisplayShow";
 import EvolutionDisplay from "./EvolutionDisplay";
 import TypeDisplay from "./TypeDisplay";
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
-import getTypeColor from "../../services/getTypeColor";
 import StatGrid from "./StatGrid";
 
 const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
     const { profileUrl, abilities, types } = selectedMon;
-    const primaryColor = getTypeColor(types[0].name);
-    
+
     const handleCloseClick = () => {
         setSelectedId(0);
     };
@@ -49,12 +46,12 @@ const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
                 </div>
             </div>
             <div id="middle bar">
-                <div id="evo-and-stats-row" className="flex-around">
+                <div id="evo-and-stats-row" className="flex-around" style={{ marginTop: "1rem" }}>
                     <StatGrid selectedMon={selectedMon} />
                     <EvolutionDisplay selectedMon={selectedMon} />
                 </div>
             </div>
-            <div id="moves-row">{/* <h1>[Moves]</h1> */}</div>
+            <div id="moves-row"></div>
         </div>
     );
 };

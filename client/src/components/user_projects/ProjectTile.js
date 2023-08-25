@@ -1,12 +1,8 @@
 import React from "react";
 
-const ProjectTile = ({ projectName, regionName, generation, creatorName, setProjectId, projectId }) => {
-    const setProject = () => {
-        setProjectId(projectId)
-    }
-
+const ProjectTile = ({ projectName, regionName, generation, creatorName }) => {
     return (
-        <div className="margins" onClick={setProject}>
+        <div className="margins">
             <h3>{projectName}</h3>
             <p>
                 The {regionName} Region | Generation {generation} | Created by: {creatorName}

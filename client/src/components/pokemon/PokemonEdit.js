@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import EditTopBar from "./Edit/EditTopBar.js";
 import EditStats from "./Edit/EditStatsTab.js";
-import EditEvosTab from "./Edit/EditEvosTab.js";
 
 const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokemonList, setSelectedId }) => {
     const [editTab, setEditTab] = useState("stats")
+    console.log(selectedMon.evolutions)
 
     const EditTabDisplay = () => {
         switch (editTab) {
@@ -21,10 +21,7 @@ const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokem
                 );
             case "evolutions": 
                 return(
-                    <EditEvosTab
-                        selectedMon={selectedMon}
-                        setEditing={setEditing}
-                    />
+                    <div>Hello from EditEvos</div>
                 )
             case "moves": 
                 return(

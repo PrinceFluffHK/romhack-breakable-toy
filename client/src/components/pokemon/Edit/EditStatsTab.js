@@ -11,35 +11,41 @@ const EditStats = ({
     setPokemonList,
     setSelectedId,
 }) => {
-    const [monRecord, setMonRecord] = useState({
-        name: "",
-        type1: "",
-        type2: "",
-        ability1: "",
-        ability2: "",
-        ability3: "",
-        baseHp: 0,
-        baseAtk: 0,
-        baseDef: 0,
-        baseSpA: 0,
-        baseSpD: 0,
-        baseSpe: 0,
-        evHp: 0,
-        evAtk: 0,
-        evDef: 0,
-        evSpA: 0,
-        evSpD: 0,
-        evSpe: 0,
-    });
+    const ability1 = selectedMon.abilities.find((ability) => ability.slotNum === 1);
+    const ability2 = selectedMon.abilities.find((ability) => ability.slotNum === 2);
+    const ability3 = selectedMon.abilities.find((ability) => ability.slotNum === 3);
 
-    // console.log(monRecord)
-    console.log(selectedMon.name, selectedMon.evolutions.postEvos);
+    const newMonRecord = {
+        name: selectedMon.name,
+        type1: selectedMon.types[0].name,
+        type2: selectedMon.types[1] ? selectedMon.types[1].name : "",
+        ability1: ability1 ? ability1.name : "",
+        ability2: ability2 ? ability2.name : "",
+        ability3: ability3 ? ability3.name : "",
+        baseHp: selectedMon.baseHp,
+        baseAtk: selectedMon.baseAtk,
+        baseDef: selectedMon.baseDef,
+        baseSpA: selectedMon.baseSpA,
+        baseSpD: selectedMon.baseSpD,
+        baseSpe: selectedMon.baseSpe,
+        evHp: selectedMon.evHp,
+        evAtk: selectedMon.evAtk,
+        evDef: selectedMon.evDef,
+        evSpA: selectedMon.evSpA,
+        evSpD: selectedMon.evSpD,
+        evSpe: selectedMon.evSpe,
+    };
+
+    const [monRecord, setMonRecord] = useState(newMonRecord);
+    const [evos, setEvos] = useState(selectedMon.evolutions.postEvos);
+    console.log("evos", evos);
 
     const editMonProperties = async () => {
         try {
             const submission = {
                 currentMon: selectedMon,
                 newMon: monRecord,
+                evolutions: evos,
             };
             const response = await fetch(`/api/v1/pokemon/edit-stats/${projectId}`, {
                 method: "PATCH",
@@ -71,38 +77,6 @@ const EditStats = ({
         }
     };
 
-    const setInitialMonRecord = () => {
-        const ability1 = selectedMon.abilities.find((ability) => ability.slotNum === 1);
-        const ability2 = selectedMon.abilities.find((ability) => ability.slotNum === 2);
-        const ability3 = selectedMon.abilities.find((ability) => ability.slotNum === 3);
-
-        const newMonRecord = {
-            name: selectedMon.name,
-            type1: selectedMon.types[0].name,
-            type2: selectedMon.types[1] ? selectedMon.types[1].name : "",
-            ability1: ability1 ? ability1.name : "",
-            ability2: ability2 ? ability2.name : "",
-            ability3: ability3 ? ability3.name : "",
-            baseHp: selectedMon.baseHp,
-            baseAtk: selectedMon.baseAtk,
-            baseDef: selectedMon.baseDef,
-            baseSpA: selectedMon.baseSpA,
-            baseSpD: selectedMon.baseSpD,
-            baseSpe: selectedMon.baseSpe,
-            evHp: selectedMon.evHp,
-            evAtk: selectedMon.evAtk,
-            evDef: selectedMon.evDef,
-            evSpA: selectedMon.evSpA,
-            evSpD: selectedMon.evSpD,
-            evSpe: selectedMon.evSpe,
-        };
-        setMonRecord(newMonRecord);
-    };
-
-    useEffect(() => {
-        setInitialMonRecord();
-    }, []);
-
     const handleChange = (event) => {
         setMonRecord({
             ...monRecord,
@@ -117,28 +91,37 @@ const EditStats = ({
     };
 
     return (
-        <div className="grid-x " >
-            <div className="cell small-4 flex-around">
+        <form onSubmit={handleSubmit} className="grid-x">
+            <div
+                className="cell small-4"
+                style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+            >
                 <img src={selectedMon.profileUrl} />
+                <input
+                    type="submit"
+                    className="button"
+                    value="Save Changes"
+                    style={{ width: "80%", fontWeight: "bold", fontSize: "2rem" }}
+                />
             </div>
-            <form onSubmit={handleSubmit} className="cell small-8 grid-x grid-margin-x">
-                <h1 className="cell small-12">Properties</h1>
+            <div className="cell small-8 grid-x grid-margin-x">
+                <div className="cell small12 grid-x">
+                    <div className="cell small-1"></div>
+                    <h1 className="cell small-10">Properties</h1>
+                    <div className="cell small-1"></div>
+                </div>
                 <div className="cell small-6">
                     <TypesAbilitiesForm handleChange={handleChange} monRecord={monRecord} />
                 </div>
                 <div className="cell small-6">
                     <StatsForm handleChange={handleChange} monRecord={monRecord} />
                 </div>
-                <h1 className="cell small-12">Evolutions</h1>
+                <h1 className="cell small-12">Evolves Into</h1>
                 <div className="cell small-12">
-                    <EditEvosTab
-                        selectedMon={selectedMon}
-                        setEditing={setEditing} 
-                    />
+                    <EditEvosTab selectedMon={selectedMon} setEvos={setEvos} evos={evos} />
                 </div>
-                <input type="submit" className="button" value="Save Changes" />
-            </form>
-        </div>
+            </div>
+        </form>
     );
 };
 

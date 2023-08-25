@@ -17,7 +17,7 @@ class AbilitySeeder {
                 const parsedAbility = JSON.parse(rawAbilityData.body);
                 const englishEffects = parsedAbility.effect_entries.filter(
                     (entry) => entry.language.name === "en"
-                );
+            );
 
                 const generation = parseGeneration(parsedAbility.generation.name);
                 let newName = parsedAbility.name
@@ -30,6 +30,7 @@ class AbilitySeeder {
                     description: this.parseEffect(englishEffects),
                     generation: generation,
                 };
+                console.log(`Inserting ${ability.name}`)
                 await Ability.query().insert(ability);
             }
         }

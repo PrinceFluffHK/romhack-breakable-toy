@@ -49,6 +49,7 @@ class PokemonSeeder {
                         nationalNum: parsedMonData.id,
                         generation: this.getPokemonGen(parsedMonData.id),
                     };
+                    console.log(`Inserting ${mon.name}`);
                     const newMon = await Pokemon.query().insertAndFetch(mon);
 
                     const abilitySlotsArray = await AbilitySlotSeeder.construct(

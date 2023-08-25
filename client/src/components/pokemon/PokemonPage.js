@@ -7,10 +7,11 @@ const PokemonPage = (props) => {
     const [pokemonList, setPokemonList] = useState([]);
     const [selectedId, setSelectedId] = useState(0);
     const [editing, setEditing] = useState(false);
+    const projectId = props.computedMatch.params.id;
 
     const getPokemon = async () => {
         try {
-            const response = await fetch(`/api/v1/pokemon/${props.projectId}`);
+            const response = await fetch(`/api/v1/pokemon/${projectId}`);
             if (!response.ok) {
                 const errorMessage = `${response.status} (${response.statusText})`;
                 const error = new Error(errorMessage);
@@ -18,7 +19,6 @@ const PokemonPage = (props) => {
             }
             const responseBody = await response.json();
 
-            props.setProjectId(responseBody.projectId)
             setPokemonList(responseBody.pokemon);
         } catch (error) {
             console.error(`getPokemon error in Fetch: ${error.message}`);
@@ -48,8 +48,8 @@ const PokemonPage = (props) => {
         if (editing) {
             return (
                 <div className="overflow-scroll nav-pane-right">
-                    <PokemonEdit 
-                        projectId={props.projectId}
+                    <PokemonEdit
+                        projectId={projectId}
                         selectedMon={selectedMon}
                         setEditing={setEditing}
                         pokemonList={pokemonList}

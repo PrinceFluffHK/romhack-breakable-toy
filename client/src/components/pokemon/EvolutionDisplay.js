@@ -15,17 +15,16 @@ const EvolutionDisplay = ({ selectedMon }) => {
         }
         return (
             <div key={id} className="flex-arrow">
-                <img src={spriteUrl} />
-                <div id="arrow" className="flex-center-vertical">
-                    <p>
+                <div className="sprite-circle">
+                    <img src={spriteUrl} />
+                </div>
+                <div id="arrow" className="flex-center-vertical" style={{ margin: "1rem" }}>
+                    <p style={{ marginBottom: ".6rem" }}>
                         {triggerName}
                         {level}
                     </p>
-                    <img
-                        className="image-arrow"
-                        src="https://pfrs-production.s3.amazonaws.com/Arrow-002.png"
-                    />
-                    <p>{parameter}</p>
+                    <i className="fa-solid fa-arrow-right-long fa-2xl"></i>
+                    <p style={{ marginTop: ".6rem" }}>{parameter}</p>
                 </div>
             </div>
         );
@@ -34,23 +33,22 @@ const EvolutionDisplay = ({ selectedMon }) => {
     const postEvos = selectedMon.evolutions.postEvos.map((mon) => {
         const { triggerName, levelReq, spriteUrl, parameter, id } = mon;
         let level = "";
-        if (levelReq) {
+        if (levelReq > 0) {
             level = `: ${levelReq}`;
         }
         return (
             <div key={id} className="flex-arrow">
-                <div id="arrow" className="flex-center-vertical">
-                    <p>
+                <div id="arrow" className="flex-center-vertical" style={{ margin: "1rem" }}>
+                    <p style={{ marginBottom: ".6rem" }}>
                         {triggerName}
                         {level}
                     </p>
-                    <img
-                        className="image-arrow"
-                        src="https://pfrs-production.s3.amazonaws.com/Arrow-002.png"
-                    />
-                    <p>{parameter}</p>
+                    <i className="fa-solid fa-arrow-right-long fa-2xl"></i>
+                    <p style={{ marginTop: ".6rem" }}>{parameter}</p>
                 </div>
-                <img src={spriteUrl} />
+                <div className="sprite-circle">
+                    <img src={spriteUrl} />
+                </div>
             </div>
         );
     });
@@ -59,7 +57,9 @@ const EvolutionDisplay = ({ selectedMon }) => {
         <div className="flex-single-stat">
             <div id="preEvos">{preEvos}</div>
             <div id="currentMon">
-                <img src={selectedMon.spriteUrl} className="" />
+                <div className="sprite-circle">
+                    <img src={selectedMon.spriteUrl} className="" />
+                </div>
             </div>
             <div id="postEvos">{postEvos}</div>
         </div>

@@ -3,8 +3,8 @@ import React from "react";
 const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
     return (
         <div className="">
-            <div className="grid-x">
-                <h4 className="cell small-4">Name</h4>
+            <div className="grid-x ">
+                <h5 className="cell small-4 stat-form-text">Name</h5>
                 <label htmlFor="name" className="cell small-8">
                     <input
                         id="name"
@@ -12,11 +12,12 @@ const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
                         value={monRecord.name}
                         onChange={handleChange}
                         type="text"
+                        placeholder="Add Name"
                     />
                 </label>
             </div>
-            <div className="grid-x" style={{ margin: "1rem 0rem 0rem 0rem" }}>
-                <h4 className="cell small-4">Type 1</h4>
+            <div className="grid-x">
+                <h5 className="cell small-4 stat-form-text">Type 1</h5>
                 <label htmlFor="type1" className="cell small-8">
                     <input
                         id="type1"
@@ -24,11 +25,12 @@ const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
                         value={monRecord.type1}
                         onChange={handleChange}
                         type="text"
+                        placeholder="No Type 1"
                     ></input>
                 </label>
             </div>
             <div className="grid-x">
-                <h4 className="cell small-4">Type 2</h4>
+                <h5 className="cell small-4 stat-form-text">Type 2</h5>
                 <label htmlFor="type2" className="cell small-8">
                     <input
                         id="type2"
@@ -36,11 +38,12 @@ const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
                         value={monRecord.type2}
                         onChange={handleChange}
                         type="text"
+                        placeholder="No Type 2"
                     />
                 </label>
             </div>
-            <div className="grid-x" style={{ margin: "1rem 0rem 0rem 0rem" }}>
-                <h4 className="cell small-4">Ability 1</h4>
+            <div className="grid-x">
+                <h5 className="cell small-4 stat-form-text">Ability 1</h5>
                 <label htmlFor="ability1" className="cell small-8">
                     <input
                         id="ability1"
@@ -48,11 +51,12 @@ const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
                         value={monRecord.ability1}
                         onChange={handleChange}
                         type="text"
+                        placeholder="No Ability 1"
                     />
                 </label>
             </div>
             <div className="grid-x">
-                <h4 className="cell small-4">Ability 2</h4>
+                <h5 className="cell small-4 stat-form-text">Ability 2</h5>
                 <label htmlFor="ability2" className="cell small-8">
                     <input
                         id="ability2"
@@ -60,11 +64,12 @@ const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
                         value={monRecord.ability2}
                         onChange={handleChange}
                         type="text"
+                        placeholder="No Ability 2"
                     ></input>
                 </label>
             </div>
             <div className="grid-x">
-                <h4 className="cell small-4">Ability 3</h4>
+                <h5 className="cell small-4 stat-form-text">Ability 3</h5>
                 <label htmlFor="ability3" className="cell small-8">
                     <input
                         id="ability3"
@@ -72,6 +77,7 @@ const TypesAbilitiesForm = ({ monRecord, handleChange }) => {
                         value={monRecord.ability3}
                         onChange={handleChange}
                         type="text"
+                        placeholder="No Ability 3"
                     ></input>
                 </label>
             </div>

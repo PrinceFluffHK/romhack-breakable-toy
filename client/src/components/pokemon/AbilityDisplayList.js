@@ -2,7 +2,7 @@ import React from "react";
 import AbilityServices from "../../../../server/src/services/AbilityServices";
 
 const AbilityDisplayList = ({ abilities }) => {
-    const abilityList = AbilityServices.makeList(abilities)
+    const abilityList = AbilityServices.makeList(abilities);
     const abilityDisplay = abilityList.map((ability, index) => {
         let textClass = "";
         if (ability.name === "[No ability]") {

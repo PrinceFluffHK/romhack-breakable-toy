@@ -1,70 +1,96 @@
 import React, { useEffect, useState } from "react";
-import _ from "lodash"
+import _ from "lodash";
 
-const EditEvosTab = ({ setEditing, selectedMon }) => {
+const EditEvosTab = ({ selectedMon, setEvos, evos }) => {
     // const patch
 
-    const evoList = selectedMon.evolutions.postEvos.map((evolution, index) => {
+    const evoList = evos.map((evolution, index) => {
+        console.log("evolution: ", evolution);
         const [evoRecord, setEvoRecord] = useState({
-            name: "",
-            triggerName: "",
-            parameter: "",
-            levelReq: 0,
-        })
-
-        const seedRecord = () => {
-            setEvoRecord
-        }
-
-        useEffect(() => {
-            setEvoRecord({
-                name: _.capitalize(evolution.name),
-                triggerName: evolution.triggerName,
-                parameter: evolution.parameter,
-                levelReq: evolution.levelReq
-            })
-        },[])
+            ...evolution,
+            name: _.capitalize(evolution.name),
+        });
+        console.log("evoRecord: ", evoRecord);
 
         const handleChange = (event) => {
             setEvoRecord({
                 ...evoRecord,
                 [event.currentTarget.name]: event.currentTarget.value,
             });
-        }
-
-        const handleSubmit = () => {
-
-        }
+            const newEvoRecord = {
+                ...evoRecord,
+                [event.currentTarget.name]: event.currentTarget.value,
+            };
+            const newEvolutions = evos;
+            newEvolutions.splice(index, 1, newEvoRecord);
+            console.log("splicing evos", newEvolutions);
+            setEvos(newEvolutions);
+        };
 
         return (
-            <form className="button" key={index} onSubmit={handleSubmit}>
-                <div className="grid-x grid-margin-x" style={{margin: ".7rem"}}>
-                    <div className="cell auto">Evolution to</div>
-                    <label htmlFor={index}>
-                        <input
-                            type="text"
-                            name="name"
-                            id="name"
-                            value={evoRecord.name}
-                            onChange={handleChange}
-                        />
-                    </label>
+            <div className="container-evo-form" key={index}>
+                <div className="grid-x grid-margin-x">
+                    <div className="cell small-3" id="preEvo">
+                        <h3>{selectedMon.name}</h3>
+                        <img src={selectedMon.spriteUrl} />
+                    </div>
+                    <div className="cell small-6" id="forms">
+                        <div className="grid-x ">
+                            <div className="cell small-8">
+                                <h4>Evo Trigger</h4>
+                                <label className="" htmlFor="triggerName">
+                                    <input
+                                        type="text"
+                                        name="triggerName"
+                                        id="triggerName"
+                                        value={evoRecord.triggerName}
+                                        onChange={handleChange}
+                                    />
+                                </label>
+                            </div>
+                            <div className="cell small-3 small-offset-1">
+                                <h4>Level</h4>
+                                <label htmlFor="levelReq">
+                                    <input
+                                        type="number"
+                                        name="levelReq"
+                                        id="levelReq"
+                                        value={evoRecord.levelReq}
+                                        onChange={handleChange}
+                                    />
+                                </label>
+                            </div>
+                        </div>
 
+                        <h4>Parameter</h4>
+                        <label htmlFor="parameter">
+                            <input
+                                type="text"
+                                name="parameter"
+                                id="parameter"
+                                value={evoRecord.parameter}
+                                onChange={handleChange}
+                            />
+                        </label>
+                    </div>
+                    <div className="cell small-3" id="postEvo">
+                        <label htmlFor="name">
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                value={evoRecord.name}
+                                onChange={handleChange}
+                            />
+                        </label>
+                        <img src={evolution.spriteUrl} />
+                    </div>
                 </div>
-                <input
-                    type="submit"
-                    value="Update"
-                    className="button"
-                />
-            </form>
+            </div>
         );
     });
 
-    return (
-        <div className="grid-x grid-margin-x">
-            <div className="cell small-8 small-offset-2">{evoList}</div>
-        </div>
-    );
+    return <div className="flex-center-vertical">{evoList}</div>;
 };
 
 export default EditEvosTab;
