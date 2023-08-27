@@ -26,9 +26,8 @@ const UserProjectList = (props) => {
 
     const projectsToRender = projectList.map((project) => {
         return (
-            <div className="container-project-cell cell small-12 medium-6">
+            <div key={project.id} className="container-project-cell cell small-12 medium-6">
                 <Link
-                    key={project.id}
                     to={`/projects/${project.id}/pokemon`}
                     className="button"
                     style={{ width: "90%" }}

@@ -46,9 +46,13 @@ const PokemonShow = ({ selectedMon, setEditing, setSelectedId }) => {
                 </div>
             </div>
             <div id="middle bar">
-                <div id="evo-and-stats-row" className="flex-around" style={{ marginTop: "1rem" }}>
-                    <StatGrid selectedMon={selectedMon} />
-                    <EvolutionDisplay selectedMon={selectedMon} />
+                <div id="evo-and-stats-row" className="grid-x grid-margin-x" style={{ margin: "2rem" }}>
+                    <div className="cell small-12 medium-5 flex-around">
+                        <StatGrid selectedMon={selectedMon} />
+                    </div>
+                    <div className="cell small-12 medium-7 flex-around">
+                        <EvolutionDisplay selectedMon={selectedMon} />
+                    </div>
                 </div>
             </div>
             <div id="moves-row"></div>
