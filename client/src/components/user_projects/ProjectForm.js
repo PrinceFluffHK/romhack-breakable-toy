@@ -104,10 +104,12 @@ const ProjectForm = (props) => {
                         />
                     </label>
                     <label htmlFor="usePreset">
-                        <h3>Use Preset?</h3>
-                        <button className="button" type="button" onClick={handleCheckbox}>
-                            {usePresetValue}
-                        </button>
+                        <h3>
+                            Use Preset?  
+                            <button className="button" type="button" onClick={handleCheckbox} style={{marginLeft: "1rem", marginTop: ".55rem"}}>
+                                {usePresetValue}
+                            </button>
+                        </h3>
                     </label>
                     <label htmlFor="generation">
                         <GenerationOptions

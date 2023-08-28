@@ -1,4 +1,12 @@
-import { Ability, AbilitySlot, Pokemon, Type, TypeSlot } from "../models/index.js";
+import {
+    Ability,
+    AbilitySlot,
+    EvoTrigger,
+    Evolution,
+    Pokemon,
+    Type,
+    TypeSlot,
+} from "../models/index.js";
 import _ from "lodash";
 
 class PokemonPatch {
@@ -142,6 +150,57 @@ class PokemonPatch {
             }
         }
         return propInt;
+    }
+
+    static async updateEvolution(currentMon, evolution, projectId) {
+        try {
+            const lowerName = evolution.name.toLowerCase();
+            let newMonId = evolution.id;
+            const newMon = await Pokemon.query().findOne({
+                name: lowerName,
+                projectId,
+            });
+            if (!newMon) {
+                console.error("Could not find newMon");
+                throw error;
+            } else {
+                newMonId = newMon.id;
+            }
+
+            let newTriggerId = evolution.triggerId;
+            const dashedTriggerName = evolution.triggerName.replace(" ", "-");
+            const newTrigger = await EvoTrigger.query().findOne({
+                name: dashedTriggerName.toLowerCase(),
+                projectId,
+            });
+            if (!newTrigger) {
+                console.error("Could not find newTrigger");
+                throw error;
+            } else {
+                newTriggerId = newTrigger.id;
+            }
+            const newTriggerSpaced = newTrigger.name.replace("-", " ");
+
+            const numUpdated = await Evolution.query().findById(evolution.linkId).patch({
+                parameter: evolution.parameter,
+                levelReq: evolution.levelReq,
+                postEvoId: newMonId,
+                triggerId: newTriggerId,
+            });
+
+            return {
+                ...evolution,
+                name: newMon.name,
+                spriteUrl: newMon.spriteUrl,
+                id: newMon.id,
+                triggerId: newTrigger.id,
+                triggerName: _.capitalize(newTriggerSpaced),
+            };
+        } catch (error) {
+            console.error(
+                `ERROR: Failed to update evolution from ${currentMon.name} to ${evolution.name}`
+            );
+        }
     }
 }
 

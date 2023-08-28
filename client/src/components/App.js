@@ -16,7 +16,6 @@ import ViewerProjectList from "./viewer_projects/ViewerProjectList";
 
 const App = (props) => {
     const [currentUser, setCurrentUser] = useState(undefined);
-    const [projectId, setProjectId] = useState(null);
 
     const fetchCurrentUser = async () => {
         try {
@@ -46,15 +45,12 @@ const App = (props) => {
                     exact
                     path="/search-projects"
                     component={ViewerProjectList}
-                    setProjectId={setProjectId}
                 />
                 <AuthenticatedRoute
                     exact={true}
                     path="/projects/:id/pokemon"
                     component={PokemonPage}
                     user={currentUser}
-                    setProjectId={setProjectId}
-                    projectId={projectId}
                 />
                 <AuthenticatedRoute
                     exact={true}
@@ -67,7 +63,6 @@ const App = (props) => {
                     path="/my-projects"
                     component={UserProjectList}
                     user={currentUser}
-                    setProjectId={setProjectId}
                 />
             </Switch>
         </Router>

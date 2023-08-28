@@ -13,7 +13,9 @@ const AbilityDisplayShow = ({ abilities }) => {
             textClass += " text-grayed"
         }
         return(
-            <h4 key={ability.slotNum} className={textClass}>{slotAbbreviation}. {ability.name}</h4>
+            <div key={ability.slotNum} className="container-pokeshow-ability">
+                <h4 className={textClass}>{slotAbbreviation}. {ability.name}</h4>
+            </div>
         )
     })
     return(

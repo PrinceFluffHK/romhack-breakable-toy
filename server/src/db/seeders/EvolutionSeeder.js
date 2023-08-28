@@ -15,7 +15,7 @@ class EvolutionSeeder {
                     const rawChainData = await got(chain.url);
                     if (rawChainData) {
                         const parsedChainData = JSON.parse(rawChainData.body);
-                        
+
                         const linkOneMon = await Pokemon.query().findOne({
                             name: parsedChainData.chain.species.name,
                             projectId: null,
@@ -38,7 +38,7 @@ class EvolutionSeeder {
         const filteredArray = flatChainList.filter((link) => {
             return link !== undefined;
         });
-        await Evolution.query().insertGraph(filteredArray)
+        await Evolution.query().insertGraph(filteredArray);
     }
 
     static async parseEvolutions(currentLinkMon, evolves_to_array) {
@@ -51,7 +51,7 @@ class EvolutionSeeder {
                     });
 
                     if (!nextLinkMon) {
-                        const formName = this.getAltFormName(nextLink.species.name)
+                        const formName = this.getAltFormName(nextLink.species.name);
                         nextLinkMon = await Pokemon.query().findOne({
                             name: formName,
                             projectId: null,
@@ -94,10 +94,11 @@ class EvolutionSeeder {
             projectId: null,
         });
         const parameter = this.getParameter(evo_details);
+        const minLevel = evo_details.min_level ? evo_details.min_level : 0;
 
         return {
             triggerId: trigger.id,
-            levelReq: evo_details.min_level,
+            levelReq: minLevel,
             parameter,
         };
     }
@@ -123,7 +124,7 @@ class EvolutionSeeder {
         } = evo_details;
         let parameter = "";
         if (gender === 1) {
-            parameter = parameter.concat("\Female only");
+            parameter = parameter.concat("Female only");
         } else if (gender === 2) {
             parameter = parameter.concat("\nMale only");
         }
@@ -192,25 +193,25 @@ class EvolutionSeeder {
     static getAltFormName(speciesName) {
         switch (speciesName) {
             case "wormadam":
-                return "wormadam-plant"
+                return "wormadam-plant";
             case "darmanitan":
-                return "darmanitan-standard"
+                return "darmanitan-standard";
             case "basculegion":
-                return "basculegion-male"
+                return "basculegion-male";
             case "meowstic":
-                return "meowstic-male"
+                return "meowstic-male";
             case "meowstic":
-                return "meowstic-male"
+                return "meowstic-male";
             case "aegislash":
-                return "aegislash-shield"
+                return "aegislash-shield";
             case "gourgeist":
-                return "gourgeist-average"
+                return "gourgeist-average";
             case "lycanroc":
-                return "lycanroc-midday"
+                return "lycanroc-midday";
             case "toxtricity":
-                return "toxtricity-amped"
+                return "toxtricity-amped";
             case "urshifu":
-                return "urshifu-single-strike"
+                return "urshifu-single-strike";
         }
     }
 }

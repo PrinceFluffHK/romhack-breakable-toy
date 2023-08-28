@@ -13,14 +13,36 @@
     tab-size: 4;
 }
 
-.project-list {
-    text-align: left;
-    margin: 1rem 1rem 1rem 1rem;
+body,
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.edit-top-bar {
+    height: 4rem;
+    h4 {
+        font-size: large;
+
+    }
+    &-inactive {
+        border-style: solid;
+        border: gray;
+        border-width: 4px;
+        background-color: #595959;
+    }
+    &-active {
+        border-bottom: 0px;
+    }
 }
 
 .button {
     outline-style: solid;
     outline-color: gray;
+    border-radius: 5px;
 }
 
 .radio-options {
@@ -37,6 +59,10 @@
     margin: 0 1em 0 0;
 }
 
+.stat-form-text {
+    padding-top: 6px;
+}
+
 .text {
     &-grayed {
         color: gray;
@@ -46,9 +72,48 @@
     }
     &-height-varies-p {
         font-size: 1.5vw;
+        margin: .6vw;
     }
     &-height-varies-h1 {
         font-size: 5vw;
+    }
+    &-flex-align-center {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.sprite-circle {
+    background-color: #494949;
+    border-radius: 50%;
+    border-style: solid;
+    border-color: gray;
+}
+
+.container {
+    &-evo-form {
+        background-color: #494949;
+        border-style: solid;
+        border-width: 2px;
+        border-color: gray;
+        width: 90%;
+        padding: 1rem;
+        margin: .5rem;
+    }
+    &-project {
+        margin: .3rem 1rem;
+        &-cell {
+            display: flex;
+            justify-content: center;
+        }
+    }
+    &-pokeshow-ability {
+        background-color: #494949;
+        width: 15vw;
+        border-radius: 1.5vw;
+        border-style: solid;
+        border-color: gray;
+
     }
 }
 
@@ -56,11 +121,11 @@
     width: auto;
     &-list {
         @extend .sprite;
-        height: 50px;
+        height: 64px;
     }
     &-show {
         @extend .sprite;
-        height: 12vw;
+        height: 13vw;
     }
 }
 
@@ -81,8 +146,7 @@
     &-type-label {
         @extend .image;
         margin-right: .3rem;
-        margin-top: 7px;
-        height: 35px;
+        height: 40px;
         width: auto;
     }
     &-show {
@@ -92,9 +156,9 @@
         }
     }
     &-arrow {
-        display: block;
         height: 1rem;
         width: 100%;
+        margin: 2rem;
     }
 }
 
@@ -157,19 +221,18 @@
         @extend .flex;
         align-items: center;
         align-self: center;
-        align-content: center;
         justify-content: space-between;
         margin-left: 0.1rem;
         margin-right: 1rem;
-        height: 3rem;
+        height: 4rem;
         p {
             padding-top: 1rem;
+            font-size: large;
         }
-        &-small-types {
-            display: flex;
-            align-items: center;
-            margin-top: 3px;
-        }
+    }
+    &-small-types {
+        display: flex;
+        align-items: center;
     }
     &-show-top {
         display: flex;
@@ -183,10 +246,12 @@
         justify-content: left;
         margin-left: 3vw;
         align-items: center;
+        font-size: 1.2rem;
     }
     &-single-stat {
         display: flex;
-        align-items: center;
+        align-items: center; 
+        font-size: large;   
     }
     &-arrow {
         display: flex;
@@ -290,21 +355,21 @@
     &-left {
         @extend .nav-pane;
         border-right-style: solid;
-        border-right-color: gray;
+        border-right-color: #595959;
         background-color: #4d0000;
     }
     &-right {
         @extend .nav-pane;
         border-left-style: solid;
-        border-left-color: gray;
+        border-left-color: #595959;
     }
 }
 
 .top-bar {
-    background-color: gray;
+    background-color: #595959;
     height: 7vh;
     .menu {
-        background-color: gray;
+        background-color: #595959;
     }
     a {
         color: white;
@@ -313,26 +378,30 @@
 
 $grid__bp--md: 768;
 $grid__cols: 12;
-.container {
-    max-width: $grid__bp--md * 1px;
-    margin: 0 auto;
-    &--fluid {
-        margin: 0;
-        max-width: 100%;
-    }
-    &__row {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-    }
-    @for $i from 1 through $grid__cols {
-        &__col-sm-#{$i} {
-            flex-basis: (100 / ($grid__cols / $i)) * 1%;
-        }
-    }
-    @for $i from 1 through $grid__cols {
-        &__col-md-#{$i} {
-            flex-basis: (100 / ($grid__cols / $i)) * 1%;
-        }
-    }
+// .container {
+//     max-width: $grid__bp--md * 1px;
+//     margin: 0 auto;
+//     &--fluid {
+//         margin: 0;
+//         max-width: 100%;
+//     }
+//     &__row {
+//         display: flex;
+//         flex-wrap: wrap;
+//         width: 100%;
+//     }
+//     @for $i from 1 through $grid__cols {
+//         &__col-sm-#{$i} {
+//             flex-basis: (100 / ($grid__cols / $i)) * 1%;
+//         }
+//     }
+//     @for $i from 1 through $grid__cols {
+//         &__col-md-#{$i} {
+//             flex-basis: (100 / ($grid__cols / $i)) * 1%;
+//         }
+//     }
+// }
+
+@media(max-width: 730px) {
+
 }

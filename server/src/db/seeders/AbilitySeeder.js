@@ -17,7 +17,7 @@ class AbilitySeeder {
                 const parsedAbility = JSON.parse(rawAbilityData.body);
                 const englishEffects = parsedAbility.effect_entries.filter(
                     (entry) => entry.language.name === "en"
-                );
+            );
 
                 const generation = parseGeneration(parsedAbility.generation.name);
                 let newName = parsedAbility.name

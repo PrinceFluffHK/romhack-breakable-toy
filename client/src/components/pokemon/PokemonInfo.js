@@ -56,7 +56,7 @@ const PokemonInfo = ({
         return (
             <div className="poke-grid-list-info">
                 <div className="flex-small-types">
-                    <div className="">{typeDisplay}</div>
+                    {typeDisplay}
                 </div>
                 <div id="stats-display" className="poke-grid-stats-list">
                     {statDisplay}

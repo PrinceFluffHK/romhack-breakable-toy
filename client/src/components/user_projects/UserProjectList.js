@@ -26,20 +26,21 @@ const UserProjectList = (props) => {
 
     const projectsToRender = projectList.map((project) => {
         return (
-            <Link
-                key={project.id}
-                to={`/projects/${project.id}/pokemon`}
-                className="button project-list flex-left"
-            >
-                <ProjectTile
-                    projectName={project.projectName}
-                    regionName={project.regionName}
-                    generation={project.generation}
-                    creatorName={project.creatorName}
-                    setProjectId={props.setProjectId}
-                    projectId={project.id}
-                />
-            </Link>
+            <div key={project.id} className="container-project-cell cell small-12 medium-6">
+                <Link
+                    to={`/projects/${project.id}/pokemon`}
+                    className="button"
+                    style={{ width: "90%" }}
+                >
+                    <ProjectTile
+                        projectName={project.projectName}
+                        regionName={project.regionName}
+                        generation={project.generation}
+                        creatorName={project.creatorName}
+                        projectId={project.id}
+                    />
+                </Link>
+            </div>
         );
     });
 
@@ -49,8 +50,15 @@ const UserProjectList = (props) => {
                 <h1>Filter</h1>
             </div>
             <div className="overflow-scroll">
-                <h1>My Projects</h1>
-                {projectsToRender}
+                <div className="flex-center-vertical">
+                    <h1>My Projects</h1>
+                    <div className="container-project">
+                        <Link to="new-project" className=" button">
+                            <h3>Create New Project</h3>
+                        </Link>
+                    </div>
+                    <div className="grid-x">{projectsToRender}</div>
+                </div>
             </div>
         </div>
     );

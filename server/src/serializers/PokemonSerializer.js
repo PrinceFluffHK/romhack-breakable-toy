@@ -34,9 +34,23 @@ class PokemonSerializer {
                 if (serializedMon.name === "Squirtle") {
                     serializedMon.name = "[REDACTED]";
                 }
-                serializedMon.types = await this.getTypes(mon);
-                serializedMon.abilities = await this.getAbilities(mon);
-                serializedMon.evolutions = await this.getEvos(mon);
+                try {
+                    serializedMon.types = await this.getTypes(mon);
+                } catch (error) {
+                    console.error(`ERROR: Failed to serialize types for ${mon.name}`);
+                }
+
+                try {
+                    serializedMon.abilities = await this.getAbilities(mon);
+                } catch (error) {
+                    console.error(`ERROR: Failed to serialize abilities for ${mon.name}`);
+                }
+
+                try {
+                    serializedMon.evolutions = await this.getEvos(mon);
+                } catch (error) {
+                    console.error(`ERROR: Failed to serialize evolutions for ${mon.name}`);
+                }
 
                 return serializedMon;
             })
@@ -45,25 +59,33 @@ class PokemonSerializer {
     }
 
     static async getTypes(mon) {
-        const typeSlots = await mon.$relatedQuery("typeSlots");
-        const backwardsTypes = await Promise.all(
-            typeSlots.map(async(slot) => {
-                const type = await slot.$relatedQuery("type")
-                const upperTypeName = _.capitalize(type.name);
-                const typeSlot =  {
-                    name: upperTypeName,
-                    icon: type.iconUrl,
-                    label: type.labelUrl,
-                    slotNum: slot.slotNum 
-                };
-                return typeSlot
-            })
-        );
-        let fixedTypes = backwardsTypes;
-        if ((fixedTypes[0].slotNum === 2)) {
-            fixedTypes = fixedTypes.reverse();
+        try {
+            const typeSlots = await mon.$relatedQuery("typeSlots");
+            const backwardsTypes = await Promise.all(
+                typeSlots.map(async (slot) => {
+                    try {
+                        const type = await slot.$relatedQuery("type");
+                        const upperTypeName = _.capitalize(type.name);
+                        const typeSlot = {
+                            name: upperTypeName,
+                            icon: type.iconUrl,
+                            label: type.labelUrl,
+                            slotNum: slot.slotNum,
+                        };
+                        return typeSlot;
+                    } catch (error) {
+                        console.error(`ERROR: Failed to serialize ${slot.id}`);
+                    }
+                })
+            );
+            let fixedTypes = backwardsTypes;
+            if (fixedTypes[0].slotNum === 2) {
+                fixedTypes = fixedTypes.reverse();
+            }
+            return fixedTypes;
+        } catch (error) {
+            console.error(`ERROR: Failed to get types for ${mon.name}`);
         }
-        return fixedTypes;
     }
 
     static async getAbilities(mon) {

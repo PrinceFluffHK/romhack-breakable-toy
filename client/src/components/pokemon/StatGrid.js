@@ -42,6 +42,7 @@ const StatGrid = ({ selectedMon }) => {
     ];
 
     const statGrid = baseData.map(stat => {
+        const evClass = stat.ev ? "cell auto flex-center" : "cell auto flex-center text-grayed"
         return(
             <div key={stat.name} className="cell auto" style={{margin: ".5rem"}}>
                 <div className="grid-y" style={{height: "5rem"}}>
@@ -51,7 +52,7 @@ const StatGrid = ({ selectedMon }) => {
                     <h5 className="cell auto flex-center">
                         {stat.base}
                     </h5>
-                    <h5 className="cell auto flex-center">
+                    <h5 className={evClass}>
                         {stat.ev}
                     </h5>
                 </div>
