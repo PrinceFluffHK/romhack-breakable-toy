@@ -5,14 +5,15 @@ const HomePage = (props) => {
     return (
         <div className="poke-grid">
             <div className="nav-pane-left">
-                <h1 className="right-text">Prince Fluff's</h1>
-                <img
-                    className="image-left-pane"
-                    src="https://preview.redd.it/gzv1pc4bvdyz.png?width=640&crop=smart&auto=webp&s=198383d05cff22edc432f9311ecd31b98d56761c"
-                />
+                <h1 className="right-text">About Romhack Studio:</h1>
+                <p style={{margin: "2rem 3rem"}}>
+                    "Prince Fluff's Romhack Studio" (PFRS) is a combination passion-project and capstone project developed by me, Garrett "Prince Fluff" Tordo. 
+                    Originally started as the capstone project for my coding bootcamp, I knew from the beginning that I wanted whatever I made to be imminently useful for both me and people like me. 
+                    As a 
+                </p>
             </div>
             <div className=" ">
-                <h1 className="left-text">Romhack Studio</h1>
+                <h1 className="left-text">Where to?</h1>
                 <div>
                     <Link to={"/new-project"} className="button flex-menu-item">
                         <h3>New Project</h3>
