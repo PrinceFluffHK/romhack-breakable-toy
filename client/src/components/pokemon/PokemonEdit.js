@@ -4,7 +4,6 @@ import EditStats from "./Edit/EditStatsTab.js";
 
 const PokemonEdit = ({ projectId, selectedMon, setEditing, pokemonList, setPokemonList, setSelectedId }) => {
     const [editTab, setEditTab] = useState("stats")
-    console.log(selectedMon.evolutions)
 
     const EditTabDisplay = () => {
         switch (editTab) {

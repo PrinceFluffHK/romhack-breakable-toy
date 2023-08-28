@@ -11,7 +11,6 @@ pokemonRouter.get("/:projectId", async (req, res) => {
         const pokemonList = await Pokemon.query()
             .where("projectId", projectId)
             .orderBy("nationalNum");
-        console.log("in between :0");
         const serializedPokemon = await PokemonSerializer.getSummary(pokemonList);
         return res.status(200).json({ pokemon: serializedPokemon, projectId });
     } catch (error) {

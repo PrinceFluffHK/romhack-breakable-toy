@@ -5,12 +5,10 @@ const EditEvosTab = ({ selectedMon, setEvos, evos }) => {
     // const patch
 
     const evoList = evos.map((evolution, index) => {
-        console.log("evolution: ", evolution);
         const [evoRecord, setEvoRecord] = useState({
             ...evolution,
             name: _.capitalize(evolution.name),
         });
-        console.log("evoRecord: ", evoRecord);
 
         const handleChange = (event) => {
             setEvoRecord({
@@ -23,7 +21,6 @@ const EditEvosTab = ({ selectedMon, setEvos, evos }) => {
             };
             const newEvolutions = evos;
             newEvolutions.splice(index, 1, newEvoRecord);
-            console.log("splicing evos", newEvolutions);
             setEvos(newEvolutions);
         };
 

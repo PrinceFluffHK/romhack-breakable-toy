@@ -38,7 +38,6 @@ const EditStats = ({
 
     const [monRecord, setMonRecord] = useState(newMonRecord);
     const [evos, setEvos] = useState(selectedMon.evolutions.postEvos);
-    console.log("evos", evos);
 
     const editMonProperties = async () => {
         try {

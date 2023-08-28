@@ -8,7 +8,6 @@ class AbilitySlotSeeder {
             const abilityWithId = vanillaAbilities.filter(
                 (vanillaAbility) => noDashName === vanillaAbility.name
             );
-            // console.log(ability.ability.name, abilityWithId)
             const newSlot = {
                 slotNum: ability.slot,
                 pokemonId: monId,
