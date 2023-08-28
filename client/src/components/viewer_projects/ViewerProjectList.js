@@ -26,18 +26,21 @@ const ViewerProjectList = (props) => {
 
     const projectsToRender = projectList.map((project) => {
         return (
-            <Link
-                key={project.id}
-                to={`/projects/${project.id}/pokemon`}
-                className="button project-list flex-left"
-            >
-                <ProjectTile
-                    projectName={project.projectName}
-                    regionName={project.regionName}
-                    generation={project.generation}
-                    creatorName={project.creatorName}
-                />
-            </Link>
+            <div key={project.id} className="container-project-cell cell small-12 medium-6">
+                <Link
+                    key={project.id}
+                    to={`/projects/${project.id}/pokemon`}
+                    className="button"
+                    style={{ width: "90%" }}
+                >
+                    <ProjectTile
+                        projectName={project.projectName}
+                        regionName={project.regionName}
+                        generation={project.generation}
+                        creatorName={project.creatorName}
+                    />
+                </Link>
+            </div>
         );
     });
 
@@ -48,7 +51,9 @@ const ViewerProjectList = (props) => {
             </div>
             <div className="overflow-scroll">
                 <h1>Browse Projects</h1>
-                <div>{projectsToRender}</div>
+                <div className="grid-x">
+                    {projectsToRender}
+                </div>
             </div>
         </div>
     );
