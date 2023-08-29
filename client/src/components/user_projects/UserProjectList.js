@@ -30,7 +30,7 @@ const UserProjectList = (props) => {
                 <Link
                     to={`/projects/${project.id}/pokemon`}
                     className="button"
-                    style={{ width: "90%" }}
+                    
                 >
                     <ProjectTile
                         projectName={project.projectName}
