@@ -4,8 +4,8 @@ import FormError from "../layout/FormError";
 
 const SignInForm = () => {
     const [userPayload, setUserPayload] = useState({ 
-        email: "garrett@email.com", 
-        password: "password", 
+        email: "", 
+        password: "", 
     });
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [errors, setErrors] = useState({});
