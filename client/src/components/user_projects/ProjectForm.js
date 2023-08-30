@@ -3,6 +3,7 @@ import ErrorList from "../layout/ErrorList";
 import GenerationOptions from "./GenerationOptions.js";
 import translateServerErrors from "../../services/translateServerErrors";
 import { Redirect } from "react-router-dom";
+import FormError from "../layout/FormError";
 
 const ProjectForm = (props) => {
     const [projectRecord, setProjectRecord] = useState({
@@ -15,27 +16,52 @@ const ProjectForm = (props) => {
     const [shouldRedirect, setShouldRedirect] = useState(false);
     const [errors, setErrors] = useState({});
 
+    const validateInput = (payload) => {
+        setErrors({})
+        const { projectName, regionName } = payload
+        let newErrors = {}
+        if (projectName.trim() == "") {
+            newErrors = { 
+                ...newErrors,
+                projectName: "Project name is required"
+            }
+        }
+
+        if(regionName.trim() == "") {
+            newErrors = {
+                ...newErrors,
+                regionName: "Region name is required"
+            }
+        }
+    }
+    console.log("ERRORS: ", errors)
+
     const addNewProject = async () => {
+        // event.preventDefault()
+        validateInput(projectRecord)
+
         try {
-            const response = await fetch("/api/v1/projects", {
-                method: "POST",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                }),
-                body: JSON.stringify(projectRecord),
-            });
-            if (!response.ok) {
-                if (response.status === 422) {
-                    const body = await response.json();
-                    const newErrors = translateServerErrors(body.errors);
-                    return setErrors;
+            if(Object.keys(errors).length === 0) {
+                const response = await fetch("/api/v1/projects", {
+                    method: "POST",
+                    headers: new Headers({
+                        "Content-Type": "application/json",
+                    }),
+                    body: JSON.stringify(projectRecord),
+                });
+                if (!response.ok) {
+                    if (response.status === 422) {
+                        const body = await response.json();
+                        const serverErrors = translateServerErrors(body.errors);
+                        return setErrors(serverErrors)
+                    } else {
+                        const errorMessage = `${response.status} (${response.statusText})`;
+                        const error = new Error(errorMessage);
+                        throw error;
+                    }
                 } else {
-                    const errorMessage = `${response.status} (${response.statusText})`;
-                    const error = new Error(errorMessage);
-                    throw error;
+                    setShouldRedirect(true);
                 }
-            } else {
-                setShouldRedirect(true);
             }
         } catch (error) {
             console.error(`Error in fetch: ${error.message}`);
@@ -92,6 +118,7 @@ const ProjectForm = (props) => {
                             onChange={handleChange}
                             value={projectRecord.projectName}
                         />
+                        <FormError error={errors.projectName}/>
                     </label>
                     <label htmlFor="regionName">
                         <h3>Region Name</h3>
@@ -102,6 +129,7 @@ const ProjectForm = (props) => {
                             onChange={handleChange}
                             value={projectRecord.regionName}
                         />
+                        <FormError error={errors.regionName}/>
                     </label>
                     <label htmlFor="usePreset">
                         <h3>
