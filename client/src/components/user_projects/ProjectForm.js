@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import ErrorList from "../layout/ErrorList";
 import GenerationOptions from "./GenerationOptions.js";
 import translateServerErrors from "../../services/translateServerErrors";
 import { Redirect } from "react-router-dom";
@@ -33,13 +32,11 @@ const ProjectForm = (props) => {
                 regionName: "Region name is required"
             }
         }
+        setErrors(newErrors)
     }
-    console.log("ERRORS: ", errors)
 
     const addNewProject = async () => {
-        // event.preventDefault()
         validateInput(projectRecord)
-
         try {
             if(Object.keys(errors).length === 0) {
                 const response = await fetch("/api/v1/projects", {
